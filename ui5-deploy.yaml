@@ -13,11 +13,10 @@ builder:
     - name: deploy-to-abap
       afterTask: generateCachebusterInfo
       configuration:
-        ignoreCertError: true 
-        log: 4
+        ignoreCertError: true
         target:
           url: https://mxecid.morixe.com.ar:44300
-          client: "110"
+          client: "100"
         app:
           name: ZDEMOCOBRANZA
           description: App Demo Cobranza
