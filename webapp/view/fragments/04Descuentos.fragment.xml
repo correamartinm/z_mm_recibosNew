@@ -1,0 +1,102 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+    xmlns:core="sap.ui.core">
+
+    <Table id="idDescuentosTable" items="{path : 'mockdata>/Descuentos' }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" visible="{= ${layout>/descuentosadd} === false }" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        <headerToolbar>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://sys-add" press="onAgregarDescuentoButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
+
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column width="3rem" >
+                <header/>
+            </Column>
+            <Column width="12rem">
+                <header>
+                    <Label text="{i18n>lblmotivo}" />
+                </header>
+            </Column>
+            <Column width="10rem">
+                <header>
+                    <Label text="{i18n>lblnumcomprobante}"/>
+                </header>
+            </Column>
+            <Column hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblfecha}"/>
+                </header>
+            </Column>
+            <Column>
+                <header>
+                    <Label text="{i18n>lblimpor}"/>
+                </header>
+            </Column>
+
+
+
+        </columns>
+        <items>
+            <ColumnListItem type="Active" highlight="Information">
+                <cells>
+
+                    <HBox >
+
+                        <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
+                        <Button icon="sap-icon://delete"  class="sapUiTinyMarginEnd"  />
+                        <Button icon="sap-icon://edit"   />
+                    </HBox>
+
+                    <Label text="{mockdata>MotivoDesc}"/>
+                    <Label text="{mockdata>NComprobante}"/>
+                    <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/>                        
+                    <!-- <Label text="{Fecha}" design="Bold"/> -->
+                    <Label text="{mockdata>Importe}"/>
+
+                    <!-- <ObjectStatus title="" state="Error" inverted="true" /> -->
+
+
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+
+
+    <form:SimpleForm id="idDescuentosSimpleForm" editable="true" layout="ColumnLayout" visible="{layout>/descuentosadd}">
+        <form:content>
+            <Label text="{i18n>lblmotivo}" required="true" labelFor="idMotivoInput"/>
+
+            <ComboBox  id="idMotivoInput"  selectionChange="onInputDescuentoChange" items="{mockdata>/TiposDescuentos}">
+                <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
+            </ComboBox>
+
+            <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobanteInput" />
+            <Input id="idComprobanteInput" type="Number" showSuggestion="true" suggestionItems="{mockdata>/cbts}">
+                <core:Item key="{mockdata>Numero}" text="{mockdata>Numero}" />
+            </Input>
+
+
+
+            <Label text="{i18n>lblfecha}" required="true" labelFor="idDomicilioInput" />
+            <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/mm/YYYY"  />
+
+
+            <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteInput"/>
+            <Input id="idImporteInput"  type="Number"/>
+
+            <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
+            <unified:FileUploader id="idDescuentoFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+        </form:content>
+    </form:SimpleForm>
+
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/descuentosadd}">
+
+        <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarDescuento" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDescuento" />
+    </HBox>
+</core:FragmentDefinition>

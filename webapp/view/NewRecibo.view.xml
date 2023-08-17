@@ -1,0 +1,110 @@
+<mvc:View controllerName="morixe.zfirecibos.controller.NewRecibo"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page >
+        <content>
+            <NavContainer id="wizardNavContainer">
+                <pages>
+                    <Page id="idRecibosPage" title="{i18n>lblnuevorecibo}" showNavButton="false" navButtonPress="onNavBack">
+                        <customHeader>
+                            <Bar design="Header">
+                                <contentLeft>
+                                </contentLeft>
+                                <contentMiddle>
+                                    <Image src="./img/logo.png" height="36px" class="sapUiSmallMarginBegin" />
+                                    
+                                </contentMiddle>
+                                <contentRight>
+                                    <Button icon="sap-icon://home" press="onNavBack" text="{i18n>btnvolver}" type="Emphasized" />
+                                    <!-- <Button icon="sap-icon://log" press="onEnd" text="{layout>/lastname}, {layout>/firstname}" type="Success" iconFirst="false" /> -->
+                                </contentRight>
+                            </Bar>
+                        </customHeader>
+
+                        <Wizard id="idWizard" complete="onWizardComplete" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" enableBranching="true">
+
+                            <WizardStep icon="sap-icon://person-placeholder" validated="false" id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
+
+                                <Panel >
+                                    <content>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/>
+                                    </content>
+
+                                </Panel>
+
+                            </WizardStep>
+
+                            <WizardStep nextStep="idComprobanteWizardStep" icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate">
+
+                                <Panel >
+
+                                    <content>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.02PagoCta" type="XML"/>
+                                    </content>
+
+                                </Panel>
+
+                            </WizardStep>
+
+                            <WizardStep complete="onWizardStepComprobanteComplete" nextStep="idDescuentosWizardStep" validated="false" icon="sap-icon://sales-order-item" id="idComprobanteWizardStep" title="{i18n>comprobantetitle}">
+
+                                <Panel >
+
+                                    <content>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.03Comprobante" type="XML"/>
+                                    </content>
+
+                                </Panel>
+
+                            </WizardStep>
+
+                            <WizardStep nextStep="idRetencionesWizardStep" icon="sap-icon://waiver" id="idDescuentosWizardStep" title="{i18n>descuentotitle}">
+
+                                <Panel >
+
+                                    <content>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.04Descuentos" type="XML"/>
+                                    </content>
+
+                                </Panel>
+                            </WizardStep>
+
+                            <WizardStep nextStep="idDetalleWizardStep" icon="sap-icon://sales-quote" id="idRetencionesWizardStep" title="{i18n>retencionestitle}">
+
+                                <Panel >
+
+                                    <content>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/>
+                                    </content>
+
+                                </Panel>
+                            </WizardStep>
+
+                            <WizardStep complete="onWizardStepDetalleComplete" icon="sap-icon://menu" id="idDetalleWizardStep" validated="false" title="{i18n>detalletitle}" activate="onWizardStepDetalleActivate">
+                                <Panel >
+
+                                    <content>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
+                                    </content>
+
+                                </Panel>
+                            </WizardStep>
+
+                        </Wizard>
+
+
+
+                    </Page>
+                    <Page id="idwizardReviewPage" showHeader="false">
+                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Review" type="XML"/>
+                    </Page>
+                </pages>
+            </NavContainer>
+        </content>
+
+    </Page>
+
+
+
+</mvc:View>

@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar">
+
+    <fb:FilterBar id="idFilterBar" header="{i18n>tabletitle}" reset="onFilterBarReset" showRestoreOnFB="true" search="onFilterBarSearch" showRestoreButton="false"  showFilterConfiguration="false">
+
+        <fb:filterGroupItems>
+
+            <fb:FilterGroupItem groupName="search" name="razonsocial" label="{i18n>lblrazonsocial}" visibleInFilterBar="true">
+                <fb:control>
+                  
+                    <MultiInput id="idRazonSocialMultiInput" width="auto" showSuggestion="true" suggestionItems="{ path: '/CrewSet', sorter: { path: 'crewID' } }">
+                        <core:Item key="{crewID}" text="{crewID}" />
+                    </MultiInput>
+                </fb:control>
+            </fb:FilterGroupItem>
+
+            <fb:FilterGroupItem groupName="search" name="cuit" label="{i18n>lblcuit}" visibleInFilterBar="true">
+                <fb:control>
+                    
+                    <MultiInput id="idCuitMultiInput" width="auto" showSuggestion="true" suggestionItems="{ path: '/CrewSet', sorter: { path: 'crewID' } }">
+                        <core:Item key="{crewID}" text="{crewID}" />
+                    </MultiInput>
+                </fb:control>
+            </fb:FilterGroupItem>
+
+            <fb:FilterGroupItem groupName="search" name="fecha" label="{i18n>lblfecharango}" visibleInFilterBar="true">
+                <fb:control>
+                    <DateRangeSelection  id="idFechaDateRangeSelection" displayFormat="dd/MM/yyyy"/>                                          
+                    
+                </fb:control>
+            </fb:FilterGroupItem>
+
+
+        </fb:filterGroupItems>
+
+    </fb:FilterBar>
+
+</core:FragmentDefinition>

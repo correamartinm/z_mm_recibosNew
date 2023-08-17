@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "2.6"
+metadata:
+  name: morixe.zfirecibos
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        ignoreCertError: true 
+        log: 4
+        target:
+          url: https://mxecid.morixe.com.ar:44300
+          client: "110"
+        app:
+          name: ZDEMOCOBRANZA
+          description: App Demo Cobranza
+          package: ZFIORI
+          transport: MXDK900097
+        exclude:
+          - /test/

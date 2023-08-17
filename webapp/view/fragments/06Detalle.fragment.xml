@@ -1,0 +1,111 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <Table id="idDetalleTable" items="{path : 'mockdata>/Detalle' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
+        <headerToolbar>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://sys-add" press="onAgregarDetalleButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
+
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column width="3rem">
+                <header/>
+            </Column>
+            <Column width="12rem">
+                <header>
+                    <Label text="{i18n>lbltc}" tooltip="{i18n>lblmedios}"/>
+                </header>
+            </Column>
+            <Column width="10rem">
+                <header>
+                    <Label text="{i18n>lbldescripcion}"/>
+                </header>
+            </Column>
+            <Column hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblimpor}"/>
+                </header>
+            </Column>
+
+        </columns>
+        <items>
+            <ColumnListItem type="Active" highlight="Information">
+                <cells>
+
+                    <HBox>
+                        <Button icon="sap-icon://delete" press="onButtonDeletePayPress" class="sapUiTinyMarginEnd"/>
+                        <Button icon="sap-icon://attachment" press="onButtonAtachPress" />
+                    </HBox>
+                    <Text text=" {mockdata>TipoDesc}"/>
+                    <HBox >
+                        <Text text="{mockdata>NroCbte}" wrapping="false"/>
+                        <Text text="{path : 'mockdata>FechaEmi' , formatter : '.formatFecha'}"/>
+                        <Text text="{mockdata>Nro}"/>
+                    </HBox>
+
+                    <ObjectNumber number="{mockdata>Importe}" unit="$"/>
+
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+
+    <VBox visible="{layout>/detalleadd}">
+
+        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
+            <form:content>
+
+                <Label text="{i18n>lblmedios}" required="true" labelFor="idRSInput"/>
+                <Select id="idMedioPago" items="{mockdata>/TiposMediosPago}" selectedKey="{layout>/MpKey}">
+                    <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
+                </Select>
+
+                <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobantePagoInput" />
+                <Input id="idComprobantePagoInput" type="Number" />
+
+                <Label text="{i18n>lblimpor}" required="true" labelFor=""/>
+                <Input id="idImportePagoInput"/>
+
+            </form:content>
+        </form:SimpleForm>
+
+        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' || ${layout>/MpKey} === '4' || ${layout>/MpKey} === '2' || ${layout>/MpKey} === '3' }">
+            <form:content>
+                <Label text="{i18n>lblfechadeposito}" required="true" labelFor=""/>
+                    <DatePicker id="idFechaDatePickerFDeposito" displayFormat="dd/mm/YYYY" />
+        </form:content>
+    </form:SimpleForm>        
+
+        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' }">
+            <form:content>
+
+                <Label text="{i18n>lblncheque}" required="true" labelFor="idCodigoClienteInput" />
+                <Input id="idNumeroChequeInput"/>
+
+                <Label text="{i18n>lblbcodestino}" required="true" labelFor="idDomicilioInput" />
+                <Input id="idBancoDestinoInput"/>
+
+                <Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput"/>
+                <Input id="idBcoEmisorInput"/>
+
+                <Label text="{i18n>lblvencimientocheque}" required="true" labelFor=""/>
+                <DatePicker id="idFechaDatePickerFVencimiento" displayFormat="dd/mm/YYYY" />
+
+                <Label text="{i18n>lblfechaemision}" required="true" labelFor=""/>
+                <DatePicker id="idFechaDatePickerFEmision" displayFormat="dd/mm/YYYY" />
+
+            </form:content>
+        </form:SimpleForm>
+
+        <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
+
+            <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" />
+            <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' }" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarDetalle" />
+        </HBox>
+
+    </VBox>
+</core:FragmentDefinition>

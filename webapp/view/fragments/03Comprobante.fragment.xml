@@ -1,0 +1,105 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+
+
+
+    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{path : 'mockdata>/cbts' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        <headerToolbar>
+            <OverflowToolbar>
+                <SearchField width="75%" search="onSearchFieldSearchComprobante" placeholder="{i18n>lblnumcomprobante}" />
+                <ToolbarSpacer/>
+
+
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+
+            <Column width="2rem" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lbltc}" tooltip="{i18n>lbltipocomprobante}"/>
+                </header>
+            </Column>
+            <Column width="3rem" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblnumcomprobante}" wrapping="true"/>
+                </header>
+            </Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblfecha}"/>
+                </header>
+            </Column>
+
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblvencimiento}"/>
+                </header>
+            </Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblimpor}"/>
+                </header>
+            </Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblsaldo}"/>
+                </header>
+            </Column>
+            <Column width="100px" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblaplicado}"/>
+                </header>
+            </Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header/>
+            </Column>
+
+
+        </columns>
+        <items>
+            <ColumnListItem type="Active" highlight="Information">
+                <cells>
+
+
+
+                    <Text text="{mockdata>TC}" wrapping="false"/>
+                    <!-- <Text text="{path : 'START' , formatter : '.formatFecha'}"/> -->
+                    <Label text="{mockdata>Numero}"/>
+                    <Label text="{mockdata>Fecha}" design="Bold"/>
+                    <Label text="{mockdata>Fechav}" design="Bold"/>
+                    <Label text="{mockdata>Importe}"/>
+                    <Label text="{mockdata>Saldo}"/>
+                    <Input enabled="false" value="{mockdata>Aplicar}" textAlign="End" change="onInputImporteChange"/>
+                    <HBox visible="false">
+                        <Button icon="sap-icon://delete" press="onButtonPrintPress" class="sapUiTinyMarginBeginEnd" />
+                        <Button icon="sap-icon://edit" press="onButtonPrintPress" />
+                    </HBox>
+
+
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+    <OverflowToolbar visible="{= ${mockdata>/Paso03CantidadComprobantes} > 0 }">
+        <content>
+            <ToolbarSpacer />
+            <!-- <HBox visible="{= ${mockdata>/Paso03CantidadComprobantes} > 0 }">
+            </HBox> -->
+
+            <!-- <HBox visible="{= ${mockdata>/Paso03CantidadComprobantes} > 0 }"> -->
+            <Label text="{i18n>lblseleccion}: " />
+            <Label text="{i18n>lblcomprobantes}" />
+            <Label text="{mockdata>/Paso03CantidadComprobantes}" design="Bold" class="sapUiTinyMarginBeginEnd" />
+
+            <Label text="{i18n>lblimpor}" />
+            <Label text="{mockdata>/Paso03ImporteComprobantes}" design="Bold" />
+            <!-- </HBox> -->
+        </content>
+
+    </OverflowToolbar>
+    <!-- <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
+        <Button text="Cerrar" iconDensityAware="false" class="sapUiTinyMarginEnd" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="Guardar" type="Emphasized" icon="sap-icon://save" press="guardarAdicional" />
+    </HBox> -->
+</core:FragmentDefinition>

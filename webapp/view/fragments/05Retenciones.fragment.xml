@@ -1,0 +1,94 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+    xmlns:core="sap.ui.core">
+
+    <Table id="idRetencionesTable" items="{path : 'mockdata>/Retenciones' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/retencionesadd} === false }">
+        <headerToolbar>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://sys-add" press="onAgregarRetencionesButtonPress" text="{i18n>btnagregar}" type="Emphasized"/>
+
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column width="3rem">
+                <header/>
+            </Column>
+            <Column width="12rem">
+                <header>
+                    <Label text="{i18n>lbltipo}" />
+                </header>
+            </Column>
+            <Column width="10rem">
+                <header>
+                    <Label text="{i18n>lblncertificado}"/>
+                </header>
+            </Column>
+            <Column hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblfecha}"/>
+                </header>
+            </Column>
+
+
+            <Column>
+                <header>
+                    <Label text="{i18n>lblimpor}"/>
+                </header>
+            </Column>
+
+
+        </columns>
+        <items>
+            <ColumnListItem type="Active" highlight="Information">
+                <cells>
+
+                    <HBox>
+                        <Button icon="sap-icon://delete"  class="sapUiTinyMarginEnd"  />
+                        <Button icon="sap-icon://edit"   />
+                    </HBox>
+
+                    <Label text="{mockdata>Tipokey} {mockdata>TipoDesc}" design="Bold"/>
+                    <Label text="{mockdata>NCertificado}"/>
+                    <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/>
+                    <Label text="{mockdata>Importe}"/>
+
+
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+
+
+    <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/retencionesadd}">
+        <form:content>
+            <Label text="{i18n>lbltipo}" required="true" labelFor="idTipoRetencionInput"/>
+            <ComboBox id="idTipoRetencionInput" items="{mockdata>/TiposRetencion}">
+                <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
+            </ComboBox>
+
+
+            <Label text="{i18n>lblncertificado}" required="true" labelFor="idCertificadoRetencionInput" />
+            <Input id="idCertificadoRetencionInput" type="Number"/>
+
+
+            <Label text="{i18n>lblfecha}" required="true" labelFor="idFechaRetencionInput" />
+            <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/mm/YYYY" />
+
+            <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteRetencionInput"/>
+            <Input id="idImporteRetencionInput" type="Number"/>
+
+            <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
+            <unified:FileUploader id="idRetencionesFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+        </form:content>
+    </form:SimpleForm>
+
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/retencionesadd}">
+        <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarRetencion" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarRetencion" />
+    </HBox>
+
+</core:FragmentDefinition>

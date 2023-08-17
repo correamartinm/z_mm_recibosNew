@@ -1,0 +1,117 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Table id="idTable" items="{path : 'mockdata>/Recibos' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        <headerToolbar>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
+
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+
+            <Column >
+                <header>
+                    <Label text="{i18n>lblnumero}"/>
+                </header>
+            </Column>
+            <Column >
+                <header>
+                    <Label text="{i18n>lblfecha}"/>
+                </header>
+            </Column>
+
+            <Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+
+                </header>
+            </Column>
+
+            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblrazonsocial}"/>
+                </header>
+            </Column>
+
+            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblcuit}"/>
+                </header>
+            </Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lbltotalrecibo}"/>
+                </header>
+            </Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lbltotal}"/>
+                </header>
+            </Column>
+
+            <Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblprocesado}"/>
+                </header>
+            </Column>
+
+
+            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblprocesado}"/>
+                </header>
+            </Column>
+
+
+            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblfechaproceso}"/>
+                </header>
+            </Column>
+            <Column width="3rem">
+                <header/>
+            </Column>
+
+
+        </columns>
+        <items>
+            <ColumnListItem type="Active" highlight="Information">
+                <cells>
+
+
+                    <Label text="{mockdata>Numero}" design="Bold"/>
+                    <!-- <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/> -->
+                    <Label text="{mockdata>Fecha}" design="Bold"/>
+                    <Label text="{mockdata>Cuit} - {mockdata>Rsocial}" design="Bold" wrapping="true"/>
+                    <Label text="{mockdata>Rsocial}" design="Bold"/>
+                    <Label text="{mockdata>Cuit}" design="Bold"/>
+
+                    <Label text="{mockdata>TotalRecibo}" design="Bold"/>
+                    <Label text="{mockdata>TotalRecibo}" design="Bold"/>
+
+                    <ObjectStatus icon="sap-icon://{
+                            path: 'mockdata>Procesado',
+                            formatter: '.formatIconBool'
+                        }" state="{
+                            path: 'mockdata>Procesado',
+                            formatter: '.formatStateBool'
+                        }" inverted="true" title="{mockdata>FechaProceso}" />
+
+                    <ObjectStatus icon="sap-icon://{
+                        path: 'mockdata>Procesado',
+                        formatter: '.formatIconBool'
+                    }" state="{
+                        path: 'mockdata>Procesado',
+                        formatter: '.formatStateBool'
+                    }" inverted="true" />
+                    <Label text="{mockdata>FechaProceso}" visible="{mockdata>Procesado}" design="Bold"/>
+                    <!-- <Text text="{path : 'mockdata>FechaProceso' , formatter : '.formatFecha'}"/> -->
+                    <Button icon="sap-icon://print" enabled="{= ${mockdata>Procesado} === true }" press="onButtonPrintPress" />
+
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+
+</core:FragmentDefinition>

@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <form:SimpleForm id="idClienteSimpleForm" editable="true" layout="ColumnLayout">
+        <form:content>
+
+            <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
+            <ComboBox  id="idRSInput" selectedItem="null" selectionChange="onInputRazonSocialChange" items="{mockdata>/Clientes}">
+                <core:Item key="{mockdata>Codigo}" text="{mockdata>Rsocial}" />
+            </ComboBox>
+
+            <Label text="{i18n>lblcodigo}" labelFor="idCodigoClienteInput" />
+            <Input id="idCodigoClienteInput" editable="false" value="{mockdata>/Paso01Cliente/Codigo}"/>
+
+            <Label text="{i18n>lbldomicilio}" labelFor="idDomicilioInput" />
+            <Input id="idDomicilioInput" editable="false" value="{mockdata>/Paso01Cliente/Domicilio}"/>
+
+            <Label text="{i18n>lbllocalidad}" labelFor="idLocalidadInput"/>
+            <Input id="idLocalidadInput" editable="false" value="{mockdata>/Paso01Cliente/Localidad}"/>
+
+
+            <Label text="{i18n>lblcuit}" labelFor="idIvaInput" />
+            <Input id="idCuitInput" editable="false" value="{mockdata>/Paso01Cliente/Cuit}"/>
+
+            <Label text="{i18n>lbliva}" labelFor="idIvaInput" />
+            <Input id="idTipoIvaInput" editable="false" value="{mockdata>/Paso01Cliente/TipoIva}"/>
+
+            <Label text="{i18n>lblobservaciones}" labelFor="idObsTextArea"/>
+            <TextArea id="idObservacionesTextArea" rows="3" value="{mockdata>/Paso01Cliente/Observaciones}"/>
+
+            <Label text="{i18n>lbltipocomprobante}" labelFor="idDocumentoSegmentedButton" class="sapUiSmallMarginEnd" />
+            <CheckBox tooltip="{= ${mockdata>/Paso01Cliente/Anticipo} === true ? 'idDetalleWizardStep' : 'idPagoaCtaWizardStep' }" name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox"/>
+            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox"/>
+
+        </form:content>
+    </form:SimpleForm>
+
+</core:FragmentDefinition>

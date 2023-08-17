@@ -1,0 +1,42 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <form:SimpleForm id="idDataSimpleForm" editable="true" layout="ColumnLayout" >
+        <form:content>
+            <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
+            <Input id="idRSInput">
+                <core:Item key="{crewID}" text="{crewID}" />
+            </Input>
+
+
+            <Label text="{i18n>lblcodigo}" required="true" labelFor="idCodigoClienteInput" />
+            <Input id="idCodigoClienteInput">
+                <core:Item key="{crewID}" text="{crewID}" />
+            </Input>
+
+
+            <Label text="{i18n>lbldomicilio}" required="true" labelFor="idDomicilioInput" />
+            <Input id="idDomicilioInput">
+                <core:Item key="{crewID}" text="{crewID}" />
+            </Input>
+            <Label text="{i18n>lbllocalidad}" required="true" labelFor="idLocalidadInput"/>
+            <Input id="idLocalidadInput">
+                <core:Item key="{crewID}" text="{crewID}" />
+            </Input>
+
+            <Label text="{i18n>lbliva}" required="true" labelFor="idIvaInput" />
+            <Input id="idIvaInput">
+                <core:Item key="{crewID}" text="{crewID}" />
+            </Input>
+            <Label text="{i18n>lblobservaciones}" labelFor="idObsTextArea"/>
+            <TextArea id="idObsTextArea" rows="3" />
+
+        </form:content>
+    </form:SimpleForm>
+
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
+        <Button text="Cerrar" iconDensityAware="false" class="sapUiTinyMarginEnd" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="Guardar" type="Emphasized" icon="sap-icon://save" press="guardarAdicional" />
+    </HBox>
+</core:FragmentDefinition>
