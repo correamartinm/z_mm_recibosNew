@@ -78,11 +78,8 @@
                 <core:Item key="{mockdata>Numero}" text="{mockdata>Numero}" />
             </Input>
 
-
-
             <Label text="{i18n>lblfecha}" required="true" labelFor="idDomicilioInput" />
             <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/mm/YYYY"  />
-
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteInput"/>
             <Input id="idImporteInput"  type="Number"/>

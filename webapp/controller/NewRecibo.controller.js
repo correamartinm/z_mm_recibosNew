@@ -94,7 +94,6 @@ sap.ui.define(
       },
       // Paso Seleccion Pagos a Cuenta
       onTablePagoCtaSelectionChange: function () {
-        
         this._onCheckPago();
       },
 
@@ -123,10 +122,8 @@ sap.ui.define(
                 parseFloat(oImportesSuma) + parseFloat(vObject.Aplicar);
             }
           }
-
         }
 
-        
         this._onUpdateModel(oModel, oComprobantes, Data);
         this._onUpdateModel(oModel, oCantidad, Data.length);
         this._onUpdateModel(oModel, oImporte, oImportesSuma);
@@ -272,17 +269,57 @@ sap.ui.define(
       },
 
       guardarDescuento: function () {
-        let oValue = false,
-          oDescuentos = "/Descuentos";
-        this.onshowDescuentoAdd(oValue);
+       
         let oModel = this.getView().getModel("mockdata"),
           oNcomprobante = this.getView().byId("idComprobanteInput"),
           oFecha = this.getView().byId("idFechaDatePickerFDescuento"),
           oImporte = this.getView().byId("idImporteInput"),
           oMotivo = this.getView().byId("idMotivoInput"),
+          oFile = this.getView().byId("idDescuentoFileUploader"),
           oldData = [];
 
+        if (!oMotivo.getSelectedKey()) {
+          oMotivo.setValueState(ValueState.Error);
+          return;
+        } else {
+          oMotivo.setValueState(ValueState.None);
+        }
+
+        if (!oImporte.getValue()) {
+          oImporte.setValueState(ValueState.Error);
+          return;
+        } else {
+          oImporte.setValueState(ValueState.None);
+        }
+
+        if (!oNcomprobante.getValue()) {
+          oNcomprobante.setValueState(ValueState.Error);
+          return;
+        } else {
+          oNcomprobante.setValueState(ValueState.None);
+        }
+
+        if (!oFecha.getDateValue()) {
+          oFecha.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFecha.setValueState(ValueState.None);
+        }
+
+        if (!oFile.getValue()) {
+          oFile.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFile.setValueState(ValueState.None);
+        }
+
+
+
         oldData = this._onGetDataModel(oModel, oDescuentos);
+
+         let oValue = false,
+          oDescuentos = "/Descuentos";
+        this.onshowDescuentoAdd(oValue);
 
         let oDatos = {
           Motivokey: oMotivo.getSelectedKey(),
@@ -336,15 +373,50 @@ sap.ui.define(
       },
 
       guardarRetencion: function () {
-        let oValue = false,
-          oRetenciones = "/Retenciones";
-        this.onshowRetencionesAdd(oValue);
+       
         let oModel = this.getView().getModel("mockdata"),
           oTipo = this.getView().byId("idTipoRetencionInput"),
           oFecha = this.getView().byId("idFechaDatePickerFRetencion"),
           oImporte = this.getView().byId("idImporteRetencionInput"),
           oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
+          oFile = this.getView().byId("idRetencionesFileUploader"),
           oldData = [];
+
+
+          if (!oTipo.getSelectedKey()) {
+            oTipo.setValueState(ValueState.Error);
+            return;
+          } else {
+            oTipo.setValueState(ValueState.None);
+          }
+  
+          if (!oImporte.getValue()) {
+            oImporte.setValueState(ValueState.Error);
+            return;
+          } else {
+            oImporte.setValueState(ValueState.None);
+          }
+  
+          if (!oNCertificado.getValue()) {
+            oNCertificado.setValueState(ValueState.Error);
+            return;
+          } else {
+            oNCertificado.setValueState(ValueState.None);
+          }
+  
+          if (!oFecha.getDateValue()) {
+            oFecha.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFecha.setValueState(ValueState.None);
+          }
+  
+          if (!oFile.getValue()) {
+            oFile.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFile.setValueState(ValueState.None);
+          }
 
         oldData = this._onGetDataModel(oModel, oRetenciones);
 
@@ -367,6 +439,11 @@ sap.ui.define(
           oImporteRet = "/Paso05ImporteRetenciones";
         this._onUpdateModel(oModel, oCantidad, DataFinal.length);
         this._onUpdateModel(oModel, oImporteRet, oImportesSuma);
+
+        let oValue = false,
+        oRetenciones = "/Retenciones";
+      this.onshowRetencionesAdd(oValue);
+
       },
 
       cancelarRetencion: function () {
@@ -516,7 +593,6 @@ sap.ui.define(
         //   if (rta === "OK")
         //     this.getOwnerComponent().getTargets().display("TargetMainView");
         // });
-        
       },
     });
   }

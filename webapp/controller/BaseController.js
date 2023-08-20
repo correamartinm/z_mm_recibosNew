@@ -40,14 +40,14 @@ sap.ui.define(
         }
       },
 
-      i18n: function () {
+      _i18n: function () {
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
       },
 
       _onCallMsgBox: async function () {
-        (sMessage = this.i18n.getText("undercontruction")),
+        (sMessage = this._i18n.getText("undercontruction")),
           (sMessageTitle = this.i18n.getText("undercontruction"));
-        this.onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
+        this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
           // alert(rta);
         });
       },
