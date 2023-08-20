@@ -269,7 +269,6 @@ sap.ui.define(
       },
 
       guardarDescuento: function () {
-       
         let oModel = this.getView().getModel("mockdata"),
           oNcomprobante = this.getView().byId("idComprobanteInput"),
           oFecha = this.getView().byId("idFechaDatePickerFDescuento"),
@@ -313,11 +312,9 @@ sap.ui.define(
           oFile.setValueState(ValueState.None);
         }
 
-
-
         oldData = this._onGetDataModel(oModel, oDescuentos);
 
-         let oValue = false,
+        let oValue = false,
           oDescuentos = "/Descuentos";
         this.onshowDescuentoAdd(oValue);
 
@@ -373,7 +370,6 @@ sap.ui.define(
       },
 
       guardarRetencion: function () {
-       
         let oModel = this.getView().getModel("mockdata"),
           oTipo = this.getView().byId("idTipoRetencionInput"),
           oFecha = this.getView().byId("idFechaDatePickerFRetencion"),
@@ -382,41 +378,40 @@ sap.ui.define(
           oFile = this.getView().byId("idRetencionesFileUploader"),
           oldData = [];
 
+        if (!oTipo.getSelectedKey()) {
+          oTipo.setValueState(ValueState.Error);
+          return;
+        } else {
+          oTipo.setValueState(ValueState.None);
+        }
 
-          if (!oTipo.getSelectedKey()) {
-            oTipo.setValueState(ValueState.Error);
-            return;
-          } else {
-            oTipo.setValueState(ValueState.None);
-          }
-  
-          if (!oImporte.getValue()) {
-            oImporte.setValueState(ValueState.Error);
-            return;
-          } else {
-            oImporte.setValueState(ValueState.None);
-          }
-  
-          if (!oNCertificado.getValue()) {
-            oNCertificado.setValueState(ValueState.Error);
-            return;
-          } else {
-            oNCertificado.setValueState(ValueState.None);
-          }
-  
-          if (!oFecha.getDateValue()) {
-            oFecha.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFecha.setValueState(ValueState.None);
-          }
-  
-          if (!oFile.getValue()) {
-            oFile.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFile.setValueState(ValueState.None);
-          }
+        if (!oImporte.getValue()) {
+          oImporte.setValueState(ValueState.Error);
+          return;
+        } else {
+          oImporte.setValueState(ValueState.None);
+        }
+
+        if (!oNCertificado.getValue()) {
+          oNCertificado.setValueState(ValueState.Error);
+          return;
+        } else {
+          oNCertificado.setValueState(ValueState.None);
+        }
+
+        if (!oFecha.getDateValue()) {
+          oFecha.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFecha.setValueState(ValueState.None);
+        }
+
+        if (!oFile.getValue()) {
+          oFile.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFile.setValueState(ValueState.None);
+        }
 
         oldData = this._onGetDataModel(oModel, oRetenciones);
 
@@ -441,9 +436,8 @@ sap.ui.define(
         this._onUpdateModel(oModel, oImporteRet, oImportesSuma);
 
         let oValue = false,
-        oRetenciones = "/Retenciones";
-      this.onshowRetencionesAdd(oValue);
-
+          oRetenciones = "/Retenciones";
+        this.onshowRetencionesAdd(oValue);
       },
 
       cancelarRetencion: function () {
@@ -474,11 +468,6 @@ sap.ui.define(
       },
 
       guardarDetalle: function () {
-        let oValue = false,
-          oImportesSuma = 0,
-          oRetenciones = "/Detalle";
-        this.onshowDetalleAdd(oValue);
-
         let oModel = this.getView().getModel("mockdata"),
           oMP = this.getView().byId("idMedioPago"),
           oCheque = this.getView().byId("idNumeroChequeInput"),
@@ -490,8 +479,94 @@ sap.ui.define(
           oFechaVencimiento = this.getView().byId(
             "idFechaDatePickerFVencimiento"
           ),
-          oImportePago = this.getView().byId("idImportePagoInput");
-        // oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
+          oImportePago = this.getView().byId("idImportePagoInput"),
+          oFile = this.getView().byId(""),
+          oFileCheque = this.getView().byId("");
+
+        
+          if (!oMP.getSelectedKey()) {
+            oMP.setValueState(ValueState.Error);
+            return;
+          } else {
+            oMP.setValueState(ValueState.None);
+          }
+  
+          if (!oImportePago.getValue()) {
+            oImportePago.setValueState(ValueState.Error);
+            return;
+          } else {
+            oImportePago.setValueState(ValueState.None);
+          }
+  
+          if (!oCbte.getValue()) {
+            oCbte.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCbte.setValueState(ValueState.None);
+          }
+  
+          if (!oCheque.getValue()) {
+            oCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCheque.setValueState(ValueState.None);
+          }
+
+          if (!oBcoDestino.getValue()) {
+            oBcoDestino.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoDestino.setValueState(ValueState.None);
+          }
+
+          if (!oBcoEmisor.getValue()) {
+            oBcoEmisor.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoEmisor.setValueState(ValueState.None);
+          }
+
+          if (!oFechaDeposito.getDateValue()) {
+            oFechaDeposito.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaDeposito.setValueState(ValueState.None);
+          }
+
+          if (!oFechaEmision.getDateValue()) {
+            oFechaEmision.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaEmision.setValueState(ValueState.None);
+          }
+
+          if (!oFechaVencimiento.getDateValue()) {
+            oFechaVencimiento.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaVencimiento.setValueState(ValueState.None);
+          }
+
+  
+          if (!oFile.getValue()) {
+            oFile.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFile.setValueState(ValueState.None);
+          }
+
+          if (!oFileCheque.getValue()) {
+            oFileCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFoFileChequeile.setValueState(ValueState.None);
+          }
+
+
+
+
+        let oDetalle = "/Detalle",
+          oImportesSuma = 0;
 
         let oldData = this._onGetDataModel(oModel, oRetenciones);
 
@@ -508,17 +583,25 @@ sap.ui.define(
           Importe: parseFloat(oImportePago.getValue()),
         };
         let DataFinal = oldData.concat(oDatos);
-        this._onUpdateModel(oModel, oRetenciones, DataFinal);
+        this._onUpdateModel(oModel, oDetalle, DataFinal);
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
             parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
         }
 
-        let oCantidad = "/Paso05CantidadRetenciones",
-          oImporte = "/Paso05ImporteRetenciones";
+        let oValue = false;
+        this.onshowDetalleAdd(oValue);
+
+        let oCantidad = "/Paso06Detalles",
+          oImporte = "/Paso06ImporteDetalle";
         this._onUpdateModel(oModel, oCantidad, DataFinal.length);
         this._onUpdateModel(oModel, oImporte, oImportesSuma);
+      },
+
+      cancelarDetlles: function () {
+        let oValue = false;
+        this.onshowDetalleAdd(oValue);
       },
 
       onWizardStepDetalleActivate: function () {

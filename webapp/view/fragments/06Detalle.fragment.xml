@@ -1,5 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core">
 
     <Table id="idDetalleTable" items="{path : 'mockdata>/Detalle' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
@@ -67,7 +68,10 @@
                 <Input id="idComprobantePagoInput" type="Number" />
 
                 <Label text="{i18n>lblimpor}" required="true" labelFor=""/>
-                <Input id="idImportePagoInput"/>
+                <Input id="idImportePagoInput" type="Number"/>
+
+                <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader"/>
+                <unified:FileUploader id="idDetalleFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
 
             </form:content>
         </form:SimpleForm>
@@ -75,9 +79,9 @@
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' || ${layout>/MpKey} === '4' || ${layout>/MpKey} === '2' || ${layout>/MpKey} === '3' }">
             <form:content>
                 <Label text="{i18n>lblfechadeposito}" required="true" labelFor=""/>
-                    <DatePicker id="idFechaDatePickerFDeposito" displayFormat="dd/mm/YYYY" />
-        </form:content>
-    </form:SimpleForm>        
+                <DatePicker id="idFechaDatePickerFDeposito" displayFormat="dd/mm/YYYY" />
+            </form:content>
+        </form:SimpleForm>
 
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' }">
             <form:content>
@@ -97,14 +101,18 @@
                 <Label text="{i18n>lblfechaemision}" required="true" labelFor=""/>
                 <DatePicker id="idFechaDatePickerFEmision" displayFormat="dd/mm/YYYY" />
 
+                <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader"/>
+                    <unified:FileUploader id="idChequeFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
             </form:content>
         </form:SimpleForm>
 
         <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
 
-            <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" />
-            <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' }" />
+            <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" />
+            <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' }" /> -->
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarDetalle" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" />
         </HBox>
 
     </VBox>

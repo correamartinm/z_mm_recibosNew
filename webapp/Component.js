@@ -379,8 +379,11 @@ sap.ui.define(
           Retenciones: [],
           Paso05CantidadRetenciones: 0,
           Paso05ImporteRetenciones: 0,
+          Paso06Detalles : 0,
+          Paso06ImporteDetalle : 0,
           Detalle: [],
           Resumen: [],
+
           cbts: [
             {
               TC: "FC",
