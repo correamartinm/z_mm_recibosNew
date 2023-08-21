@@ -1,3 +1,7 @@
+VPN Consultor4	M0r1x3#9	
+100	jruiz	Morixe.06-2023
+110	jruiz	Morixe.06-2023
+
 Tareas a Realizar
 Usuario?
 Resetear el Wizard

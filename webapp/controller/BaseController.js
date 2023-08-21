@@ -1,6 +1,10 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History"],
-  function (Controller, History) {
+  [
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageBox",
+    "sap/ui/core/routing/History",
+  ],
+  function (Controller, MessageBox, History) {
     "use strict";
 
     return Controller.extend("morixe.zfirecibos.controller.BaseController", {
@@ -54,38 +58,38 @@ sap.ui.define(
 
       _onShowMsgBoxConfirm: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
-          sap.m.MessageBox.confirm(sMessage, {
+          MessageBox.confirm(sMessage, {
+            icon: MessageBox.Icon.QUESTION,
             title: sMessageTitle,
             onClose: function (oAction) {
               resolve(oAction);
             }.bind(this),
             styleClass: "",
-            actions: [
-              sap.m.MessageBox.Action.OK,
-              sap.m.MessageBox.Action.CANCEL,
-            ],
-            emphasizedAction: sap.m.MessageBox.Action.OK,
+            actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+            emphasizedAction: MessageBox.Action.OK,
           });
         });
       },
 
       _onShowMsgBoxError: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
-          sap.m.MessageBox.error(sMessage, {
+          MessageBox.error(sMessage, {
+            icon: MessageBox.Icon.ERROR,
             title: sMessageTitle,
             onClose: function (oAction) {
               resolve(oAction);
             }.bind(this),
             styleClass: "",
-            actions: sap.m.MessageBox.Action.CLOSE,
-            emphasizedAction: sap.m.MessageBox.Action.CLOSE,
+            actions: MessageBox.Action.CLOSE,
+            emphasizedAction: MessageBox.Action.CLOSE,
           });
         });
       },
 
       _onShowMsgBoxSucces: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
-          sap.m.MessageBox.success(sMessage, {
+          MessageBox.success(sMessage, {
+            icon: MessageBox.Icon.SUCCESS,      
             title: sMessageTitle,
             onClose: function (oAction) {
               resolve(oAction);

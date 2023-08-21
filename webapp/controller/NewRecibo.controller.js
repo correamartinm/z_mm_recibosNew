@@ -19,6 +19,10 @@ sap.ui.define(
         this._oWizardContentPage = this.byId("idRecibosPage");
       },
 
+      i18n: function () {
+        return this.getOwnerComponent().getModel("i18n").getResourceBundle();
+      },
+
       // ************ Controles ****************
 
       _onFocusControl: function (oControl) {
@@ -483,87 +487,82 @@ sap.ui.define(
           oFile = this.getView().byId(""),
           oFileCheque = this.getView().byId("");
 
-        
-          if (!oMP.getSelectedKey()) {
-            oMP.setValueState(ValueState.Error);
-            return;
-          } else {
-            oMP.setValueState(ValueState.None);
-          }
-  
-          if (!oImportePago.getValue()) {
-            oImportePago.setValueState(ValueState.Error);
-            return;
-          } else {
-            oImportePago.setValueState(ValueState.None);
-          }
-  
-          if (!oCbte.getValue()) {
-            oCbte.setValueState(ValueState.Error);
-            return;
-          } else {
-            oCbte.setValueState(ValueState.None);
-          }
-  
-          if (!oCheque.getValue()) {
-            oCheque.setValueState(ValueState.Error);
-            return;
-          } else {
-            oCheque.setValueState(ValueState.None);
-          }
+        if (!oMP.getSelectedKey()) {
+          oMP.setValueState(ValueState.Error);
+          return;
+        } else {
+          oMP.setValueState(ValueState.None);
+        }
 
-          if (!oBcoDestino.getValue()) {
-            oBcoDestino.setValueState(ValueState.Error);
-            return;
-          } else {
-            oBcoDestino.setValueState(ValueState.None);
-          }
+        if (!oImportePago.getValue()) {
+          oImportePago.setValueState(ValueState.Error);
+          return;
+        } else {
+          oImportePago.setValueState(ValueState.None);
+        }
 
-          if (!oBcoEmisor.getValue()) {
-            oBcoEmisor.setValueState(ValueState.Error);
-            return;
-          } else {
-            oBcoEmisor.setValueState(ValueState.None);
-          }
+        if (!oCbte.getValue()) {
+          oCbte.setValueState(ValueState.Error);
+          return;
+        } else {
+          oCbte.setValueState(ValueState.None);
+        }
 
-          if (!oFechaDeposito.getDateValue()) {
-            oFechaDeposito.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFechaDeposito.setValueState(ValueState.None);
-          }
+        if (!oCheque.getValue()) {
+          oCheque.setValueState(ValueState.Error);
+          return;
+        } else {
+          oCheque.setValueState(ValueState.None);
+        }
 
-          if (!oFechaEmision.getDateValue()) {
-            oFechaEmision.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFechaEmision.setValueState(ValueState.None);
-          }
+        if (!oBcoDestino.getValue()) {
+          oBcoDestino.setValueState(ValueState.Error);
+          return;
+        } else {
+          oBcoDestino.setValueState(ValueState.None);
+        }
 
-          if (!oFechaVencimiento.getDateValue()) {
-            oFechaVencimiento.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFechaVencimiento.setValueState(ValueState.None);
-          }
+        if (!oBcoEmisor.getValue()) {
+          oBcoEmisor.setValueState(ValueState.Error);
+          return;
+        } else {
+          oBcoEmisor.setValueState(ValueState.None);
+        }
 
-  
-          if (!oFile.getValue()) {
-            oFile.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFile.setValueState(ValueState.None);
-          }
+        if (!oFechaDeposito.getDateValue()) {
+          oFechaDeposito.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFechaDeposito.setValueState(ValueState.None);
+        }
 
-          if (!oFileCheque.getValue()) {
-            oFileCheque.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFoFileChequeile.setValueState(ValueState.None);
-          }
+        if (!oFechaEmision.getDateValue()) {
+          oFechaEmision.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFechaEmision.setValueState(ValueState.None);
+        }
 
+        if (!oFechaVencimiento.getDateValue()) {
+          oFechaVencimiento.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFechaVencimiento.setValueState(ValueState.None);
+        }
 
+        if (!oFile.getValue()) {
+          oFile.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFile.setValueState(ValueState.None);
+        }
 
+        if (!oFileCheque.getValue()) {
+          oFileCheque.setValueState(ValueState.Error);
+          return;
+        } else {
+          oFoFileChequeile.setValueState(ValueState.None);
+        }
 
         let oDetalle = "/Detalle",
           oImportesSuma = 0;
@@ -667,16 +666,18 @@ sap.ui.define(
       onWizardComplete: function () {},
 
       onNavBack: async function () {
-        this.getOwnerComponent().getTargets().display("TargetMainView");
+        // this.getOwnerComponent().getTargets().display("TargetMainView");
 
-        // let sMessage = this.i18n.getText("msgcancel"),
-        //   sMessageTitle = this.i18n.getText("msgvolver");
+        let sMessage = this.i18n().getText("msgcancel"),
+          sMessageTitle = this.i18n().getText("msgvolver");
 
-        // this.onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
-        //   if (rta === "OK")
-        //     this.getOwnerComponent().getTargets().display("TargetMainView");
-        // });
+        this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
+          if (rta === "OK") this.discardProgress();
+          this.getOwnerComponent().getTargets().display("TargetMainView");
+        });
       },
+
+
     });
   }
 );
