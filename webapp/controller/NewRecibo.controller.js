@@ -19,10 +19,6 @@ sap.ui.define(
         this._oWizardContentPage = this.byId("idRecibosPage");
       },
 
-      i18n: function () {
-        return this.getOwnerComponent().getModel("i18n").getResourceBundle();
-      },
-
       // ************ Controles ****************
 
       _onFocusControl: function (oControl) {
@@ -665,11 +661,20 @@ sap.ui.define(
 
       onWizardComplete: function () {},
 
+      onConfirmarReciboButtonPress: function() {
+
+
+      },
+      onAnularButtonPress: function(){
+        this.discardProgress();
+      },
+
+
       onNavBack: async function () {
         // this.getOwnerComponent().getTargets().display("TargetMainView");
 
-        let sMessage = this.i18n().getText("msgcancel"),
-          sMessageTitle = this.i18n().getText("msgvolver");
+        let sMessage = this._i18n().getText("msgcancel"),
+          sMessageTitle = this._i18n().getText("msgvolver");
 
         this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
           if (rta === "OK") this.discardProgress();

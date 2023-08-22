@@ -48,16 +48,11 @@ sap.ui.define(
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
       },
 
-      _onCallMsgBox: async function () {
-        (sMessage = this._i18n.getText("undercontruction")),
-          (sMessageTitle = this.i18n.getText("undercontruction"));
-        this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
-          // alert(rta);
-        });
-      },
+
 
       _onShowMsgBoxConfirm: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
+          
           MessageBox.confirm(sMessage, {
             icon: MessageBox.Icon.QUESTION,
             title: sMessageTitle,
@@ -68,6 +63,7 @@ sap.ui.define(
             actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
             emphasizedAction: MessageBox.Action.OK,
           });
+
         });
       },
 

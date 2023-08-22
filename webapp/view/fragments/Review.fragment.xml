@@ -40,20 +40,13 @@
         </HBox>
 
 
-
-
-
-
-
-
-
     </VBox>
 
 
     <OverflowToolbar >
         <ToolbarSpacer/>
-        <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject"/>
-        <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success"/>
+        <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onAnularButtonPress"/>
+        <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" />
 
     </OverflowToolbar>
 
