@@ -111,7 +111,7 @@
 
             <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" />
             <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" visible="{= ${layout>/MpKey} === '5' || ${layout>/MpKey} === '6' || ${layout>/MpKey} === '7' || ${layout>/MpKey} === '8' || ${layout>/MpKey} === '9' || ${layout>/MpKey} === '10' }" /> -->
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarDetalle" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" />
         </HBox>
 

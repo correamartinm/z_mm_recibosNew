@@ -467,8 +467,9 @@ sap.ui.define(
         }
       },
 
-      guardarDetalle: function () {
+      onGuardarButtonDetallePress: function () {
         let oModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout"),
           oMP = this.getView().byId("idMedioPago"),
           oCheque = this.getView().byId("idNumeroChequeInput"),
           oCbte = this.getView().byId("idComprobantePagoInput"),
@@ -483,18 +484,13 @@ sap.ui.define(
           oFile = this.getView().byId(""),
           oFileCheque = this.getView().byId("");
 
+        let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
+
         if (!oMP.getSelectedKey()) {
           oMP.setValueState(ValueState.Error);
           return;
         } else {
           oMP.setValueState(ValueState.None);
-        }
-
-        if (!oImportePago.getValue()) {
-          oImportePago.setValueState(ValueState.Error);
-          return;
-        } else {
-          oImportePago.setValueState(ValueState.None);
         }
 
         if (!oCbte.getValue()) {
@@ -504,66 +500,73 @@ sap.ui.define(
           oCbte.setValueState(ValueState.None);
         }
 
-        if (!oCheque.getValue()) {
-          oCheque.setValueState(ValueState.Error);
+        if (!oImportePago.getValue()) {
+          oImportePago.setValueState(ValueState.Error);
           return;
         } else {
-          oCheque.setValueState(ValueState.None);
+          oImportePago.setValueState(ValueState.None);
         }
 
-        if (!oBcoDestino.getValue()) {
-          oBcoDestino.setValueState(ValueState.Error);
-          return;
-        } else {
-          oBcoDestino.setValueState(ValueState.None);
-        }
+        // if (!oCheque.getValue()) {
+        //   oCheque.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oCheque.setValueState(ValueState.None);
+        // }
 
-        if (!oBcoEmisor.getValue()) {
-          oBcoEmisor.setValueState(ValueState.Error);
-          return;
-        } else {
-          oBcoEmisor.setValueState(ValueState.None);
-        }
+        // if (!oBcoDestino.getValue()) {
+        //   oBcoDestino.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oBcoDestino.setValueState(ValueState.None);
+        // }
 
-        if (!oFechaDeposito.getDateValue()) {
-          oFechaDeposito.setValueState(ValueState.Error);
-          return;
-        } else {
-          oFechaDeposito.setValueState(ValueState.None);
-        }
+        // if (!oBcoEmisor.getValue()) {
+        //   oBcoEmisor.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oBcoEmisor.setValueState(ValueState.None);
+        // }
 
-        if (!oFechaEmision.getDateValue()) {
-          oFechaEmision.setValueState(ValueState.Error);
-          return;
-        } else {
-          oFechaEmision.setValueState(ValueState.None);
-        }
+        // if (!oFechaDeposito.getDateValue()) {
+        //   oFechaDeposito.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oFechaDeposito.setValueState(ValueState.None);
+        // }
 
-        if (!oFechaVencimiento.getDateValue()) {
-          oFechaVencimiento.setValueState(ValueState.Error);
-          return;
-        } else {
-          oFechaVencimiento.setValueState(ValueState.None);
-        }
+        // if (!oFechaEmision.getDateValue()) {
+        //   oFechaEmision.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oFechaEmision.setValueState(ValueState.None);
+        // }
 
-        if (!oFile.getValue()) {
-          oFile.setValueState(ValueState.Error);
-          return;
-        } else {
-          oFile.setValueState(ValueState.None);
-        }
+        // if (!oFechaVencimiento.getDateValue()) {
+        //   oFechaVencimiento.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oFechaVencimiento.setValueState(ValueState.None);
+        // }
 
-        if (!oFileCheque.getValue()) {
-          oFileCheque.setValueState(ValueState.Error);
-          return;
-        } else {
-          oFoFileChequeile.setValueState(ValueState.None);
-        }
+        // if (!oFile.getValue()) {
+        //   oFile.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oFile.setValueState(ValueState.None);
+        // }
+
+        // if (!oFileCheque.getValue()) {
+        //   oFileCheque.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oFoFileChequeile.setValueState(ValueState.None);
+        // }
 
         let oDetalle = "/Detalle",
           oImportesSuma = 0;
 
-        let oldData = this._onGetDataModel(oModel, oRetenciones);
+        let oldData = this._onGetDataModel(oModel, oDetalle);
 
         let oDatos = {
           Tipo: oMP.getSelectedKey(),
@@ -597,6 +600,32 @@ sap.ui.define(
       cancelarDetlles: function () {
         let oValue = false;
         this.onshowDetalleAdd(oValue);
+      },
+
+      onButtonDeletePayPress: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
+
+        let oTarget = oEvent.getSource(),
+          // oMaterialCod = oItem.codMaterial,
+          oAddedData = this.getView()
+            .getModel("mockdata")
+            .getProperty("/Detalle");
+
+        // let oMaterialExist = oAddedData.findIndex(function (oMaterial) {
+        //   return oMaterial.codMaterial === oMaterialCod;
+        // });
+
+        // if (oAddedData.length > 1) {
+        //   let removed = oAddedData.splice(oMaterialExist, 1);
+        //   oModel.setProperty("/Detalle", oAddedData);
+        // } else {
+        //   oModel.setProperty("/Detalle", []);
+        //   this._onCheckTableItems();
+        // }
+
+        oModel.refresh();
       },
 
       onWizardStepDetalleActivate: function () {
@@ -661,14 +690,10 @@ sap.ui.define(
 
       onWizardComplete: function () {},
 
-      onConfirmarReciboButtonPress: function() {
-
-
-      },
-      onAnularButtonPress: function(){
+      onConfirmarReciboButtonPress: function () {},
+      onAnularButtonPress: function () {
         this.discardProgress();
       },
-
 
       onNavBack: async function () {
         // this.getOwnerComponent().getTargets().display("TargetMainView");
@@ -681,8 +706,6 @@ sap.ui.define(
           this.getOwnerComponent().getTargets().display("TargetMainView");
         });
       },
-
-
     });
   }
 );
