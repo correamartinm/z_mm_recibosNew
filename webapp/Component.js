@@ -424,7 +424,8 @@ sap.ui.define(
           retencionesadd: false,
           detalleadd: false,
           controlrecibo: false,
-          MpKey: 1
+          MpKey: 1,
+          RsKey: 0
         });
         this.setModel(oLayoutModel, "layout");
       },

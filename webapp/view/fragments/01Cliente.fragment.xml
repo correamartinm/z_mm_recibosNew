@@ -6,7 +6,7 @@
         <form:content>
 
             <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
-            <ComboBox  id="idRSInput" selectedItem="null" selectionChange="onInputRazonSocialChange" items="{mockdata>/Clientes}">
+            <ComboBox  id="idRSInput" selectedKey="{layout>/RsKey}" selectionChange="onInputRazonSocialChange" items="{mockdata>/Clientes}">
                 <core:Item key="{mockdata>Codigo}" text="{mockdata>Rsocial}" />
             </ComboBox>
 
@@ -30,8 +30,8 @@
             <TextArea id="idObservacionesTextArea" rows="3" value="{mockdata>/Paso01Cliente/Observaciones}"/>
 
             <Label text="{i18n>lbltipocomprobante}" labelFor="idDocumentoSegmentedButton" class="sapUiSmallMarginEnd" />
-            <CheckBox tooltip="{= ${mockdata>/Paso01Cliente/Anticipo} === true ? 'idDetalleWizardStep' : 'idPagoaCtaWizardStep' }" name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox"/>
-            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox"/>
+            <CheckBox name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox" enabled="{= ${layout>/RsKey} !== 0 }"/>
+            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox" enabled="{= ${layout>/RsKey} !== 0 }"/>
 
         </form:content>
     </form:SimpleForm>

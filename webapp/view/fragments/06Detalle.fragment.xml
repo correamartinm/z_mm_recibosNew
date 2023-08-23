@@ -71,7 +71,7 @@
                 <Input id="idImportePagoInput" type="Number"/>
 
                 <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader"/>
-                
+
 
                 <unified:FileUploader id="idDetalleFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
 
@@ -106,16 +106,17 @@
                 <DatePicker id="idFechaDatePickerFEmision" displayFormat="dd/mm/YYYY" />
 
                 <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader"/>
-                    <unified:FileUploader id="idChequeFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+                <unified:FileUploader id="idChequeFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+                <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" press="capturePic" />
+
 
             </form:content>
         </form:SimpleForm>
 
         <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
-
+            <VBox id="vBox1"/>
             <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
-            <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" press="capturePic" />
-                <VBox id="vBox1"></VBox>
+
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" />
         </HBox>

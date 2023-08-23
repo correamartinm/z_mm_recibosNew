@@ -96,6 +96,8 @@ sap.ui.define(
           this._wizard.invalidateStep(Step);
         }
       },
+
+      
       // Paso Seleccion Pagos a Cuenta
       onTablePagoCtaSelectionChange: function () {
         this._onCheckPago();
