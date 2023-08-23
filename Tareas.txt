@@ -10,4 +10,7 @@ Controlar si no tiene facturas Pendientes
 03 Busqueda en tabla
     Seleccion habilita Input?
 
+    Device Celular Carga Foto
+    FileUploader, Change 
+
 
