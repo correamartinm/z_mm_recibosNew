@@ -85,7 +85,18 @@
             <Input id="idImporteInput"  type="Number"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
-            <unified:FileUploader id="idDescuentoFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+            <unified:FileUploader id="idDescuentoFileUploader" 
+                buttonText="{i18n>btttnselect}"
+                style="Emphasized" 
+                icon="sap-icon://inspection" 
+                uploadOnChange="true" 
+                maximumFileSize="10"                 
+                uploadComplete="_onFileUploaderUploadComplete" 
+                change="_onFileUploaderChange" 
+                typeMissmatch="_onFileUploaderTypeMissmatch" 
+                fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+                <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
 
         </form:content>
     </form:SimpleForm>
@@ -93,7 +104,7 @@
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/descuentosadd}">
 
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
-        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarDescuento" />
-        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDescuento" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDescPress" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" />
     </HBox>
 </core:FragmentDefinition>

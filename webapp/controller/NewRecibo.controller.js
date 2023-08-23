@@ -268,7 +268,7 @@ sap.ui.define(
         }
       },
 
-      guardarDescuento: function () {
+      onGuardarButtonDescPress: function () {
         let oModel = this.getView().getModel("mockdata"),
           oNcomprobante = this.getView().byId("idComprobanteInput"),
           oFecha = this.getView().byId("idFechaDatePickerFDescuento"),
@@ -340,7 +340,7 @@ sap.ui.define(
         this._onUpdateModel(oModel, oImporteDec, oImportesSuma);
       },
 
-      cancelarDescuento: function () {
+      onVolverButtonCancelarDescPress: function () {
         let oValue = false;
         this.onshowDescuentoAdd(oValue);
       },
@@ -686,6 +686,27 @@ sap.ui.define(
           }
         };
         clearContent(this._wizard.getSteps());
+      },
+
+      // Impresion *****************************
+
+      onPrint: function (oTk, oStd) {
+        var oModel = this.getView().getModel(),
+          oKey = oModel.createKey("/ImpresionSet", {
+            Numero: oTk,
+            Estado: oStd,
+          });
+
+        oModel.read(oKey, {
+          success: function (oData) {
+            if (oData2.Tipo !== "E") {
+              window.open(oData.Url);
+            }
+          }.bind(this),
+          error: function (oError) {
+            MessageBox.information("ERROR EN IMPRESION");
+          },
+        });
       },
 
       onWizardComplete: function () {},

@@ -45,8 +45,8 @@
                 <cells>
 
                     <HBox>
-                        <Button icon="sap-icon://delete"  class="sapUiTinyMarginEnd"  />
-                        <Button icon="sap-icon://edit"   />
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" />
+                        <Button icon="sap-icon://edit" />
                     </HBox>
 
                     <Label text="{mockdata>Tipokey} {mockdata>TipoDesc}" design="Bold"/>
@@ -80,7 +80,10 @@
             <Input id="idImporteRetencionInput" type="Number"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
-            <unified:FileUploader id="idRetencionesFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+            <unified:FileUploader id="idRetencionesFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+            <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
 
         </form:content>
     </form:SimpleForm>

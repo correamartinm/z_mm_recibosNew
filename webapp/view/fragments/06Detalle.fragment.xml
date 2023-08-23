@@ -71,7 +71,11 @@
                 <Input id="idImportePagoInput" type="Number"/>
 
                 <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader"/>
-                <unified:FileUploader id="idDetalleFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+                
+
+                <unified:FileUploader id="idDetalleFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+                <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
 
             </form:content>
         </form:SimpleForm>
