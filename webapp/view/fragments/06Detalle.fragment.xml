@@ -106,11 +106,16 @@
                 <DatePicker id="idFechaDatePickerFEmision" displayFormat="dd/mm/YYYY" />
 
                 <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader"/>
-                <unified:FileUploader id="idChequeFileUploader" buttonText="{i18n>btnadjunto}" style="Emphasized" icon="sap-icon://attachment" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
-                <Button text="{i18n>btnadjuntocheque}" icon="sap-icon://attachment-photo" class="sapUiTinyMarginEnd" press="capturePic" />
-
+                <unified:FileUploader id="idChequeFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
 
             </form:content>
+        </form:SimpleForm>
+        <form:SimpleForm>
+            <form:content>
+                <Button text="{i18n>btnadjuntofoooto}" icon="sap-icon://add-photo" class="sapUiTinyMarginEnd" press="capturePic" visible="{= ${device>/system/desktop} === false }" />
+
+            </form:content>
+
         </form:SimpleForm>
 
         <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
