@@ -86,18 +86,17 @@ sap.ui.define(
               IVA: "Resposable Inscripto",
             },
           ],
-          Paso01Cliente: [
-            {
-              Codigo: 0,
-              Rsocial: "",
-              Domicilio: "",
-              Localidad: "",
-              TipoIva: "",
-              Observaciones: "",
-              Anticipo: false,
-              Recibo: false,
-            },
-          ],
+          Paso01Cliente: {
+            Codigo: "",
+            Rsocial: "",
+            Domicilio: "",
+            Localidad: "",
+            TipoIva: "",
+            Observaciones: "",
+            Anticipo: false,
+            Recibo: false,
+          },
+
           ActiveMP: {
             key: 1,
             Desc: "Efectivo",

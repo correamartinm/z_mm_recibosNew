@@ -11,23 +11,22 @@
             </ComboBox>
 
             <Label text="{i18n>lblcodigo}" labelFor="idCodigoClienteInput" />
-            <Input id="idCodigoClienteInput" editable="false" value="{Codigo}"/>
+            <Input id="idCodigoClienteInput" editable="false" value="{mockdata>/Paso01Cliente/Codigo}"/>
 
             <Label text="{i18n>lbldomicilio}" labelFor="idDomicilioInput" />
-            <Input id="idDomicilioInput" editable="false" value="{Domicilio}"/>
+            <Input id="idDomicilioInput" editable="false" value="{mockdata>/Paso01Cliente/Domicilio}"/>
 
             <Label text="{i18n>lbllocalidad}" labelFor="idLocalidadInput"/>
-            <Input id="idLocalidadInput" editable="false" value="{Localidad}"/>
-
+            <Input id="idLocalidadInput" editable="false" value="{mockdata>/Paso01Cliente/Localidad}"/>
 
             <Label text="{i18n>lblcuit}" labelFor="idIvaInput" />
-            <Input id="idCuitInput" editable="false" value="{Cuit}"/>
+            <Input id="idCuitInput" editable="false" value="{mockdata>/Paso01Cliente/Cuit}"/>
 
             <Label text="{i18n>lbliva}" labelFor="idIvaInput" />
-            <Input id="idTipoIvaInput" editable="false" value="{TipoIva}"/>
+            <Input id="idTipoIvaInput" editable="false" value="{mockdata>/Paso01Cliente/TipoIva}"/>
 
             <Label text="{i18n>lblobservaciones}" labelFor="idObsTextArea"/>
-            <TextArea id="idObservacionesTextArea" rows="3" value="{Observaciones}"/>
+            <TextArea id="idObservacionesTextArea" rows="3" value="{mockdata>/Paso01Cliente/Observaciones}"/>
 
             <Label text="{i18n>lbltipocomprobante}" labelFor="idDocumentoSegmentedButton" class="sapUiSmallMarginEnd" />
             <CheckBox name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox" enabled="{= ${layout>/RsKey} !== 0 }"/>

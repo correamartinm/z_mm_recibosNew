@@ -1,9 +1,13 @@
 sap.ui.define(
-  ["./BaseController", "sap/m/MessageToast", "sap/ui/model/json/JSONModel",],
+  ["./BaseController",
+   "sap/m/MessageToast", 
+   "sap/ui/model/FilterOperator",
+   "sap/ui/model/Filter",
+   "sap/ui/model/json/JSONModel",],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} BaseController
    */
-  function (BaseController, MessageToast, JSONModel) {
+  function (BaseController, MessageToast, FilterOperator, Filter, JSONModel) {
     "use strict";
 
     return BaseController.extend("morixe.zfirecibos.controller.MainView", {
@@ -93,10 +97,10 @@ sap.ui.define(
 
       onFilterBarSearch: function () {
         let oView = this.getView(),
-          oFilter = [];
+          oFilter = [],
           oRazonsocial = oView.byId("idRazonSocialMultiInput"),
           oCuit = oView.byId("idCuitMultiInput"),
-          oRangoFecha = oView.byId("idFechaDateRangeSelection");
+          oRangoFecha = oView.byId("idFechaDateRangeSelection"),
           oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
             pattern: 'dd/mm/yyyy'
           });
@@ -106,7 +110,7 @@ sap.ui.define(
             for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
               orFilterL.push(
                 new sap.ui.model.Filter(
-                  "crewID",
+                  "RazonSocial",
                   sap.ui.model.FilterOperator.EQ,
                   oRazonsocial.getTokens()[l].getKey()
                 )
@@ -120,7 +124,7 @@ sap.ui.define(
             for (var l = 0; l < oCuit.getTokens().length; l++) {
               orFilterL.push(
                 new sap.ui.model.Filter(
-                  "crewID",
+                  "Cuit",
                   sap.ui.model.FilterOperator.EQ,
                   oCuit.getTokens()[l].getKey()
                 )
@@ -134,7 +138,7 @@ sap.ui.define(
             var oFInicio = oDateFormat.format(oRangoFecha.getFrom());
             var oFFin = oDateFormat.format(oRangoFecha.getTo());
     
-            oFilter.push(new Filter("fecha_ficha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin));
+            oFilter.push(new Filter("Fecha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin));
     
           }
 
