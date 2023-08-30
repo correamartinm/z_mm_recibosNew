@@ -28,7 +28,8 @@
 
                                 <Panel >
                                     <content>
-                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
+                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/> -->
                                     </content>
 
                                 </Panel>
@@ -85,7 +86,7 @@
                                 <Panel >
 
                                     <content>
-                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
+                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/> -->
                                     </content>
 
                                 </Panel>

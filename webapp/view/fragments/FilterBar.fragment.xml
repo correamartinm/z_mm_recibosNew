@@ -9,8 +9,8 @@
             <fb:FilterGroupItem groupName="search" name="razonsocial" label="{i18n>lblrazonsocial}" visibleInFilterBar="true">
                 <fb:control>
                   
-                    <MultiInput id="idRazonSocialMultiInput" width="auto" showSuggestion="true" suggestionItems="{ path: '/CrewSet', sorter: { path: 'crewID' } }">
-                        <core:Item key="{crewID}" text="{crewID}" />
+                    <MultiInput id="idRazonSocialMultiInput" width="auto" showSuggestion="true" suggestionItems="{ path: '/CLIENTESSet', sorter: { path: 'crewID' } }">
+                        <core:Item key="{Codigo}" text="{RazonSocial}" />
                     </MultiInput>
                 </fb:control>
             </fb:FilterGroupItem>
@@ -18,8 +18,8 @@
             <fb:FilterGroupItem groupName="search" name="cuit" label="{i18n>lblcuit}" visibleInFilterBar="true">
                 <fb:control>
                     
-                    <MultiInput id="idCuitMultiInput" width="auto" showSuggestion="true" suggestionItems="{ path: '/CrewSet', sorter: { path: 'crewID' } }">
-                        <core:Item key="{crewID}" text="{crewID}" />
+                    <MultiInput id="idCuitMultiInput" width="auto" showSuggestion="true" suggestionItems="{ path: '/CLIENTESSet', sorter: { path: 'crewID' } }">
+                        <core:Item key="{Codigo}" text="{Cuit}"/>
                     </MultiInput>
                 </fb:control>
             </fb:FilterGroupItem>

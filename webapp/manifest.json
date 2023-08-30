@@ -14,6 +14,17 @@
             "id": "@sap/generator-fiori:basic",
             "version": "1.10.4",
             "toolsId": "501ce2d7-7f15-4b1b-aaa1-b2627e5c1b74"
+        },
+        "dataSources": {
+            "ZGWFI_COBRANZAS_SRV": {
+                "uri": "/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "2.0"
+                }
+            }
         }
     },
     "sap.ui": {
@@ -56,6 +67,18 @@
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
                     "bundleName": "morixe.zfirecibos.i18n.i18n"
+                }
+            },
+            "": {
+                "preload": true,
+                "dataSource": "ZGWFI_COBRANZAS_SRV",
+                "settings": {
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Inline",
+                    "refreshAfterChange": false,
+                    "metadataUrlParams": {
+                        "sap-value-list": "none"
+                    }
                 }
             }
         },

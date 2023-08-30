@@ -459,6 +459,26 @@ sap.ui.define(
         this.onshowDetalleAdd(oValue);
       },
 
+      onInputTipoPagoChange: function (oEvent) {
+        let 
+          vObject,
+          oEntidad = "/ActiveMP",
+          oModel = this.getView().getModel("mockdata"),
+          Step = this.getView().byId("idClienteWizardStep"),
+          oSource = oEvent.getSource(),
+          oPath = oSource
+            .getSelectedItem()
+            .getBindingContext("mockdata")
+            .getPath();
+
+        vObject = oModel.getObject(oPath);
+
+          this._onUpdateModel(oModel, oEntidad, vObject);
+
+          // this._wizard.validateStep(Step);
+     
+      },
+
       onshowDetalleAdd: function (oValue) {
         let oModel = this.getView().getModel("layout"),
           oDescuento = "/detalleadd",
