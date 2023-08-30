@@ -19,6 +19,236 @@ sap.ui.define(
         }
       },
 
+      _onFocusControl: function (oControl) {
+        jQuery.sap.delayedCall(600, this, function () {
+          oControl.focus;
+        });
+      },
+
+      //  Detalle
+
+      onAgregarDetalleButtonPress: function () {
+        let oValue = true;
+        this.onshowDetalleAdd(oValue);
+      },
+
+      onshowDetalleAdd: function (oValue) {
+        let oModel = this.getView().getModel("layout"),
+          oDescuento = "/detalleadd",
+          data = [];
+        this._onUpdateModel(oModel, oDescuento, oValue);
+        let EditRecibo = oModel.getProperty("/EdicionRecibo");
+
+        if (EditRecibo === true) {
+          if (oValue === true) {
+            this._wizard.invalidateStep(
+              this.getView().byId("idDetalleWizardStep")
+            );
+          } else {
+            this._wizard.validateStep(
+              this.getView().byId("idDetalleWizardStep")
+            );
+          }
+        }
+      },
+
+    
+
+      // Paso Detalle  (Seleccion de Madios de Pago)
+
+      onInputTipoPagoChange: function (oEvent) {
+        let vObject,
+          oEntidad = "/ActiveMP",
+          oModel = this.getView().getModel("mockdata"),
+          Step = this.getView().byId("idClienteWizardStep"),
+          oSource = oEvent.getSource(),
+          oPath = oSource
+            .getSelectedItem()
+            .getBindingContext("mockdata")
+            .getPath();
+
+        vObject = oModel.getObject(oPath);
+
+        this._onUpdateModel(oModel, oEntidad, vObject);
+
+      },
+
+      onGuardarButtonDetallePress: function () {
+        let oModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout");
+
+        let MpActive = this._onGetDataModel(oModel, "/ActiveDetalle"),
+          oMP = MpActive.MpKey,
+          oCheque = MpActive.NroCheq,
+          oCbte = MpActive.NroCbte,
+          oBcoDestino = MpActive.BcoDes,
+          oBcoEmisor = MpActive.BcoEmi,
+          oFechaDeposito = MpActive.FecDepo,
+          oFechaEmision = MpActive.FecEmis,
+          oFechaVencimiento = MpActive.FecVto,
+          oImportePago = MpActive.Importe,
+          oFile = this.getView().byId(""),
+          oFileCheque = this.getView().byId("");
+
+        let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
+        let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
+
+        // ********* Fijos
+        if (!oMP.getSelectedKey()) {
+          oMP.setValueState(ValueState.Error);
+          return;
+        } else {
+          oMP.setValueState(ValueState.None);
+        }
+
+        if (!oImportePago.getValue()) {
+          oImportePago.setValueState(ValueState.Error);
+          return;
+        } else {
+          oImportePago.setValueState(ValueState.None);
+        }
+
+        //***** Segun MP Seleccionado */
+
+        if (MpKValidate.DetCbte === true) {
+          if (!oCbte.getValue()) {
+            oCbte.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCbte.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.FecCbte === true) {
+          if (!oFechaDeposito.getDateValue()) {
+            oFechaDeposito.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaDeposito.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.FecVto === true) {
+          if (!oFechaVencimiento.getDateValue()) {
+            oFechaVencimiento.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaVencimiento.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.NroCheq === true) {
+          if (!oCheque.getValue()) {
+            oCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCheque.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.Adjunto === true) {
+          if (!oFile.getValue()) {
+            oFile.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFile.setValueState(ValueState.None);
+          }
+
+          if (!oFileCheque.getValue()) {
+            oFileCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFoFileChequeile.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.FecEmis === true) {
+          if (!oFechaEmision.getDateValue()) {
+            oFechaEmision.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaEmision.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.BcoEmi === true) {
+          if (!oBcoEmisor.getValue()) {
+            oBcoEmisor.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoEmisor.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.BcoDes === true && MpKValidate.BcoDesReq === true) {
+          if (!oBcoDestino.getValue()) {
+            oBcoDestino.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoDestino.setValueState(ValueState.None);
+          }
+        }
+
+        let oDetalle = "/Detalle",
+          oImportesSuma = 0;
+
+        let oldData = this._onGetDataModel(oModel, oDetalle);
+
+        let oDatos = {
+          Tipo: oMP.getSelectedKey(),
+          TipoDesc: oMP.getSelectedItem().getText(),
+          NroCbte: oCbte.getValue(),
+          NroCheque: oCheque.getValue(),
+          FechaVto: oFechaVencimiento.getDateValue(),
+          FechaDto: oFechaDeposito.getDateValue(),
+          FechaEmi: oFechaEmision.getDateValue(),
+          BcoDestino: oBcoDestino.getValue(),
+          BcoEmisor: oBcoEmisor.getValue(),
+          Importe: parseFloat(oImportePago.getValue()),
+        };
+        let DataFinal = oldData.concat(oDatos);
+        this._onUpdateModel(oModel, oDetalle, DataFinal);
+
+        for (var index = 0; index < DataFinal.length; index++) {
+          oImportesSuma =
+            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+        }
+
+        let oValue = false;
+        this.onshowDetalleAdd(oValue);
+
+        let oCantidad = "/Paso06Detalles",
+          oImporte = "/Paso06ImporteDetalle";
+        this._onUpdateModel(oModel, oCantidad, DataFinal.length);
+        this._onUpdateModel(oModel, oImporte, oImportesSuma);
+      },
+      _onResetDetalleValues: function name() {
+        let oModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout"),
+          ActiveMP = {
+            key: 1,
+            Desc: "Efectivo",
+            DetCbte: false,
+            FecCbte: false,
+            NroCheq: false,
+            Adjunto: false,
+            FecEmis: false,
+            FecVto: false,
+            BcoEmi: false,
+            BcoDes: false,
+            BcoDesReq: false,
+          };
+
+        this._onUpdateModel(oModel, "/ActiveMP", ActiveMP);
+        this._onUpdateModel(oLayoutModel, "/MpKey", ActiveMP.key);
+      },
+
+      cancelarDetlles: function () {
+        this._onResetDetalleValues();
+        let oValue = false;
+        this.onshowDetalleAdd(oValue);
+      },
+
       formatFecha: function (sFec) {
         var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
             pattern: "dd/mm/yyyy",
@@ -48,11 +278,79 @@ sap.ui.define(
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
       },
 
+      // Actualizacion Modelos -------------------
 
+      _oncreateModel: function (oModel, oView, oEntity, oPayload) {
+        return new Promise((resolve, reject) => {
+          oView.setBusy(true);
+          oModel.create(oEntity, oPayload, {
+            success: function (oData) {
+              oView.setBusy(false);
+
+              if (oData.Tipo === "E") {
+                // Error
+              } else {
+                resolve(oData);
+                oModel.refresh;
+                // Correcto
+              }
+            }.bind(this),
+
+            error: function (oError) {
+              oView.setBusy(false);
+
+              // Reiniciar
+            }.bind(this),
+          });
+        });
+      },
+
+      onupdateModel: function (oModel, oView, oPath, oPayload) {
+        return new Promise((resolve, reject) => {
+          oView.setBusy(true);
+          oModel.update(oPath, oPayload, {
+            success: function (oData) {
+              oView.setBusy(false);
+
+              if (oData.Tipo === "E") {
+                // Error
+              } else {
+                resolve(oData);
+                oModel.refresh;
+                // Correcto
+              }
+            }.bind(this),
+
+            error: function (oError) {
+              oView.setBusy(false);
+
+              // Reiniciar
+            }.bind(this),
+          });
+        });
+      },
+
+      ondeleteModel: function (oModel, oView, oPath) {
+        return new Promise((resolve, reject) => {
+          oView.setBusy(true);
+          oModel.remove(oPath, {
+            method: "DELETE",
+            success: function (oData) {
+              oView.setBusy(false);
+              resolve(oData);
+              oModel.refresh;
+            },
+            error: function (oError) {
+              oView.setBusy(false);
+            },
+          });
+        });
+      },
+
+      // Mensajeria -----------------------
 
       _onShowMsgBoxConfirm: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
-          
           MessageBox.confirm(sMessage, {
             icon: MessageBox.Icon.QUESTION,
             title: sMessageTitle,
@@ -63,7 +361,6 @@ sap.ui.define(
             actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
             emphasizedAction: MessageBox.Action.OK,
           });
-
         });
       },
 
@@ -85,7 +382,7 @@ sap.ui.define(
       _onShowMsgBoxSucces: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
           MessageBox.success(sMessage, {
-            icon: MessageBox.Icon.SUCCESS,      
+            icon: MessageBox.Icon.SUCCESS,
             title: sMessageTitle,
             onClose: function (oAction) {
               resolve(oAction);

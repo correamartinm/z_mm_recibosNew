@@ -148,6 +148,16 @@ sap.ui.define(
 
       },
 
+      onEditarButtonPress: function (oEvent) {
+        let oModel = this.getView().getModel("layout"),
+        oEntidad = "/EdicionRecibo",
+        oValue  = oModel.getProperty(oEntidad);
+        oValue = !oValue;
+
+      oModel.setProperty(oEntidad, oValue);
+        
+      },
+
       // *** Nuevo Recibo
 
       onAgregarButtonPress: function (oEvent) {

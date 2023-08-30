@@ -379,9 +379,12 @@ sap.ui.define(
           Paso03Comprobantes: [],
           Paso03CantidadComprobantes: 0,
           Paso03ImporteComprobantes: 0,
-          Descuentos: [],
           Paso04CantidadDescuentos: 0,
           Paso04ImporteDescuentos: 0,
+          Paso05CantidadRetenciones: 0,
+          Paso05ImporteRetenciones: 0,
+          Paso06Detalles: 0,
+          Paso06ImporteDetalle: 0,
           Recibos: [
             {
               Numero: 101,
@@ -447,12 +450,22 @@ sap.ui.define(
               FechaProceso: "",
             },
           ],
+          Descuentos: [],
           Retenciones: [],
-          Paso05CantidadRetenciones: 0,
-          Paso05ImporteRetenciones: 0,
-          Paso06Detalles: 0,
-          Paso06ImporteDetalle: 0,
           Detalle: [],
+          ActiveDetalle: {
+            MPkey: 0,            
+            NroCheq: 0,
+            NroCte: 0,
+            Importe: 0,
+            FecEmis: "",
+            FecDepo: "",
+            FecCbte: "",
+            FecVto: "",
+            BcoEmi: "",
+            BcoDes: "",            
+            Adjunto: "",
+          },
           Resumen: [],
 
           cbts: [
@@ -492,6 +505,7 @@ sap.ui.define(
 
         var oLayoutModel = new sap.ui.model.json.JSONModel({
           descuentosadd: false,
+          EdicionRecibo : true,
           retencionesadd: false,
           detalleadd: false,
           controlrecibo: false,

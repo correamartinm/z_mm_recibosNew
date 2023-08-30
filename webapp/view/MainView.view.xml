@@ -7,22 +7,29 @@
 		<f:header>
 			<f:DynamicPageHeader pinnable="false">
 				<f:content  >
-					<HBox justifyContent="End">
+					<VBox visible="{layout>/EdicionRecibo}">
 						<!-- <Button icon="sap-icon://log" press="onEnd" text="{layout>/lastname}, {layout>/firstname}" type="Success" iconFirst="false" /> -->
-
-					</HBox>
-
-					<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.FilterBar" type="XML"/>
+						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.FilterBar" type="XML"/>
+					</VBox>
 
 				</f:content>
 			</f:DynamicPageHeader>
 		</f:header>
 		<f:content>
 
-		<Panel height="80%">
+			<Panel height="80%" >
 				<content>
+					<!-- <Button icon="sap-icon://edit" press="onEditarButtonPress"  type="Emphasized" /> -->
 
-					<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
+					<VBox visible="{layout>/EdicionRecibo}">
+						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
+					</VBox>
+
+					<VBox visible="{= ${layout>/EdicionRecibo} === false }">
+						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
+					</VBox>
+
+
 				</content>
 			</Panel>
 

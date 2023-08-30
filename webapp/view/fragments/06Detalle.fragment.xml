@@ -3,7 +3,7 @@
     xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core">
 
-    <Table id="idDetalleTable" items="{path : 'mockdata>/Detalle' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
+    <Table  items="{path : 'mockdata>/Detalle' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
         <headerToolbar>
             <OverflowToolbar>
                 <ToolbarSpacer/>
@@ -59,33 +59,33 @@
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
             <form:content>
                 <Label text="{i18n>lblmedios}" required="true" labelFor="idRSInput"/>
-                <Select id="idMedioPago" items="{mockdata>/TiposMediosPago}" change="onInputTipoPagoChange" selectedKey="{layout>/MpKey}">
+                <Select items="{mockdata>/TiposMediosPago}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/MpKey}">
                     <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
                 </Select>
 
                 <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobantePagoInput" visible="{mockdata>/ActiveMP/DetCbte}"/>
-                <Input id="idComprobantePagoInput" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" />
+                <Input  type="Number" visible="{mockdata>/ActiveMP/DetCbte}" />
 
                 <Label text="{i18n>lblimpor}" required="true" labelFor="idImportePagoInput"/>
                 <Input id="idImportePagoInput" type="Number"/>
                 <Label text="{i18n>lblfechaemision}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecEmis}"/>
-                <DatePicker id="idFechaDatePickerFEmision" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecEmis}"/>
+                <DatePicker  displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecEmis}"/>
 
                 <Label text="{i18n>lblfechadeposito}" required="true" labelFor="idFechaDatePickerFDeposito" visible="{mockdata>/ActiveMP/FecCbte}" />
-                <DatePicker id="idFechaDatePickerFDeposito" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecCbte}"/>
+                <DatePicker  displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecCbte}"/>
 
 
                 <Label text="{i18n>lblncheque}" required="true" labelFor="idCodigoClienteInput" visible="{mockdata>/ActiveMP/NroCheq}"/>
-                <Input id="idNumeroChequeInput" visible="{mockdata>/ActiveMP/NroCheq}"/>
+                <Input  visible="{mockdata>/ActiveMP/NroCheq}"/>
 
                 <Label text="{i18n>lblbcodestino}" required="{mockdata>/ActiveMP/BcoDesReq}" labelFor="idDomicilioInput" visible="{mockdata>/ActiveMP/BcoDes}"/>
-                <Input id="idBancoDestinoInput" visible="{mockdata>/ActiveMP/BcoDes}"/>
+                <Input  visible="{mockdata>/ActiveMP/BcoDes}"/>
 
                 <Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
-                <Input id="idBcoEmisorInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
+                <Input  visible="{mockdata>/ActiveMP/BcoEmi}"/>
 
                 <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
-                <DatePicker id="idFechaDatePickerFVencimiento" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" />
+                <DatePicker  displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" />
 
 
 
@@ -94,29 +94,7 @@
             </form:content>
 
         </form:SimpleForm>
-        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
-            <form:content>
-                <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader" visible="{mockdata>/ActiveMP/NroCheq}"/>
-                <unified:FileUploader visible="{mockdata>/ActiveMP/NroCheq}" id="idChequeFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
 
-                <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader"/>
-                <unified:FileUploader visible="{mockdata>/ActiveMP/Adjunto}" id="idDetalleFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
-
-                <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
-
-
-                <Button text="{i18n>btnadjuntofoooto}" icon="sap-icon://add-photo" class="sapUiTinyMarginEnd" press="capturePic" visible="{= ${device>/system/desktop} === false }" />
-
-            </form:content>
-        </form:SimpleForm>
-
-        <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
-            <VBox id="vBox1"/>
-            <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
-
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" />
-        </HBox>
 
     </VBox>
 </core:FragmentDefinition>

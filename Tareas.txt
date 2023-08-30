@@ -11,6 +11,13 @@ Controlar si no tiene facturas Pendientes
     Seleccion habilita Input?
 
     Device Celular Carga Foto
-    FileUploader, Change 
+    FileUploaders :
+
+    idDescuentoFileUploader
+    idRetencionesFileUploader
+    idDetalleFileUploader
+    idChequeFileUploader
+    
+
 
 

@@ -34,13 +34,11 @@ sap.ui.define(
 
       // ************ Controles ****************
 
-      _onFocusControl: function (oControl) {
-        jQuery.sap.delayedCall(300, this, function () {
-          oControl.focus;
-        });
-      },
+
 
       // ************ Control de los Pasos ****************
+
+
       // Paso Datos del Cliente
 
       onReciboPreliminarCheckBox: function () {
@@ -57,6 +55,7 @@ sap.ui.define(
         //   );
         // }
       },
+      
 
       onWizardStepClienteComplete: function () {
         let oModel = this.getView().getModel("mockdata"),
@@ -106,7 +105,9 @@ sap.ui.define(
         }
       },
 
-      // Paso Seleccion Pagos a Cuenta
+      // Paso Seleccion Pagos a Cuenta --------------
+
+
       onTablePagoCtaSelectionChange: function () {
         this._onCheckPago();
       },
@@ -143,7 +144,7 @@ sap.ui.define(
         this._onUpdateModel(oModel, oImporte, oImportesSuma);
       },
 
-      // Paso Seleccion de Comprobantes
+      // Paso Seleccion de Comprobantes --------------
 
       onSearchFieldSearchComprobante: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
@@ -200,6 +201,7 @@ sap.ui.define(
 
         this._onCheckComprobantes();
       },
+
       onInputImporteChange: function (oEvent) {
         let oTarget = oEvent.getSource(),
           oStockTable = this.getView().byId("idComprobanteTable"),
@@ -210,7 +212,6 @@ sap.ui.define(
         oValue = parseFloat(oValue);
         oMax = parseFloat(oMax);
 
-        // ************** Controlar Stock **********************
 
         if (oValue > 0 && oValue <= oMax) {
           oTarget.setValueState(ValueState.None);
@@ -259,7 +260,8 @@ sap.ui.define(
         this._onUpdateModel(oModel, oImporte, oImportesSuma);
       },
 
-      // Paso Descuentos
+      // Paso Descuentos ---------------------------
+      
       onAgregarDescuentoButtonPress: function () {
         let oValue = true;
         this.onshowDescuentoAdd(oValue);
@@ -360,7 +362,7 @@ sap.ui.define(
         this.onshowDescuentoAdd(oValue);
       },
 
-      // Paso Retenciones
+      // Paso Retenciones ------------------------
 
       onAgregarRetencionesButtonPress: function () {
         let oValue = true;
@@ -460,223 +462,8 @@ sap.ui.define(
         this.onshowRetencionesAdd(oValue);
       },
 
-      // Paso Detalle  (Seleccion de Madios de Pago)
 
-      onAgregarDetalleButtonPress: function () {
-        let oValue = true;
-        this.onshowDetalleAdd(oValue);
-      },
-
-      onInputTipoPagoChange: function (oEvent) {
-        let vObject,
-          oEntidad = "/ActiveMP",
-          oModel = this.getView().getModel("mockdata"),
-          Step = this.getView().byId("idClienteWizardStep"),
-          oSource = oEvent.getSource(),
-          oPath = oSource
-            .getSelectedItem()
-            .getBindingContext("mockdata")
-            .getPath();
-
-        vObject = oModel.getObject(oPath);
-
-        this._onUpdateModel(oModel, oEntidad, vObject);
-
-        // this._wizard.validateStep(Step);
-      },
-
-      onshowDetalleAdd: function (oValue) {
-        let oModel = this.getView().getModel("layout"),
-          oDescuento = "/detalleadd",
-          data = [];
-        this._onUpdateModel(oModel, oDescuento, oValue);
-
-        if (oValue === true) {
-          this._wizard.invalidateStep(
-            this.getView().byId("idDetalleWizardStep")
-          );
-        } else {
-          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
-        }
-      },
-
-      onGuardarButtonDetallePress: function () {
-        let oModel = this.getView().getModel("mockdata"),
-          oLayoutModel = this.getView().getModel("layout"),
-          oMP = this.getView().byId("idMedioPago"),
-          oCheque = this.getView().byId("idNumeroChequeInput"),
-          oCbte = this.getView().byId("idComprobantePagoInput"),
-          oBcoDestino = this.getView().byId("idBancoDestinoInput"),
-          oBcoEmisor = this.getView().byId("idBcoEmisorInput"),
-          oFechaDeposito = this.getView().byId("idFechaDatePickerFDeposito"),
-          oFechaEmision = this.getView().byId("idFechaDatePickerFEmision"),
-          oFechaVencimiento = this.getView().byId(
-            "idFechaDatePickerFVencimiento"
-          ),
-          oImportePago = this.getView().byId("idImportePagoInput"),
-          oFile = this.getView().byId(""),
-          oFileCheque = this.getView().byId("");
-
-        let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
-        let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
-
-        // ********* Fijos
-        if (!oMP.getSelectedKey()) {
-          oMP.setValueState(ValueState.Error);
-          return;
-        } else {
-          oMP.setValueState(ValueState.None);
-        }
-
-        if (!oImportePago.getValue()) {
-          oImportePago.setValueState(ValueState.Error);
-          return;
-        } else {
-          oImportePago.setValueState(ValueState.None);
-        }
-
-        //***** Segun MP Seleccionado */
-
-        if (MpKValidate.DetCbte === true) {
-          if (!oCbte.getValue()) {
-            oCbte.setValueState(ValueState.Error);
-            return;
-          } else {
-            oCbte.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.FecCbte === true) {
-          if (!oFechaDeposito.getDateValue()) {
-            oFechaDeposito.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFechaDeposito.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.FecVto === true) {
-          if (!oFechaVencimiento.getDateValue()) {
-            oFechaVencimiento.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFechaVencimiento.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.NroCheq === true) {
-          if (!oCheque.getValue()) {
-            oCheque.setValueState(ValueState.Error);
-            return;
-          } else {
-            oCheque.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.Adjunto === true) {
-          if (!oFile.getValue()) {
-            oFile.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFile.setValueState(ValueState.None);
-          }
-
-          if (!oFileCheque.getValue()) {
-            oFileCheque.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFoFileChequeile.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.FecEmis === true) {
-          if (!oFechaEmision.getDateValue()) {
-            oFechaEmision.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFechaEmision.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.BcoEmi === true) {
-          if (!oBcoEmisor.getValue()) {
-            oBcoEmisor.setValueState(ValueState.Error);
-            return;
-          } else {
-            oBcoEmisor.setValueState(ValueState.None);
-          }
-        }
-
-        if (MpKValidate.BcoDes === true && MpKValidate.BcoDesReq === true) {
-          if (!oBcoDestino.getValue()) {
-            oBcoDestino.setValueState(ValueState.Error);
-            return;
-          } else {
-            oBcoDestino.setValueState(ValueState.None);
-          }
-        }
-
-        let oDetalle = "/Detalle",
-          oImportesSuma = 0;
-
-        let oldData = this._onGetDataModel(oModel, oDetalle);
-
-        let oDatos = {
-          Tipo: oMP.getSelectedKey(),
-          TipoDesc: oMP.getSelectedItem().getText(),
-          NroCbte: oCbte.getValue(),
-          NroCheque: oCheque.getValue(),
-          FechaVto: oFechaVencimiento.getDateValue(),
-          FechaDto: oFechaDeposito.getDateValue(),
-          FechaEmi: oFechaEmision.getDateValue(),
-          BcoDestino: oBcoDestino.getValue(),
-          BcoEmisor: oBcoEmisor.getValue(),
-          Importe: parseFloat(oImportePago.getValue()),
-        };
-        let DataFinal = oldData.concat(oDatos);
-        this._onUpdateModel(oModel, oDetalle, DataFinal);
-
-        for (var index = 0; index < DataFinal.length; index++) {
-          oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
-        }
-
-        let oValue = false;
-        this.onshowDetalleAdd(oValue);
-
-        let oCantidad = "/Paso06Detalles",
-          oImporte = "/Paso06ImporteDetalle";
-        this._onUpdateModel(oModel, oCantidad, DataFinal.length);
-        this._onUpdateModel(oModel, oImporte, oImportesSuma);
-      },
-      _onResetDetalleValues: function name() {
-        let oModel = this.getView().getModel("mockdata"),
-          oLayoutModel = this.getView().getModel("layout"),
-          ActiveMP = {
-            key: 1,
-            Desc: "Efectivo",
-            DetCbte: false,
-            FecCbte: false,
-            NroCheq: false,
-            Adjunto: false,
-            FecEmis: false,
-            FecVto: false,
-            BcoEmi: false,
-            BcoDes: false,
-            BcoDesReq: false,
-          };
-
-        this._onUpdateModel(oModel, "/ActiveMP", ActiveMP);
-        this._onUpdateModel(oLayoutModel, "/MpKey", ActiveMP.key);
-      },
-
-      cancelarDetlles: function () {
-        this._onResetDetalleValues();
-        let oValue = false;
-        this.onshowDetalleAdd(oValue);
-      },
-
-      // Photo
+      // Photo ----------------------------
 
       capturePic: function () {
         var that = this;

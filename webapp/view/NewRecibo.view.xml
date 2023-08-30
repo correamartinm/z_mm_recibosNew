@@ -87,6 +87,8 @@
 
                                     <content>
                                         <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06DetalleFile" type="XML"/>
+
                                     </content>
 
                                 </Panel>

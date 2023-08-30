@@ -1,0 +1,33 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified"
+    xmlns:core="sap.ui.core">
+    
+    <VBox visible="{layout>/detalleadd}">
+       
+
+        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
+            <form:content>
+                <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader" visible="{mockdata>/ActiveMP/NroCheq}"/>
+                <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader" visible="{= ${mockdata>/ActiveMP/NroCheq} === false &amp;&amp; ${mockdata>/ActiveMP/key} !== '1' }"/>
+                <unified:FileUploader visible="{= ${mockdata>/ActiveMP/key} !== '1' }" id="idChequeFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+
+                <!-- <unified:FileUploader visible="{mockdata>/ActiveMP/Adjunto}" id="idDetalleFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/> -->
+
+                <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
+
+                <Button text="{i18n>btnadjuntofoooto}" icon="sap-icon://add-photo" class="sapUiTinyMarginEnd" press="capturePic" visible="{= ${device>/system/desktop} === false }" />
+
+            </form:content>
+        </form:SimpleForm>
+
+        <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
+            <VBox id="vBox1"/>
+            <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
+
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" />
+        </HBox>
+
+    </VBox>
+</core:FragmentDefinition>

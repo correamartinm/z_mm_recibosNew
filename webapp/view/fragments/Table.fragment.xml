@@ -6,7 +6,7 @@
             <OverflowToolbar>
                 <ToolbarSpacer/>
                 <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
-
+               
             </OverflowToolbar>
         </headerToolbar>
         <columns>
@@ -113,5 +113,6 @@
             </ColumnListItem>
         </items>
     </Table>
+
 
 </core:FragmentDefinition>
