@@ -13,7 +13,7 @@
                                 </contentLeft>
                                 <contentMiddle>
                                     <Image src="./img/logo.png" height="36px" class="sapUiSmallMarginBegin" />
-                                    
+
                                 </contentMiddle>
                                 <contentRight>
                                     <Button icon="sap-icon://home" press="onNavBack" text="{i18n>btnvolver}" type="Emphasized" />
@@ -28,8 +28,8 @@
 
                                 <Panel >
                                     <content>
-                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
-                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/> -->
+                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/> -->
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/>
                                     </content>
 
                                 </Panel>
@@ -86,7 +86,7 @@
                                 <Panel >
 
                                     <content>
-                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/> -->
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
                                     </content>
 
                                 </Panel>

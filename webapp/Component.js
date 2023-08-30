@@ -98,176 +98,174 @@ sap.ui.define(
               Recibo: false,
             },
           ],
-          ActiveMP : {
-            
+          ActiveMP: {
             key: 1,
             Desc: "Efectivo",
-            DetCBTE : false,
-            FecCBTE : false,
-            NroCHEQ : false,
-            Adjunto : false,
-            FecEmis : false,
-            FecVto : false,
-            BcoEmi : false,
-            BcoDes : false,
-            BcoDesReq : false
-          
+            DetCbte: false,
+            FecCbte: false,
+            NroCheq: false,
+            Adjunto: false,
+            FecEmis: false,
+            FecVto: false,
+            BcoEmi: false,
+            BcoDes: false,
+            BcoDesReq: false,
           },
           TiposMediosPago: [
             {
               key: 1,
               Desc: "Efectivo",
-              DetCBTE : false,
-              FecCBTE : false,
-              NroCHEQ : false,
-              Adjunto : false,
-              FecEmis : false,
-              FecVto : false,
-              BcoEmi : false,
-              BcoDes : false,
-              BcoDesReq : false
+              DetCbte: false,
+              FecCbte: false,
+              NroCheq: false,
+              Adjunto: false,
+              FecEmis: false,
+              FecVto: false,
+              BcoEmi: false,
+              BcoDes: false,
+              BcoDesReq: false,
             },
             {
               key: 2,
               Desc: "Depósito Bancario Efectivo",
-              DetCBTE : true,
-              FecCBTE : true,
-              NroCHEQ : false,
-              Adjunto : true,
-              FecEmis : false,
-              FecVto : false,
-              BcoEmi : false,
-              BcoDes : true,
-              BcoDesReq : true
+              DetCbte: true,
+              FecCbte: true,
+              NroCheq: false,
+              Adjunto: true,
+              FecEmis: false,
+              FecVto: false,
+              BcoEmi: false,
+              BcoDes: true,
+              BcoDesReq: true,
             },
             {
               key: 3,
               Desc: "Depósito Bancario Cheque",
-              DetCBTE : false,
-              FecCBTE : false,
-              NroCHEQ : false,
-              Adjunto : false,
-              FecEmis : false,
-              FecVto : false,
-              BcoEmi : false,
-              BcoDes : false,
-              BcoDesReq : true
+              DetCbte: false,
+              FecCbte: false,
+              NroCheq: false,
+              Adjunto: false,
+              FecEmis: false,
+              FecVto: false,
+              BcoEmi: false,
+              BcoDes: false,
+              BcoDesReq: true,
             },
             {
               key: 4,
               Desc: "Transferencia Bancaria",
-              DetCBTE : true,
-              FecCBTE : true,
-              NroCHEQ : false,
-              Adjunto : true,
-              FecEmis : false,
-              FecVto : false,
-              BcoEmi : false,
-              BcoDes : true,
-              BcoDesReq : true
+              DetCbte: true,
+              FecCbte: true,
+              NroCheq: false,
+              Adjunto: true,
+              FecEmis: false,
+              FecVto: false,
+              BcoEmi: false,
+              BcoDes: true,
+              BcoDesReq: true,
             },
             {
               key: 5,
               Desc: "Cheque Físico al Día",
-              DetCBTE : false,
-              FecCBTE : false,
-              NroCHEQ : true,
-              Adjunto : true,
-              FecEmis : true,
-              FecVto : true,
-              BcoEmi : true,
-              BcoDes : true,
-              BcoDesReq : false
+              DetCbte: false,
+              FecCbte: false,
+              NroCheq: true,
+              Adjunto: true,
+              FecEmis: true,
+              FecVto: true,
+              BcoEmi: true,
+              BcoDes: true,
+              BcoDesReq: false,
             },
             {
               key: 6,
               Desc: "Cheque Físico al Diferido",
-              DetCBTE : false,
-              FecCBTE : false,
-              NroCHEQ : true,
-              Adjunto : true,
-              FecEmis : true,
-              FecVto : true,
-              BcoEmi : true,
-              BcoDes : true,
-              BcoDesReq : false
+              DetCbte: false,
+              FecCbte: false,
+              NroCheq: true,
+              Adjunto: true,
+              FecEmis: true,
+              FecVto: true,
+              BcoEmi: true,
+              BcoDes: true,
+              BcoDesReq: false,
             },
             {
               key: 7,
               Desc: "Cheque Electrónico al Día",
-              DetCBTE : false,
-              FecCBTE : false,
-              NroCHEQ : true,
-              Adjunto : true,
-              FecEmis : true,
-              FecVto : true,
-              BcoEmi : true,
-              BcoDes : true,
-              BcoDesReq : false
+              DetCbte: false,
+              FecCbte: false,
+              NroCheq: true,
+              Adjunto: true,
+              FecEmis: true,
+              FecVto: true,
+              BcoEmi: true,
+              BcoDes: true,
+              BcoDesReq: false,
             },
             {
               key: 8,
               Desc: "Cheque Electrónico Diferido ",
-              DetCBTE : false,
-              FecCBTE : false,
-              NroCHEQ : true,
-              Adjunto : true,
-              FecEmis : true,
-              FecVto : true,
-              BcoEmi : true,
-              BcoDes : true,
-              BcoDesReq : false
+              DetCbte: false,
+              FecCbte: false,
+              NroCheq: true,
+              Adjunto: true,
+              FecEmis: true,
+              FecVto: true,
+              BcoEmi: true,
+              BcoDes: true,
+              BcoDesReq: false,
             },
             {
               key: 9,
               Desc: "Cheque en custoria al Día",
-              DetCBTE : true,
-              FecCBTE : true,
-              NroCHEQ : true,
-              Adjunto : true,
-              FecEmis : true,
-              FecVto : true,
-              BcoEmi : true,
-              BcoDes : true,
-              BcoDesReq : true
+              DetCbte: true,
+              FecCbte: true,
+              NroCheq: true,
+              Adjunto: true,
+              FecEmis: true,
+              FecVto: true,
+              BcoEmi: true,
+              BcoDes: true,
+              BcoDesReq: true,
             },
             {
               key: 10,
               Desc: "Cheque en custoria al Diferido",
-              DetCBTE : true,
-              FecCBTE : true,
-              NroCHEQ : true,
-              Adjunto : true,
-              FecEmis : true,
-              FecVto : true,
-              BcoEmi : true,
-              BcoDes : true,
-              BcoDesReq : true
-            }, 
+              DetCbte: true,
+              FecCbte: true,
+              NroCheq: true,
+              Adjunto: true,
+              FecEmis: true,
+              FecVto: true,
+              BcoEmi: true,
+              BcoDes: true,
+              BcoDesReq: true,
+            },
             {
               key: 11,
               Desc: "Mercado Pago",
-              DetCBTE : true,
-              FecCBTE : true,
-              NroCHEQ : false,
-              Adjunto : true,
-              FecEmis : false,
-              FecVto : false,
-              BcoEmi : false,
-              BcoDes : false,
-              BcoDesReq : false
-            }
+              DetCbte: true,
+              FecCbte: true,
+              NroCheq: false,
+              Adjunto: true,
+              FecEmis: false,
+              FecVto: false,
+              BcoEmi: false,
+              BcoDes: false,
+              BcoDesReq: false,
+            },
           ],
           TiposDescuentos: [
             {
               key: 1,
               Desc: "Descuento Comercial",
-              Tipo: "DTO"
+              Tipo: "DTO",
             },
             {
               key: 2,
               Desc: "Devolución",
-              Tipo: "DEV"
+              Tipo: "DEV",
             },
             {
               key: 3,
@@ -277,85 +275,72 @@ sap.ui.define(
             {
               key: 4,
               Desc: "Roturas/Mermas",
-              Tipo: "ROME"
+              Tipo: "ROME",
             },
             {
               key: 5,
               Desc: "Diferencia de Enntrega",
-              Tipo: "DIF"
+              Tipo: "DIF",
             },
             {
               key: 6,
               Desc: "Otro",
-              Tipo: "OTRO"
-            }
+              Tipo: "OTRO",
+            },
           ],
           TiposRetencion: [
             {
               key: 1,
-              Desc: "IVA"
-              
+              Desc: "IVA",
             },
             {
               key: 2,
-              Desc: "IIGG"
-              
+              Desc: "IIGG",
             },
             {
               key: 3,
-              Desc: "SUSS"
-              
+              Desc: "SUSS",
             },
             {
               key: 4,
-              Desc: "IIBB BS AS"
-              
+              Desc: "IIBB BS AS",
             },
             {
               key: 5,
-              Desc: "IBB CHUBUT"
-              
+              Desc: "IBB CHUBUT",
             },
             {
               key: 6,
               Desc: "IIBB CHACO",
-              
             },
             {
               key: 7,
-              Desc: "IIBB CORDOBA"
-              
+              Desc: "IIBB CORDOBA",
             },
             {
               key: 8,
-              Desc: "IIBB CORRIENTES"
-              
+              Desc: "IIBB CORRIENTES",
             },
             {
               key: 9,
-              Desc: "IIBB SALTA"
-          
+              Desc: "IIBB SALTA",
             },
             {
               key: 10,
-              Desc: "IIBB ENTRE RIOS"
-              
+              Desc: "IIBB ENTRE RIOS",
             },
             {
               key: 11,
-              Desc: "IIBB MISIONES"
-              
+              Desc: "IIBB MISIONES",
             },
             {
               key: 12,
-              Desc: "IIBB LA PAMPA"
-              
+              Desc: "IIBB LA PAMPA",
             },
             {
               key: 13,
-              Desc: "IIBB NEUQUEN"
-              
-            }
+              Desc: "IIBB NEUQUEN",
+            },
           ],
           Paso02PagoaCta: [
             {
@@ -395,8 +380,7 @@ sap.ui.define(
           Paso03Comprobantes: [],
           Paso03CantidadComprobantes: 0,
           Paso03ImporteComprobantes: 0,
-          Descuentos: [
-          ],
+          Descuentos: [],
           Paso04CantidadDescuentos: 0,
           Paso04ImporteDescuentos: 0,
           Recibos: [
@@ -467,8 +451,8 @@ sap.ui.define(
           Retenciones: [],
           Paso05CantidadRetenciones: 0,
           Paso05ImporteRetenciones: 0,
-          Paso06Detalles : 0,
-          Paso06ImporteDetalle : 0,
+          Paso06Detalles: 0,
+          Paso06ImporteDetalle: 0,
           Detalle: [],
           Resumen: [],
 
@@ -513,7 +497,7 @@ sap.ui.define(
           detalleadd: false,
           controlrecibo: false,
           MpKey: 1,
-          RsKey: 0
+          RsKey: 0,
         });
         this.setModel(oLayoutModel, "layout");
       },

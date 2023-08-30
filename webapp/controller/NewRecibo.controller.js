@@ -7,12 +7,21 @@ sap.ui.define(
     "sap/m/Dialog",
     "sap/m/Button",
     "../libs/Download",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-  function (BaseController, FilterOperator, Filter, ValueState, Dialog, Button, Download, MessageToast) {
+  function (
+    BaseController,
+    FilterOperator,
+    Filter,
+    ValueState,
+    Dialog,
+    Button,
+    Download,
+    MessageToast
+  ) {
     "use strict";
 
     return BaseController.extend("morixe.zfirecibos.controller.NewRecibo", {
@@ -97,7 +106,6 @@ sap.ui.define(
         }
       },
 
-      
       // Paso Seleccion Pagos a Cuenta
       onTablePagoCtaSelectionChange: function () {
         this._onCheckPago();
@@ -318,11 +326,11 @@ sap.ui.define(
           oFile.setValueState(ValueState.None);
         }
 
-        
-        let oValue = false, oImportesSuma,
-        oDescuentos = "/Descuentos";
+        let oValue = false,
+          oImportesSuma,
+          oDescuentos = "/Descuentos";
         this.onshowDescuentoAdd(oValue);
-        
+
         oldData = this._onGetDataModel(oModel, oDescuentos);
 
         let oDatos = {
@@ -460,8 +468,7 @@ sap.ui.define(
       },
 
       onInputTipoPagoChange: function (oEvent) {
-        let 
-          vObject,
+        let vObject,
           oEntidad = "/ActiveMP",
           oModel = this.getView().getModel("mockdata"),
           Step = this.getView().byId("idClienteWizardStep"),
@@ -473,10 +480,9 @@ sap.ui.define(
 
         vObject = oModel.getObject(oPath);
 
-          this._onUpdateModel(oModel, oEntidad, vObject);
+        this._onUpdateModel(oModel, oEntidad, vObject);
 
-          // this._wizard.validateStep(Step);
-     
+        // this._wizard.validateStep(Step);
       },
 
       onshowDetalleAdd: function (oValue) {
@@ -512,19 +518,14 @@ sap.ui.define(
           oFileCheque = this.getView().byId("");
 
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
+        let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
 
+        // ********* Fijos
         if (!oMP.getSelectedKey()) {
           oMP.setValueState(ValueState.Error);
           return;
         } else {
           oMP.setValueState(ValueState.None);
-        }
-
-        if (!oCbte.getValue()) {
-          oCbte.setValueState(ValueState.Error);
-          return;
-        } else {
-          oCbte.setValueState(ValueState.None);
         }
 
         if (!oImportePago.getValue()) {
@@ -534,61 +535,86 @@ sap.ui.define(
           oImportePago.setValueState(ValueState.None);
         }
 
-        // if (!oCheque.getValue()) {
-        //   oCheque.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oCheque.setValueState(ValueState.None);
-        // }
+        //***** Segun MP Seleccionado */
 
-        // if (!oBcoDestino.getValue()) {
-        //   oBcoDestino.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oBcoDestino.setValueState(ValueState.None);
-        // }
+        if (MpKValidate.DetCbte === true) {
+          if (!oCbte.getValue()) {
+            oCbte.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCbte.setValueState(ValueState.None);
+          }
+        }
 
-        // if (!oBcoEmisor.getValue()) {
-        //   oBcoEmisor.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oBcoEmisor.setValueState(ValueState.None);
-        // }
+        if (MpKValidate.FecCbte === true) {
+          if (!oFechaDeposito.getDateValue()) {
+            oFechaDeposito.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaDeposito.setValueState(ValueState.None);
+          }
+        }
 
-        // if (!oFechaDeposito.getDateValue()) {
-        //   oFechaDeposito.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oFechaDeposito.setValueState(ValueState.None);
-        // }
+        if (MpKValidate.FecVto === true) {
+          if (!oFechaVencimiento.getDateValue()) {
+            oFechaVencimiento.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaVencimiento.setValueState(ValueState.None);
+          }
+        }
 
-        // if (!oFechaEmision.getDateValue()) {
-        //   oFechaEmision.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oFechaEmision.setValueState(ValueState.None);
-        // }
+        if (MpKValidate.NroCheq === true) {
+          if (!oCheque.getValue()) {
+            oCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCheque.setValueState(ValueState.None);
+          }
+        }
 
-        // if (!oFechaVencimiento.getDateValue()) {
-        //   oFechaVencimiento.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oFechaVencimiento.setValueState(ValueState.None);
-        // }
+        if (MpKValidate.Adjunto === true) {
+          if (!oFile.getValue()) {
+            oFile.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFile.setValueState(ValueState.None);
+          }
 
-        // if (!oFile.getValue()) {
-        //   oFile.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oFile.setValueState(ValueState.None);
-        // }
+          if (!oFileCheque.getValue()) {
+            oFileCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFoFileChequeile.setValueState(ValueState.None);
+          }
+        }
 
-        // if (!oFileCheque.getValue()) {
-        //   oFileCheque.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oFoFileChequeile.setValueState(ValueState.None);
-        // }
+        if (MpKValidate.FecEmis === true) {
+          if (!oFechaEmision.getDateValue()) {
+            oFechaEmision.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaEmision.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.BcoEmi === true) {
+          if (!oBcoEmisor.getValue()) {
+            oBcoEmisor.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoEmisor.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.BcoDes === true && MpKValidate.BcoDesReq === true) {
+          if (!oBcoDestino.getValue()) {
+            oBcoDestino.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoDestino.setValueState(ValueState.None);
+          }
+        }
 
         let oDetalle = "/Detalle",
           oImportesSuma = 0;
@@ -623,8 +649,29 @@ sap.ui.define(
         this._onUpdateModel(oModel, oCantidad, DataFinal.length);
         this._onUpdateModel(oModel, oImporte, oImportesSuma);
       },
+      _onResetDetalleValues: function name() {
+        let oModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout"),
+          ActiveMP = {
+            key: 1,
+            Desc: "Efectivo",
+            DetCbte: false,
+            FecCbte: false,
+            NroCheq: false,
+            Adjunto: false,
+            FecEmis: false,
+            FecVto: false,
+            BcoEmi: false,
+            BcoDes: false,
+            BcoDesReq: false,
+          };
+
+        this._onUpdateModel(oModel, "/ActiveMP", ActiveMP);
+        this._onUpdateModel(oLayoutModel, "/MpKey", ActiveMP.key);
+      },
 
       cancelarDetlles: function () {
+        this._onResetDetalleValues();
         let oValue = false;
         this.onshowDetalleAdd(oValue);
       },
@@ -634,75 +681,82 @@ sap.ui.define(
       capturePic: function () {
         var that = this;
         this.cameraDialog = new Dialog({
-          title:  this._i18n().getText("dlgtitle"),
+          title: this._i18n().getText("dlgtitle"),
           beginButton: new Button({
-            text:  this._i18n().getText("lblsacarfoto"),
+            text: this._i18n().getText("lblsacarfoto"),
             press: function (oEvent) {
               that.imageValue = document.getElementById("player");
               var oButton = oEvent.getSource();
               that.imageText = oButton.getParent().getContent()[1].getValue();
               that.cameraDialog.close();
-            }
+            },
           }),
           content: [
             new sap.ui.core.HTML({
-              content: "<video id='player' autoplay></video>"
+              content: "<video id='player' autoplay></video>",
             }),
             new sap.m.Input({
               placeholder: "Please input image text here",
-              required: true
-            })
+              required: true,
+            }),
           ],
           endButton: new Button({
             text: this._i18n().getText("btnvolver"),
             press: function () {
               that.cameraDialog.close();
-            }
-          })
-  
+            },
+          }),
         });
         this.getView().addDependent(this.cameraDialog);
         this.cameraDialog.open();
         this.cameraDialog.attachBeforeClose(this.setImage, this);
         if (navigator.mdeiaDevices) {
-          navigator.mediaDevices.getUserMedia({
-            video: true
-          }).then(function (stream) {
-            player.srcObject = stream;
-          });
+          navigator.mediaDevices
+            .getUserMedia({
+              video: true,
+            })
+            .then(function (stream) {
+              player.srcObject = stream;
+            });
         }
       },
-  
+
       setImage: function () {
         var oVBox = this.getView().byId("vBox1");
         var oItems = oVBox.getItems();
-        var imageId = 'archie-' + oItems.length;
+        var imageId = "archie-" + oItems.length;
         var fileName = this.imageText;
         var imageValue = this.imageValue;
         if (imageValue == null) {
           MessageToast.show("No image captured");
         } else {
-  
           var oCanvas = new sap.ui.core.HTML({
-            content: "<canvas id='" + imageId + "' width='320px' height='320px' " +
-              " style='2px solid red'></canvas> "
+            content:
+              "<canvas id='" +
+              imageId +
+              "' width='320px' height='320px' " +
+              " style='2px solid red'></canvas> ",
           });
           var snapShotCanvas;
-  
+
           oVBox.addItem(oCanvas);
           oCanvas.addEventDelegate({
             onAfterRendering: function () {
               snapShotCanvas = document.getElementById(imageId);
-              var oContext = snapShotCanvas.getContext('2d');
-              oContext.drawImage(imageValue, 0, 0, snapShotCanvas.width, snapShotCanvas.height);
-              var imageData = snapShotCanvas.toDataURL('image/png');
+              var oContext = snapShotCanvas.getContext("2d");
+              oContext.drawImage(
+                imageValue,
+                0,
+                0,
+                snapShotCanvas.width,
+                snapShotCanvas.height
+              );
+              var imageData = snapShotCanvas.toDataURL("image/png");
               var imageBase64 = imageData.substring(imageData.indexOf(",") + 1);
-              //	window.open(imageData);  --Use this if you dont want to use third party download.js file 
+              //	window.open(imageData);  --Use this if you dont want to use third party download.js file
               download(imageData, fileName + ".png", "image/png");
-  
-            }
+            },
           });
-  
         }
       },
 
