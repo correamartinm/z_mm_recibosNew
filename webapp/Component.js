@@ -451,10 +451,26 @@ sap.ui.define(
             },
           ],
           Descuentos: [],
+          ActiveDescuento: {
+            NComprobante: "",
+            Fecha: null,
+            Importe: "",
+            Motivo: "",
+            MotivoDesc: "",
+            UpdPath: ""
+          },
+          ActiveRetencion: {
+            Tipokey: "",
+            TipoDesc: "",
+            NCertificado: "",
+            Fecha: null,
+            Importe: "",
+            UpdPath: ""
+          },
           Retenciones: [],
           Detalle: [],
           ActiveDetalle: {
-            MPkey: 0,            
+            MPkey: 0,
             NroCheq: 0,
             NroCte: 0,
             Importe: 0,
@@ -463,7 +479,7 @@ sap.ui.define(
             FecCbte: "",
             FecVto: "",
             BcoEmi: "",
-            BcoDes: "",            
+            BcoDes: "",
             Adjunto: "",
           },
           Resumen: [],
@@ -505,7 +521,7 @@ sap.ui.define(
 
         var oLayoutModel = new sap.ui.model.json.JSONModel({
           descuentosadd: false,
-          EdicionRecibo : true,
+          EdicionRecibo: true,
           retencionesadd: false,
           detalleadd: false,
           controlrecibo: false,

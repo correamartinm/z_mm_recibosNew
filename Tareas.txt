@@ -10,6 +10,8 @@ Controlar si no tiene facturas Pendientes
 03 Busqueda en tabla
     Seleccion habilita Input?
 
+Edicion y Eliminacion Descuentos / Retenciones / MP
+   
     Device Celular Carga Foto
     FileUploaders :
 
@@ -17,7 +19,7 @@ Controlar si no tiene facturas Pendientes
     idRetencionesFileUploader
     idDetalleFileUploader
     idChequeFileUploader
-    
+
 
 
 

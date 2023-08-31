@@ -46,8 +46,8 @@
                     <HBox >
 
                         <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
-                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" />
-                        <Button icon="sap-icon://edit" />
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPress"/>
+                        <Button icon="sap-icon://edit" press="onButtonEditaDescuentoPress"/>
                     </HBox>
 
                     <Label text="{mockdata>MotivoDesc}"/>
@@ -69,20 +69,18 @@
         <form:content>
             <Label text="{i18n>lblmotivo}" required="true" labelFor="idMotivoInput"/>
 
-            <ComboBox id="idMotivoInput" selectionChange="onInputDescuentoChange" items="{mockdata>/TiposDescuentos}">
+            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/MotivoDesc}" selectedKey="{mockdata>/ActiveDescuento/Motivo}" selectionChange="onInputDescuentoChange" items="{mockdata>/TiposDescuentos}">
                 <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
             </ComboBox>
 
             <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobanteInput" />
-            <Input id="idComprobanteInput" type="Number" showSuggestion="true" suggestionItems="{mockdata>/cbts}">
-                <core:Item key="{mockdata>Numero}" text="{mockdata>Numero}" />
-            </Input>
-
+            <Input id="idComprobanteInput" type="Number" value="{mockdata>/ActiveDescuento/NComprobante}" />
+                
             <Label text="{i18n>lblfecha}" required="true" labelFor="idDomicilioInput" />
-            <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/mm/YYYY" />
+            <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveDescuento/Fecha}"/>
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteInput"/>
-            <Input id="idImporteInput" type="Number"/>
+            <Input id="idImporteInput" type="Number" value="{mockdata>/ActiveDescuento/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
             <unified:FileUploader id="idDescuentoFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>

@@ -6,8 +6,10 @@
 	<f:DynamicPage id="idDynamicPage" class="sapUiSizeCompact">
 		<f:header>
 			<f:DynamicPageHeader pinnable="false">
+
 				<f:content  >
 					<VBox visible="{layout>/EdicionRecibo}">
+						<Button icon="sap-icon://edit" press="onEditarButtonPress" type="Emphasized" />
 						<!-- <Button icon="sap-icon://log" press="onEnd" text="{layout>/lastname}, {layout>/firstname}" type="Success" iconFirst="false" /> -->
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.FilterBar" type="XML"/>
 					</VBox>
@@ -17,9 +19,9 @@
 		</f:header>
 		<f:content>
 
-			<Panel height="80%" >
+			<Panel height="80%">
 				<content>
-					<!-- <Button icon="sap-icon://edit" press="onEditarButtonPress"  type="Emphasized" /> -->
+
 
 					<VBox visible="{layout>/EdicionRecibo}">
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>

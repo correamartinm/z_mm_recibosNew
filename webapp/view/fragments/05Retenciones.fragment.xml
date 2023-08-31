@@ -45,8 +45,8 @@
                 <cells>
 
                     <HBox>
-                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" />
-                        <Button icon="sap-icon://edit" />
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPress" />
+                        <Button icon="sap-icon://edit" press="onButtonEditaRetencionPress" />
                     </HBox>
 
                     <Label text="{mockdata>Tipokey} {mockdata>TipoDesc}" design="Bold"/>
@@ -64,20 +64,20 @@
     <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/retencionesadd}">
         <form:content>
             <Label text="{i18n>lbltipo}" required="true" labelFor="idTipoRetencionInput"/>
-            <ComboBox id="idTipoRetencionInput" items="{mockdata>/TiposRetencion}">
+            <ComboBox id="idTipoRetencionInput" items="{mockdata>/TiposRetencion}" selectedKey="{mockdata>/ActiveRetencion/Tipokey}" value="{mockdata>/ActiveRetencion/TipoDesc}">
                 <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
             </ComboBox>
 
 
             <Label text="{i18n>lblncertificado}" required="true" labelFor="idCertificadoRetencionInput" />
-            <Input id="idCertificadoRetencionInput" type="Number"/>
+            <Input id="idCertificadoRetencionInput" type="Number" value="{mockdata>/ActiveRetencion/NCertificado}"/>
 
 
             <Label text="{i18n>lblfecha}" required="true" labelFor="idFechaRetencionInput" />
-            <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/mm/YYYY" />
+            <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveRetencion/Fecha}"  />
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteRetencionInput"/>
-            <Input id="idImporteRetencionInput" type="Number"/>
+            <Input id="idImporteRetencionInput" type="Number" value="{mockdata>/ActiveRetencion/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 

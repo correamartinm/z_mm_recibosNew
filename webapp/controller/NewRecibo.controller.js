@@ -34,10 +34,7 @@ sap.ui.define(
 
       // ************ Controles ****************
 
-
-
       // ************ Control de los Pasos ****************
-
 
       // Paso Datos del Cliente
 
@@ -55,7 +52,6 @@ sap.ui.define(
         //   );
         // }
       },
-      
 
       onWizardStepClienteComplete: function () {
         let oModel = this.getView().getModel("mockdata"),
@@ -106,7 +102,6 @@ sap.ui.define(
       },
 
       // Paso Seleccion Pagos a Cuenta --------------
-
 
       onTablePagoCtaSelectionChange: function () {
         this._onCheckPago();
@@ -212,7 +207,6 @@ sap.ui.define(
         oValue = parseFloat(oValue);
         oMax = parseFloat(oMax);
 
-
         if (oValue > 0 && oValue <= oMax) {
           oTarget.setValueState(ValueState.None);
         } else {
@@ -261,17 +255,30 @@ sap.ui.define(
       },
 
       // Paso Descuentos ---------------------------
-      
+
       onAgregarDescuentoButtonPress: function () {
         let oValue = true;
-        this.onshowDescuentoAdd(oValue);
+        let ActiveDescuento = {
+          NComprobante: "",
+          Fecha: null,
+          Importe: "",
+          Motivo: "",
+          MotivoDesc: "",
+          UpdPath: "",
+        };
+
+        this.onshowDescuentoAdd(oValue, ActiveDescuento);
       },
 
-      onshowDescuentoAdd: function (oValue) {
-        let oModel = this.getView().getModel("layout"),
+      onshowDescuentoAdd: function (oValue, Object) {
+        let oMockModel = this.getView().getModel("mockdata"),
+          oModel = this.getView().getModel("layout"),
           oDescuento = "/descuentosadd",
           data = [];
+
         this._onUpdateModel(oModel, oDescuento, oValue);
+
+        oMockModel.setProperty("/ActiveDescuento", Object);
 
         if (oValue === true) {
           this._wizard.invalidateStep(
@@ -286,6 +293,7 @@ sap.ui.define(
 
       onGuardarButtonDescPress: function () {
         let oModel = this.getView().getModel("mockdata"),
+          oPostDataDescuento = oModel.getProperty("/ActiveDescuento"),
           oNcomprobante = this.getView().byId("idComprobanteInput"),
           oFecha = this.getView().byId("idFechaDatePickerFDescuento"),
           oImporte = this.getView().byId("idImporteInput"),
@@ -331,7 +339,6 @@ sap.ui.define(
         let oValue = false,
           oImportesSuma,
           oDescuentos = "/Descuentos";
-        this.onshowDescuentoAdd(oValue);
 
         oldData = this._onGetDataModel(oModel, oDescuentos);
 
@@ -343,6 +350,8 @@ sap.ui.define(
           Importe: parseFloat(oImporte.getValue()),
         };
         let DataFinal = oldData.concat(oDatos);
+
+        this.onshowDescuentoAdd(oValue);
 
         this._onUpdateModel(oModel, oDescuentos, DataFinal);
 
@@ -362,18 +371,56 @@ sap.ui.define(
         this.onshowDescuentoAdd(oValue);
       },
 
+      onButtonDeleteDescuentoPress: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+          sMessage =
+            this._i18n().getText("lblnumcomprobante") +
+            ": " +
+            oItem.NComprobante +
+            " " +
+            this._i18n().getText("lblimpor") +
+            ": " +
+            oItem.Importe,
+          sMessageTitle = this._i18n().getText("msgdelete");
+
+        this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
+          //  alert(rta);
+        });
+      },
+
+      onButtonEditaDescuentoPress: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
+        oItem.UpdPath = oPath;
+
+        this.onshowDescuentoAdd(true, oItem);
+      },
+
       // Paso Retenciones ------------------------
 
       onAgregarRetencionesButtonPress: function () {
-        let oValue = true;
-        this.onshowRetencionesAdd(oValue);
+        let oValue = true,
+          ActiveRetencion = {
+            Tipokey: "",
+            TipoDesc: "",
+            NCertificado: "",
+            Fecha: null,
+            Importe: "",
+            UpdPath: "",
+          };
+
+        this._onshowRetencionesAdd(oValue, ActiveRetencion);
       },
 
-      onshowRetencionesAdd: function (oValue) {
-        let oModel = this.getView().getModel("layout"),
-          oDescuento = "/retencionesadd",
-          data = [];
-        this._onUpdateModel(oModel, oDescuento, oValue);
+      _onshowRetencionesAdd: function (oValue, Object) {
+        let oLayModel = this.getView().getModel("layout"),
+          oMockModel = this.getOwnerComponent().getModel("mockdata");
+
+        oMockModel.setProperty("/ActiveRetencion", Object);
+        oLayModel.setProperty("/retencionesadd", oValue);
 
         if (oValue === true) {
           this._wizard.invalidateStep(
@@ -454,14 +501,41 @@ sap.ui.define(
 
         let oValue = false,
           oRetenciones = "/Retenciones";
-        this.onshowRetencionesAdd(oValue);
+        this._onshowRetencionesAdd(oValue);
+      },
+
+      onButtonDeleteRetencionPress: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+          sMessage =
+            this._i18n().getText("lblncertificado") +
+            ": " +
+            oItem.NCertificado +
+            " " +
+            this._i18n().getText("lblimpor") +
+            ": " +
+            oItem.Importe,
+          sMessageTitle = this._i18n().getText("msgdelete");
+
+        this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
+          //  alert(rta);
+        });
+      },
+
+      onButtonEditaRetencionPress: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
+        oItem.UpdPath = oPath;
+
+        this._onshowRetencionesAdd(true, oItem);
       },
 
       cancelarRetencion: function () {
         let oValue = false;
-        this.onshowRetencionesAdd(oValue);
+        this._onshowRetencionesAdd(oValue);
       },
-
 
       // Photo ----------------------------
 
