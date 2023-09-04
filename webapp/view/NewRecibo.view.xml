@@ -28,8 +28,8 @@
 
                                 <Panel >
                                     <content>
-                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.04Descuentos" type="XML"/>
-                                        
+                                     
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/>
                                         <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/> -->
                                     </content>
 
@@ -66,7 +66,7 @@
                                 <Panel >
 
                                     <content>
-                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.04Descuentos" type="XML"/> -->
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.04Descuentos" type="XML"/>
                                     </content>
 
                                 </Panel>
@@ -77,7 +77,7 @@
                                 <Panel >
 
                                     <content>
-                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/>
+                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/> -->
                                     </content>
 
                                 </Panel>

@@ -1,5 +1,4 @@
 <core:FragmentDefinition xmlns="sap.m"
-    xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core">
 
 
@@ -69,8 +68,8 @@
                     <Label text="{mockdata>Aplicar}"/>
                     <!-- <Input enabled="false" value="{mockdata>Aplicar}" textAlign="End" change="onInputImporteChange"/> -->
                     <HBox visible="false">
-                        <Button icon="sap-icon://delete" press="onButtonPrintPress" class="sapUiTinyMarginBeginEnd" />
-                        <Button icon="sap-icon://edit" press="onButtonPrintPress" />
+                        <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
+                        <Button icon="sap-icon://edit" press="onButtonEditPress" />
                     </HBox>
 
 

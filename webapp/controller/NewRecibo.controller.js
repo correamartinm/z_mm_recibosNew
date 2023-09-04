@@ -267,10 +267,10 @@ sap.ui.define(
           UpdPath: "",
         };
 
-        this.onshowDescuentoAdd(oValue, ActiveDescuento);
+        this._onshowDescuentoAdd(oValue, ActiveDescuento);
       },
 
-      onshowDescuentoAdd: function (oValue, Object) {
+      _onshowDescuentoAdd: function (oValue, Object) {
         let oMockModel = this.getView().getModel("mockdata"),
           oModel = this.getView().getModel("layout"),
           oDescuento = "/descuentosadd",
@@ -351,7 +351,7 @@ sap.ui.define(
         };
         let DataFinal = oldData.concat(oDatos);
 
-        this.onshowDescuentoAdd(oValue);
+        this._onshowDescuentoAdd(oValue, []);
 
         this._onUpdateModel(oModel, oDescuentos, DataFinal);
 
@@ -368,7 +368,7 @@ sap.ui.define(
 
       onVolverButtonCancelarDescPress: function () {
         let oValue = false;
-        this.onshowDescuentoAdd(oValue);
+        this._onshowDescuentoAdd(oValue,[]);
       },
 
       onButtonDeleteDescuentoPress: function (oEvent) {
@@ -396,7 +396,7 @@ sap.ui.define(
           oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
         oItem.UpdPath = oPath;
 
-        this.onshowDescuentoAdd(true, oItem);
+        this._onshowDescuentoAdd(true, oItem);
       },
 
       // Paso Retenciones ------------------------
