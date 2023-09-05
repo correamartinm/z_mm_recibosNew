@@ -75,7 +75,7 @@
 
             <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobanteInput" />
             <Input id="idComprobanteInput" type="Number" value="{mockdata>/ActiveDescuento/NComprobante}" />
-                
+
             <Label text="{i18n>lblfecha}" required="true" labelFor="idDomicilioInput" />
             <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveDescuento/Fecha}"/>
 
@@ -83,8 +83,9 @@
             <Input id="idImporteInput" type="Number" value="{mockdata>/ActiveDescuento/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
-            <unified:FileUploader id="idDescuentoFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
+            <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
 
+            
             <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
 
         </form:content>

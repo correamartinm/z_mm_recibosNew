@@ -270,8 +270,10 @@ sap.ui.define(
           return "Error";
         }
       },
+      // ********************** File Uploader
 
-      onAttachmentChange: function (FileControl) {
+      onAttachmentChange: function (oEvent) {
+        let FileControl = oEvent.getSource();
         FileControl.setValueState("None");
       },
 
@@ -306,6 +308,8 @@ sap.ui.define(
         FileControl.setValue("");
         FileControl.removeAllHeaderParameters();		
       },
+
+      //*********************************** */
 
       _i18n: function () {
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();

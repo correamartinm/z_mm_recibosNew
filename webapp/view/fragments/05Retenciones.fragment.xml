@@ -74,15 +74,14 @@
 
 
             <Label text="{i18n>lblfecha}" required="true" labelFor="idFechaRetencionInput" />
-            <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveRetencion/Fecha}"  />
+            <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveRetencion/Fecha}" />
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteRetencionInput"/>
             <Input id="idImporteRetencionInput" type="Number" value="{mockdata>/ActiveRetencion/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 
-            <unified:FileUploader id="idRetencionesFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/>
-
+            <unified:FileUploader id="idRetencionesFileUploader" change="onAttachmentChange" name="FURetencion" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
             <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
 
         </form:content>

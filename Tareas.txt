@@ -15,8 +15,8 @@ Edicion y Eliminacion Descuentos / Retenciones / MP
     Device Celular Carga Foto
     FileUploaders :
 
-    idDescuentoFileUploader
-    idRetencionesFileUploader
+    idDescuentoFileUploader name="FUDescuento"
+    idRetencionesFileUploader name="FURetencion"
     idDetalleFileUploader
     idChequeFileUploader
 
