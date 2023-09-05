@@ -52,8 +52,6 @@ sap.ui.define(
         }
       },
 
-    
-
       // Paso Detalle  (Seleccion de Madios de Pago)
 
       onInputTipoPagoChange: function (oEvent) {
@@ -70,7 +68,6 @@ sap.ui.define(
         vObject = oModel.getObject(oPath);
 
         this._onUpdateModel(oModel, oEntidad, vObject);
-
       },
 
       onGuardarButtonDetallePress: function () {
@@ -272,6 +269,42 @@ sap.ui.define(
         } else {
           return "Error";
         }
+      },
+
+      onAttachmentChange: function (FileControl) {
+        FileControl.setValueState("None");
+      },
+
+      _addHeaderParameters: function (FileControl) {
+        var that = this;
+        FileControl.addHeaderParameter(
+          new sap.ui.unified.FileUploaderParameter({
+            name: "slug",
+            value: FileControl.getValue(),
+          })
+        );
+
+        FileControl.addHeaderParameter(
+          new sap.ui.unified.FileUploaderParameter({
+            name: "x-csrf-token",
+            value: that
+              .getOwnerComponent()
+              .getModel()
+              .getSecurityToken()
+          })
+        );
+      },
+
+      _onPostFile: function(FileControl, Ref){
+        var sAttachmentURL = oModel.sServiceUrl + oModel.createKey("/changeRequests", {
+          ticketNumber: Ref
+        }) + "/attachments";
+        this._addHeaderParameters(FileControl);
+        FileControl.setSendXHR(true);
+        FileControl.setUploadUrl(sAttachmentURL);
+        FileControl.upload();
+        FileControl.setValue("");
+        FileControl.removeAllHeaderParameters();		
       },
 
       _i18n: function () {
