@@ -12,30 +12,31 @@
             </OverflowToolbar>
         </headerToolbar>
         <columns>
-            <Column width="3rem">
-                <header/>
-            </Column>
+
             <Column width="12rem">
                 <header>
                     <Label text="{i18n>lbltipo}" />
                 </header>
             </Column>
-            <Column width="10rem">
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblncertificado}"/>
                 </header>
             </Column>
-            <Column hAlign="Center">
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblfecha}"/>
                 </header>
             </Column>
 
 
-            <Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblimpor}"/>
                 </header>
+            </Column>
+            <Column width="3rem">
+                <header/>
             </Column>
 
 
@@ -44,16 +45,16 @@
             <ColumnListItem type="Active" highlight="Information">
                 <cells>
 
-                    <HBox>
-                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPress" />
-                        <Button icon="sap-icon://edit" press="onButtonEditaRetencionPress" />
-                    </HBox>
 
                     <Label text="{mockdata>Tipokey} {mockdata>TipoDesc}" design="Bold"/>
                     <Label text="{mockdata>NCertificado}"/>
                     <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/>
                     <Label text="{mockdata>Importe}"/>
 
+                    <HBox>
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPress" />
+                        <Button icon="sap-icon://edit" press="onButtonEditaRetencionPress" />
+                    </HBox>
 
                 </cells>
             </ColumnListItem>

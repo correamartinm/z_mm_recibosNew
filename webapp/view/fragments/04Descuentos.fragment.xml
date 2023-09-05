@@ -12,28 +12,29 @@
             </OverflowToolbar>
         </headerToolbar>
         <columns>
-            <Column width="3rem">
-                <header/>
-            </Column>
+
             <Column width="12rem">
                 <header>
                     <Label text="{i18n>lblmotivo}" />
                 </header>
             </Column>
-            <Column width="10rem">
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblnumcomprobante}"/>
                 </header>
             </Column>
-            <Column hAlign="Center">
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblfecha}"/>
                 </header>
             </Column>
-            <Column>
+            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblimpor}"/>
                 </header>
+            </Column>
+            <Column width="3rem">
+                <header/>
             </Column>
 
 
@@ -43,12 +44,7 @@
             <ColumnListItem type="Active" highlight="Information">
                 <cells>
 
-                    <HBox >
 
-                        <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
-                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPress"/>
-                        <Button icon="sap-icon://edit" press="onButtonEditaDescuentoPress"/>
-                    </HBox>
 
                     <Label text="{mockdata>MotivoDesc}"/>
                     <Label text="{mockdata>NComprobante}"/>
@@ -57,7 +53,12 @@
                     <Label text="{mockdata>Importe}"/>
 
                     <!-- <ObjectStatus title="" state="Error" inverted="true" /> -->
+                    <HBox >
 
+                        <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPress"/>
+                        <Button icon="sap-icon://edit" press="onButtonEditaDescuentoPress"/>
+                    </HBox>
 
                 </cells>
             </ColumnListItem>
@@ -85,7 +86,7 @@
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
             <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
 
-            
+
             <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
 
         </form:content>

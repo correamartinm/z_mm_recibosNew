@@ -9,7 +9,7 @@
 
 				<f:content  >
 					<VBox visible="{layout>/EdicionRecibo}">
-						<Button icon="sap-icon://edit" press="onEditarButtonPress" type="Emphasized" />
+						<!-- <Button icon="sap-icon://edit" press="onEditarButtonPress" type="Emphasized" /> -->
 						<!-- <Button icon="sap-icon://log" press="onEnd" text="{layout>/lastname}, {layout>/firstname}" type="Success" iconFirst="false" /> -->
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.FilterBar" type="XML"/>
 					</VBox>

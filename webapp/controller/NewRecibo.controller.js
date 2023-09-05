@@ -439,7 +439,7 @@ sap.ui.define(
           oFecha = this.getView().byId("idFechaDatePickerFRetencion"),
           oImporte = this.getView().byId("idImporteRetencionInput"),
           oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
-          oFile = this.getView().byId("idRetencionesFileUploader"),
+          oFile = this.getView().byId("idRetencionesFileUploader"), oImportesSuma,
           oldData = [];
 
         if (!oTipo.getSelectedKey()) {
@@ -477,7 +477,7 @@ sap.ui.define(
           oFile.setValueState(ValueState.None);
         }
 
-        oldData = this._onGetDataModel(oModel, oRetenciones);
+        oldData = oModel.getProperty("/Retenciones");
 
         let oDatos = {
           Tipokey: oTipo.getSelectedKey(),
@@ -487,20 +487,18 @@ sap.ui.define(
           Importe: parseFloat(oImporte.getValue()),
         };
         let DataFinal = oldData.concat(oDatos);
-        this._onUpdateModel(oModel, oRetenciones, DataFinal);
+        oModel.setProperty("/Retenciones", DataFinal );
+        
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(oItems[index].Importe);
+            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
         }
 
-        let oCantidad = "/Paso05CantidadRetenciones",
-          oImporteRet = "/Paso05ImporteRetenciones";
-        this._onUpdateModel(oModel, oCantidad, DataFinal.length);
-        this._onUpdateModel(oModel, oImporteRet, oImportesSuma);
-
-        let oValue = false,
-          oRetenciones = "/Retenciones";
+        oModel.setProperty("/Paso05CantidadRetenciones", DataFinal.length );
+        oModel.setProperty("/Paso05ImporteRetenciones", oImportesSuma );
+  
+        let oValue = false;
         this._onshowRetencionesAdd(oValue);
       },
 
