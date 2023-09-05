@@ -4,6 +4,7 @@
     <Table id="idTable" items="{path : 'RECIBOSSet' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
+                <SearchField width="70%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
                 <ToolbarSpacer/>
                 <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
                

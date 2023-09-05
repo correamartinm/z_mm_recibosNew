@@ -10,13 +10,14 @@
                         <customHeader>
                             <Bar design="Header">
                                 <contentLeft>
+                                    <Button icon="sap-icon://nav-back" press="onNavBack" type="Emphasized" />
                                 </contentLeft>
                                 <contentMiddle>
-                                    <Image src="./img/logo.png" height="36px" class="sapUiSmallMarginBegin" />
+                                   
 
                                 </contentMiddle>
                                 <contentRight>
-                                    <Button icon="sap-icon://home" press="onNavBack" text="{i18n>btnvolver}" type="Emphasized" />
+                                    <Image src="./img/logo.png" height="36px" class="sapUiSmallMarginBegin" />
                                     <!-- <Button icon="sap-icon://log" press="onEnd" text="{layout>/lastname}, {layout>/firstname}" type="Success" iconFirst="false" /> -->
                                 </contentRight>
                             </Bar>
@@ -28,9 +29,8 @@
 
                                 <Panel >
                                     <content>
-                                     
-                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/>
-                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/> -->
+                                        
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/>
                                     </content>
 
                                 </Panel>
@@ -77,7 +77,7 @@
                                 <Panel >
 
                                     <content>
-                                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/> -->
+                                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.05Retenciones" type="XML"/>
                                     </content>
 
                                 </Panel>

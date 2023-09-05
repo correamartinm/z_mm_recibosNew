@@ -33,7 +33,7 @@ server:
           - path:
             url:
             client:
-          - path: /sap
+          - path: /sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV
             url: https://mxecid.morixe.com.ar:44300
             client: '100'
     - name: fiori-tools-preview

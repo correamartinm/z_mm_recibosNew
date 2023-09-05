@@ -1,9 +1,11 @@
 sap.ui.define(
-  ["./BaseController",
-   "sap/m/MessageToast", 
-   "sap/ui/model/FilterOperator",
-   "sap/ui/model/Filter",
-   "sap/ui/model/json/JSONModel",],
+  [
+    "./BaseController",
+    "sap/m/MessageToast",
+    "sap/ui/model/FilterOperator",
+    "sap/ui/model/Filter",
+    "sap/ui/model/json/JSONModel",
+  ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} BaseController
    */
@@ -102,60 +104,77 @@ sap.ui.define(
           oCuit = oView.byId("idCuitMultiInput"),
           oRangoFecha = oView.byId("idFechaDateRangeSelection"),
           oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-            pattern: 'dd/mm/yyyy'
+            pattern: "dd/mm/yyyy",
           });
 
-          if (oRazonsocial.getTokens().length !== 0) {
-            var orFilterL = [];
-            for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
-              orFilterL.push(
-                new sap.ui.model.Filter(
-                  "RazonSocial",
-                  sap.ui.model.FilterOperator.EQ,
-                  oRazonsocial.getTokens()[l].getKey()
-                )
-              );
-            }
-            oFilter.push(new sap.ui.model.Filter(orFilterL, false));
+        if (oRazonsocial.getTokens().length !== 0) {
+          var orFilterL = [];
+          for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
+            orFilterL.push(
+              new sap.ui.model.Filter(
+                "RazonSocial",
+                sap.ui.model.FilterOperator.EQ,
+                oRazonsocial.getTokens()[l].getKey()
+              )
+            );
           }
+          oFilter.push(new sap.ui.model.Filter(orFilterL, false));
+        }
 
-          if (oCuit.getTokens().length !== 0) {
-            var orFilterL = [];
-            for (var l = 0; l < oCuit.getTokens().length; l++) {
-              orFilterL.push(
-                new sap.ui.model.Filter(
-                  "Cuit",
-                  sap.ui.model.FilterOperator.EQ,
-                  oCuit.getTokens()[l].getKey()
-                )
-              );
-            }
-            oFilter.push(new sap.ui.model.Filter(orFilterL, false));
+        if (oCuit.getTokens().length !== 0) {
+          var orFilterL = [];
+          for (var l = 0; l < oCuit.getTokens().length; l++) {
+            orFilterL.push(
+              new sap.ui.model.Filter(
+                "Cuit",
+                sap.ui.model.FilterOperator.EQ,
+                oCuit.getTokens()[l].getKey()
+              )
+            );
           }
+          oFilter.push(new sap.ui.model.Filter(orFilterL, false));
+        }
 
-          if (oRangoFecha.getValue().length !== 0) {
+        if (oRangoFecha.getValue().length !== 0) {
+          var oFInicio = oDateFormat.format(oRangoFecha.getFrom());
+          var oFFin = oDateFormat.format(oRangoFecha.getTo());
 
-            var oFInicio = oDateFormat.format(oRangoFecha.getFrom());
-            var oFFin = oDateFormat.format(oRangoFecha.getTo());
-    
-            oFilter.push(new Filter("Fecha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin));
-    
-          }
+          oFilter.push(
+            new Filter("Fecha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin)
+          );
+        }
 
-          let AllFilter = new sap.ui.model.Filter(oFilter, true);
-          
-          this._onRefreshTable(AllFilter);
+        let AllFilter = new sap.ui.model.Filter(oFilter, true);
 
+        this._onRefreshTable(AllFilter);
+      },
+      onSearchRS: function (oEvent) {
+        let oTable = oEvent.getSource().getParent().getParent(),
+          oTarget = oEvent.getSource(),
+          oFilters = [],
+          oValue = oEvent.getSource().getValue();
+
+        if (oValue.length >= 0) {
+          oFilters.push(new Filter("Rsocial", FilterOperator.Contains, oValue));
+        } else {
+          oEvent.getSource().setValue();
+
+          // MessageToast.show(sMessage);
+
+          jQuery.sap.delayedCall(300, this, function () {
+            oTarget.focus();
+          });
+        }
+        oTable.getBinding("items").filter([oFilters]);
       },
 
       onEditarButtonPress: function (oEvent) {
         let oModel = this.getView().getModel("layout"),
-        oEntidad = "/EdicionRecibo",
-        oValue  = oModel.getProperty(oEntidad);
+          oEntidad = "/EdicionRecibo",
+          oValue = oModel.getProperty(oEntidad);
         oValue = !oValue;
 
-      oModel.setProperty(oEntidad, oValue);
-        
+        oModel.setProperty(oEntidad, oValue);
       },
 
       // *** Nuevo Recibo

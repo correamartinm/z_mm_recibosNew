@@ -2,9 +2,10 @@ sap.ui.define(
   [
     "sap/ui/core/mvc/Controller",
     "sap/m/MessageBox",
+    "sap/ui/core/ValueState",
     "sap/ui/core/routing/History",
   ],
-  function (Controller, MessageBox, History) {
+  function (Controller, MessageBox,ValueState, History) {
     "use strict";
 
     return Controller.extend("morixe.zfirecibos.controller.BaseController", {
@@ -37,6 +38,7 @@ sap.ui.define(
           oDescuento = "/detalleadd",
           data = [];
         this._onUpdateModel(oModel, oDescuento, oValue);
+
         let EditRecibo = oModel.getProperty("/EdicionRecibo");
 
         if (EditRecibo === true) {
@@ -75,17 +77,17 @@ sap.ui.define(
           oLayoutModel = this.getView().getModel("layout");
 
         let MpActive = this._onGetDataModel(oModel, "/ActiveDetalle"),
-          oMP = MpActive.MpKey,
-          oCheque = MpActive.NroCheq,
-          oCbte = MpActive.NroCbte,
-          oBcoDestino = MpActive.BcoDes,
-          oBcoEmisor = MpActive.BcoEmi,
-          oFechaDeposito = MpActive.FecDepo,
-          oFechaEmision = MpActive.FecEmis,
-          oFechaVencimiento = MpActive.FecVto,
-          oImportePago = MpActive.Importe,
-          oFile = this.getView().byId(""),
-          oFileCheque = this.getView().byId("");
+          oMP = this.getView().byId("idselectMP"),
+          oCheque = this.getView().byId("idDetNroCheque"),
+          oCbte = this.getView().byId("idDetComprobante"),
+          oBcoDestino = this.getView().byId("idDetBcoDestino"),
+          oBcoEmisor = this.getView().byId("idDetBcoEmisor"),
+          oFechaDeposito = this.getView().byId("idDetFecDeposito"),
+          oFechaEmision = this.getView().byId("idDetFechaEmision"),
+          oFechaVencimiento = this.getView().byId("idDetFecVto"),
+          oImportePago = this.getView().byId("idImportePagoInput");
+        // oFile = this.getView().byId(""),
+        // oFileCheque = this.getView().byId("");
 
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
         let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
@@ -143,21 +145,21 @@ sap.ui.define(
           }
         }
 
-        if (MpKValidate.Adjunto === true) {
-          if (!oFile.getValue()) {
-            oFile.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFile.setValueState(ValueState.None);
-          }
+        // if (MpKValidate.Adjunto === true) {
+        //   if (!oFile.getValue()) {
+        //     oFile.setValueState(ValueState.Error);
+        //     return;
+        //   } else {
+        //     oFile.setValueState(ValueState.None);
+        //   }
 
-          if (!oFileCheque.getValue()) {
-            oFileCheque.setValueState(ValueState.Error);
-            return;
-          } else {
-            oFoFileChequeile.setValueState(ValueState.None);
-          }
-        }
+        //   if (!oFileCheque.getValue()) {
+        //     oFileCheque.setValueState(ValueState.Error);
+        //     return;
+        //   } else {
+        //     oFoFileChequeile.setValueState(ValueState.None);
+        //   }
+        // }
 
         if (MpKValidate.FecEmis === true) {
           if (!oFechaEmision.getDateValue()) {
@@ -186,10 +188,8 @@ sap.ui.define(
           }
         }
 
-        let oDetalle = "/Detalle",
+        let oldData = oModel.getProperty("/Detalle"),
           oImportesSuma = 0;
-
-        let oldData = this._onGetDataModel(oModel, oDetalle);
 
         let oDatos = {
           Tipo: oMP.getSelectedKey(),
@@ -204,7 +204,24 @@ sap.ui.define(
           Importe: parseFloat(oImportePago.getValue()),
         };
         let DataFinal = oldData.concat(oDatos);
-        this._onUpdateModel(oModel, oDetalle, DataFinal);
+        oModel.setProperty("/Detalle", DataFinal);
+
+        let  ActiveDetalle= {
+          MPkey: 0,
+          NroCheq: 0,
+          NroCte: 0,
+          Importe: 0,
+          FecEmis: null,
+          FecDepo: null,
+          FecCbte: null,
+          FecVto: null,
+          BcoEmi: "",
+          BcoDes: "",
+          Adjunto: "",
+        };
+
+        oModel.setProperty("/Detalle", DataFinal);
+        oModel.setProperty("/ActiveDetalle", ActiveDetalle);
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
@@ -214,10 +231,8 @@ sap.ui.define(
         let oValue = false;
         this.onshowDetalleAdd(oValue);
 
-        let oCantidad = "/Paso06Detalles",
-          oImporte = "/Paso06ImporteDetalle";
-        this._onUpdateModel(oModel, oCantidad, DataFinal.length);
-        this._onUpdateModel(oModel, oImporte, oImportesSuma);
+        oModel.setProperty("/Paso06Detalles", DataFinal.length);
+        oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
       },
       _onResetDetalleValues: function name() {
         let oModel = this.getView().getModel("mockdata"),
@@ -289,24 +304,24 @@ sap.ui.define(
         FileControl.addHeaderParameter(
           new sap.ui.unified.FileUploaderParameter({
             name: "x-csrf-token",
-            value: that
-              .getOwnerComponent()
-              .getModel()
-              .getSecurityToken()
+            value: that.getOwnerComponent().getModel().getSecurityToken(),
           })
         );
       },
 
-      _onPostFile: function(FileControl, Ref){
-        var sAttachmentURL = oModel.sServiceUrl + oModel.createKey("/changeRequests", {
-          ticketNumber: Ref
-        }) + "/attachments";
+      _onPostFile: function (FileControl, Ref) {
+        var sAttachmentURL =
+          oModel.sServiceUrl +
+          oModel.createKey("/changeRequests", {
+            ticketNumber: Ref,
+          }) +
+          "/attachments";
         this._addHeaderParameters(FileControl);
         FileControl.setSendXHR(true);
         FileControl.setUploadUrl(sAttachmentURL);
         FileControl.upload();
         FileControl.setValue("");
-        FileControl.removeAllHeaderParameters();		
+        FileControl.removeAllHeaderParameters();
       },
 
       //*********************************** */
