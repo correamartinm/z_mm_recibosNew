@@ -5,30 +5,20 @@
     <form:SimpleForm id="idDataSimpleForm" editable="true" layout="ColumnLayout" >
         <form:content>
             <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
-            <Input id="idRSInput">
-                <core:Item key="{crewID}" text="{crewID}" />
-            </Input>
-
+            <Input id="idRSInput"/>
 
             <Label text="{i18n>lblcodigo}" required="true" labelFor="idCodigoClienteInput" />
-            <Input id="idCodigoClienteInput">
-                <core:Item key="{crewID}" text="{crewID}" />
-            </Input>
-
-
+            <Input id="idCodigoClienteInput"/>
+                
             <Label text="{i18n>lbldomicilio}" required="true" labelFor="idDomicilioInput" />
-            <Input id="idDomicilioInput">
-                <core:Item key="{crewID}" text="{crewID}" />
-            </Input>
+            <Input id="idDomicilioInput"/>
+
             <Label text="{i18n>lbllocalidad}" required="true" labelFor="idLocalidadInput"/>
-            <Input id="idLocalidadInput">
-                <core:Item key="{crewID}" text="{crewID}" />
-            </Input>
+            <Input id="idLocalidadInput"/>
 
             <Label text="{i18n>lbliva}" required="true" labelFor="idIvaInput" />
-            <Input id="idIvaInput">
-                <core:Item key="{crewID}" text="{crewID}" />
-            </Input>
+            <Input id="idIvaInput"/>
+                
             <Label text="{i18n>lblobservaciones}" labelFor="idObsTextArea"/>
             <TextArea id="idObsTextArea" rows="3" />
 

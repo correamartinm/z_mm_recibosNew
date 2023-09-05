@@ -81,34 +81,35 @@
                 <cells>
 
 
-                    <Label text="{mockdata>Numero}" design="Bold"/>
-                    <!-- <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/> -->
-                    <Label text="{mockdata>Fecha}" design="Bold"/>
-                    <Label text="{mockdata>Cuit} - {mockdata>Rsocial}" design="Bold" wrapping="true"/>
-                    <Label text="{mockdata>Rsocial}" design="Bold"/>
-                    <Label text="{mockdata>Cuit}" design="Bold"/>
+                    <Label text="{Numero}" design="Bold"/>
+                    <!-- <Text text="{path : 'Fecha' , formatter : '.formatFecha'}"/> -->
+                    <Label text="{Fecha}" design="Bold"/>
+                    <Label text="{Cuit} - {Rsocial}" design="Bold" wrapping="true"/>
+                    <Label text="{RazonSocial}" design="Bold"/>
+                    <Label text="{Cuit}" design="Bold"/>
 
-                    <Label text="{mockdata>TotalRecibo}" design="Bold"/>
-                    <Label text="{mockdata>TotalRecibo}" design="Bold"/>
+                    
+                    <ObjectNumber number="{Total}" unit="{Moneda}" />
+                    <ObjectNumber number="{Total}" unit="{Moneda}" />
 
                     <ObjectStatus icon="sap-icon://{
-                            path: 'mockdata>Procesado',
+                            path: 'Procesado',
                             formatter: '.formatIconBool'
                         }" state="{
-                            path: 'mockdata>Procesado',
+                            path: 'Procesado',
                             formatter: '.formatStateBool'
-                        }" inverted="true" title="{mockdata>FechaProceso}" />
+                        }" inverted="true" title="{FechaProceso}" />
 
                     <ObjectStatus icon="sap-icon://{
-                        path: 'mockdata>Procesado',
+                        path: 'Procesado',
                         formatter: '.formatIconBool'
                     }" state="{
-                        path: 'mockdata>Procesado',
+                        path: 'Procesado',
                         formatter: '.formatStateBool'
                     }" inverted="true" />
-                    <Label text="{mockdata>FechaProceso}" visible="{mockdata>Procesado}" design="Bold"/>
-                    <!-- <Text text="{path : 'mockdata>FechaProceso' , formatter : '.formatFecha'}"/> -->
-                    <Button icon="sap-icon://print" enabled="{= ${mockdata>Procesado} === true }" press="onButtonPrintPress" />
+                    <Label text="{FechaProceso}" visible="{Procesado}" design="Bold"/>
+                    <!-- <Text text="{path : 'FechaProceso' , formatter : '.formatFecha'}"/> -->
+                    <Button icon="sap-icon://print" enabled="{= ${Procesado} === true }" press="onButtonPrintPress" />
 
                 </cells>
             </ColumnListItem>
