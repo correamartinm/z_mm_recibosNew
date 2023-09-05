@@ -11,7 +11,7 @@
                 <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader" visible="{mockdata>/ActiveMP/NroCheq}"/>
                 <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader" visible="{= ${mockdata>/ActiveMP/NroCheq} === false &amp;&amp; ${mockdata>/ActiveMP/key} !== '1' }"/>
                 
-                    <unified:FileUploader visible="{= ${mockdata>/ActiveMP/key} !== '1' }" id="idChequeFileUploader" change="onAttachmentChange" name="FURetencion" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
+                    <unified:FileUploader visible="{= ${mockdata>/ActiveMP/key} !== '1' }" id="idChequeFileUploader" change="onAttachmentChange" name="FUCheque" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
                 <!-- <unified:FileUploader visible="{mockdata>/ActiveMP/Adjunto}" id="idDetalleFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/> -->
 
                 <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->

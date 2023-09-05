@@ -17,8 +17,8 @@ Edicion y Eliminacion Descuentos / Retenciones / MP
 
     idDescuentoFileUploader name="FUDescuento"
     idRetencionesFileUploader name="FURetencion"
-    idDetalleFileUploader
-    idChequeFileUploader
+    idDetalleFileUploader 
+    idChequeFileUploader name="FUCheque"
 
 
 
