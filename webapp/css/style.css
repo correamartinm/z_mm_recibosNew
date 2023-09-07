@@ -1,1 +1,87 @@
-/* Enter your custom styles here */
+.BoldSmall {
+    color: rgba(44, 44, 121, 0.966);
+    font-size: 13px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.Bold {
+    color: rgba(44, 44, 121, 0.966);
+    font-size: 15px;
+    font-weight: bold;
+    align-content: center;
+    vertical-align: middle;
+
+}
+
+.BoldError {
+    color: rgba(250, 110, 71, 0.966);
+    font-size: 15px;
+    font-weight: bold;
+    align-content: center;
+    vertical-align: middle;
+
+}
+
+.BoldOK {
+    color: rgba(3, 177, 133, 0.966);
+    font-size: 15px;
+    font-weight: bold;
+    align-content: center;
+    vertical-align: middle;
+
+}
+
+.footerBig {
+    height: 100px;
+}
+.errorTable {
+    background-color: #04AA6D;
+    color: rgb(245, 198, 198);
+  }
+
+.InvertBold {
+    color: rgba(244, 244, 249, 0.966);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sapMPanelContent {
+    border: none !important;
+  }
+
+.BoldBig { 
+    color: rgba(44, 44, 121, 0.966);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.BoldBigbIG {
+    color: rgba(244, 244, 249, 0.966);
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.BackgroundColor {
+    background-color: rgba(44, 44, 121, 0.966);
+}
+
+.WhiteBackgroundColor {
+    background-color: white;
+}
+
+.FontBold {
+    font-size: 18px;
+    color: black;
+}
+
+.ButtonHeigth {
+    height: 25%;
+    word-wrap: break-word;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.specialToolbarBorder {
+    border-bottom: 0 !important;
+}

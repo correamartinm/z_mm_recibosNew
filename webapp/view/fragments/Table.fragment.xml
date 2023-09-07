@@ -1,18 +1,19 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core">
-    <Toolbar visible="{= ${device>/system/phone} === true }">
-        <ToolbarSpacer />
+    <Toolbar visible="{= ${device>/system/phone} === true }" class="sapUiTinyMarginBottom">
+        
         <Label text="{i18n>tabletitle}" class="Bold"/>
         <ToolbarSpacer />
+        <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
     </Toolbar>
 
     <Table  id="idTable" items="{path : 'RECIBOSSet' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
-                <SearchField width="80%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
+                <SearchField width="95%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
                 <ToolbarSpacer/>
                 <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" visible="{= ${device>/system/phone} === false }" />
-                <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" type="Emphasized" visible="{= ${device>/system/phone} === true }"  />
+                
 
 </OverflowToolbar>
 </headerToolbar>
