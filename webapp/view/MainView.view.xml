@@ -5,7 +5,7 @@
 	xmlns="sap.m">
 	<f:DynamicPage id="idDynamicPage" class="sapUiSizeCompact">
 		<f:header>
-			<f:DynamicPageHeader pinnable="false">
+			<f:DynamicPageHeader pinnable="false" visible="{= ${device>/system/phone} === false }">
 
 				<f:content  >
 					<VBox visible="{layout>/EdicionRecibo}">

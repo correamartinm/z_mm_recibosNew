@@ -1,98 +1,104 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core">
+    <Toolbar visible="{= ${device>/system/phone} === true }">
+        <ToolbarSpacer />
+        <Label text="{i18n>tabletitle}" class="Bold"/>
+        <ToolbarSpacer />
+    </Toolbar>
 
-    <Table id="idTable" items="{path : 'RECIBOSSet' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table  id="idTable" items="{path : 'RECIBOSSet' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
-                <SearchField width="70%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
+                <SearchField width="80%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
                 <ToolbarSpacer/>
-                <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
-               
-            </OverflowToolbar>
-        </headerToolbar>
-        <columns>
+                <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" visible="{= ${device>/system/phone} === false }" />
+                <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" type="Emphasized" visible="{= ${device>/system/phone} === true }"  />
 
-            <Column >
-                <header>
-                    <Label text="{i18n>lblnumero}"/>
-                </header>
-            </Column>
-            <Column >
-                <header>
-                    <Label text="{i18n>lblfecha}"/>
-                </header>
-            </Column>
+</OverflowToolbar>
+</headerToolbar>
+<columns>
 
-            <Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
+<Column >
+<header>
+<Label text="{i18n>lblnumero}"/>
+</header>
+</Column>
+<Column >
+<header>
+<Label text="{i18n>lblfecha}"/>
+</header>
+</Column>
 
-                </header>
-            </Column>
+<Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lblrazonsocial}"/>
-                </header>
-            </Column>
+</header>
+</Column>
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lblcuit}"/>
-                </header>
-            </Column>
-            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lbltotalrecibo}"/>
-                </header>
-            </Column>
-            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lbltotal}"/>
-                </header>
-            </Column>
+<Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lblrazonsocial}"/>
+</header>
+</Column>
 
-            <Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lblprocesado}"/>
-                </header>
-            </Column>
+<Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lblcuit}"/>
+</header>
+</Column>
+<Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lbltotalrecibo}"/>
+</header>
+</Column>
+<Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lbltotal}"/>
+</header>
+</Column>
 
-
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lblprocesado}"/>
-                </header>
-            </Column>
+<Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lblprocesado}"/>
+</header>
+</Column>
 
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
-                <header>
-                    <Label text="{i18n>lblfechaproceso}"/>
-                </header>
-            </Column>
-            <Column width="3rem">
-                <header/>
-            </Column>
+<Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lblprocesado}"/>
+</header>
+</Column>
 
 
-        </columns>
-        <items>
-            <ColumnListItem type="Active" highlight="Information">
-                <cells>
+<Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+<header>
+<Label text="{i18n>lblfechaproceso}"/>
+</header>
+</Column>
+<Column width="3rem">
+<header/>
+</Column>
 
 
-                    <Label text="{Numero}" design="Bold"/>
-                    <!-- <Text text="{path : 'Fecha' , formatter : '.formatFecha'}"/> -->
-                    <Label text="{Fecha}" design="Bold"/>
-                    <Label text="{Cuit} - {Rsocial}" design="Bold" wrapping="true"/>
-                    <Label text="{RazonSocial}" design="Bold"/>
-                    <Label text="{Cuit}" design="Bold"/>
+</columns>
+<items>
+<ColumnListItem type="Active" highlight="Information">
+<cells>
 
-                    
-                    <ObjectNumber number="{Total}" unit="{Moneda}" />
-                    <ObjectNumber number="{Total}" unit="{Moneda}" />
 
-                    <ObjectStatus icon="sap-icon://{
+<Label text="{Numero}" design="Bold"/>
+<!-- <Text text="{path : 'Fecha' , formatter : '.formatFecha'}"/> -->
+<Label text="{Fecha}" design="Bold"/>
+<Label text="{Cuit} - {Rsocial}" design="Bold" wrapping="true"/>
+<Label text="{RazonSocial}" design="Bold"/>
+<Label text="{Cuit}" design="Bold"/>
+
+
+<ObjectNumber number="{Total}" unit="{Moneda}" />
+<ObjectNumber number="{Total}" unit="{Moneda}" />
+
+<ObjectStatus icon="sap-icon://{
                             path: 'Procesado',
                             formatter: '.formatIconBool'
                         }" state="{
@@ -100,21 +106,21 @@
                             formatter: '.formatStateBool'
                         }" inverted="true" title="{FechaProceso}" />
 
-                    <ObjectStatus icon="sap-icon://{
+<ObjectStatus icon="sap-icon://{
                         path: 'Procesado',
                         formatter: '.formatIconBool'
                     }" state="{
                         path: 'Procesado',
                         formatter: '.formatStateBool'
                     }" inverted="true" />
-                    <Label text="{FechaProceso}" visible="{Procesado}" design="Bold"/>
-                    <!-- <Text text="{path : 'FechaProceso' , formatter : '.formatFecha'}"/> -->
-                    <Button icon="sap-icon://print" enabled="{= ${Procesado} === true }" press="onButtonPrintPress" />
+<Label text="{FechaProceso}" visible="{Procesado}" design="Bold"/>
+<!-- <Text text="{path : 'FechaProceso' , formatter : '.formatFecha'}"/> -->
+<Button icon="sap-icon://print" enabled="{= ${Procesado} === true }" press="onButtonPrintPress" />
 
-                </cells>
-            </ColumnListItem>
-        </items>
-    </Table>
+</cells>
+</ColumnListItem>
+</items>
+</Table>
 
 
 </core:FragmentDefinition>
