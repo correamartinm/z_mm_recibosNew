@@ -6,8 +6,8 @@
         <form:content>
 
             <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
-            <ComboBox  id="idRSInput" selectedKey="{layout>/RsKey}" selectionChange="onInputRazonSocialChange" items="{CLIENTESSet}">
-                <core:Item key="{Codigo}" text="{RazonSocial}" />
+            <ComboBox  id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{mockdata>/Clientes}">
+                <core:Item key="{mockdata>Codigo}" text="{mockdata>RazonSocial}" />
             </ComboBox>
 
             <Label text="{i18n>lblcodigo}" labelFor="idCodigoClienteInput" />
@@ -29,10 +29,17 @@
             <TextArea id="idObservacionesTextArea" rows="3" value="{mockdata>/Paso01Cliente/Observaciones}"/>
 
             <Label text="{i18n>lbltipocomprobante}" labelFor="idDocumentoSegmentedButton" class="sapUiSmallMarginEnd" />
-            <CheckBox name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox" enabled="{= ${layout>/RsKey} !== 0 }"/>
-            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox" enabled="{= ${layout>/RsKey} !== 0 }"/>
+            <CheckBox name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox" enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }"/>
+            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox" enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }"/>
 
         </form:content>
     </form:SimpleForm>
+
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" >
+
+        <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
+            <Button  text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onNavBack" class="sapUiTinyMarginEnd" />
+        <Button enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
+    </HBox>
 
 </core:FragmentDefinition>
