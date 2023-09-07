@@ -111,16 +111,17 @@ sap.ui.define(
             oPayload
           );
           console.log(rta);
-          
-          this._onValidateStep();
+          if (rta.Mensaje !== ""){
+
+            oData.Completo = false;
+            oMockModel.setProperty("/Paso01Cliente", oData);
+            
+            this._onValidateStep();
+          }
         }
-
-
       },
 
-      onWizardStepClienteComplete: async function () {
-      
-      },
+      onWizardStepClienteComplete: async function () {},
 
       onInputRazonSocialChange: function (oEvent) {
         let vObject,
@@ -148,8 +149,6 @@ sap.ui.define(
         };
 
         oMockModel.setProperty("/Paso01Cliente", oPayload);
-
-        
       },
 
       // Paso Seleccion Pagos a Cuenta --------------

@@ -97,7 +97,8 @@ sap.ui.define(
             Accion: "",
             Anticipo: false,
             Recibo: false,
-            TipoComprobante:""
+            TipoComprobante:"",
+            Completo: false
           },
 
           ActiveMP: {

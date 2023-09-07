@@ -39,7 +39,7 @@
 
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
             <Button  text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onNavBack" class="sapUiTinyMarginEnd" />
-        <Button enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
+        <Button visible="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" enabled="{mockdata>/Paso01Cliente/Completo}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
     </HBox>
 
 </core:FragmentDefinition>
