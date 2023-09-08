@@ -222,7 +222,7 @@ sap.ui.define(
               .getCells()[6]
               .setValueState(sap.ui.core.ValueState.None);
           } else {
-            // oControlCheck = await this._onCheckStock(vObject);
+           
             oItems[index].getCells()[6].setEnabled(oItems[index].getSelected());
 
             if (
@@ -232,7 +232,7 @@ sap.ui.define(
               oItems[index].getCells()[6].setValue(vObject.Saldo);
             }
 
-            // oItems[index].setSelected() === false;
+          
             oItems[index]
               .getCells()[6]
               .setValueState(sap.ui.core.ValueState.None);
@@ -281,7 +281,6 @@ sap.ui.define(
             vObject = oModel.getObject(oPath);
 
             if (oItems[index].getSelected() === true) {
-              // let  oValue = oItems[index].getCells()[6].getValue();
               Data.push(vObject);
 
               oImportesSuma =

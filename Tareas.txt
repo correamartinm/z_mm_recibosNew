@@ -16,11 +16,15 @@ Edicion y Eliminacion
    
     Device Celular Carga Foto
     FileUploaders :
-
     idDescuentoFileUploader name="FUDescuento"
     idRetencionesFileUploader name="FURetencion"
     idDetalleFileUploader 
     idChequeFileUploader name="FUCheque"
+
+Validaciones!
+Paso Previo?
+Comportamiento pasos previos
+
 
 
 

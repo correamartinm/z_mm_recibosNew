@@ -22,7 +22,6 @@
 			<Panel height="80%">
 				<content>
 
-<!-- <Button  press="onAddCliente"/> -->
 
 					<VBox visible="{layout>/EdicionRecibo}">
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
