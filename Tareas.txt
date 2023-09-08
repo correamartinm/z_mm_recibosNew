@@ -3,14 +3,16 @@ VPN Consultor4	M0r1x3#9
 110	jruiz	Morixe.06-2023
 
 Tareas a Realizar
-Usuario?
+Usuario? NO
 Resetear el Wizard
 Controlar si no tiene facturas Pendientes
     si no tiene, directo adelanto?
 03 Busqueda en tabla
-    Seleccion habilita Input?
 
-Edicion y Eliminacion Descuentos / Retenciones / MP
+Edicion y Eliminacion
+    Descuentos
+    Retenciones
+    MP
    
     Device Celular Carga Foto
     FileUploaders :
