@@ -28,8 +28,8 @@
             <VBox id="vBox1"/>
             <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
 
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" />
+                <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" class="sapUiTinyMarginEnd" />
+                <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
         </HBox>
 
     </VBox>

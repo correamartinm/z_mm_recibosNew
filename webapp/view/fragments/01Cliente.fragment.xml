@@ -6,8 +6,8 @@
         <form:content>
 
             <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
-            <ComboBox  id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{mockdata>/Clientes}">
-                <core:Item key="{mockdata>Codigo}" text="{mockdata>RazonSocial}" />
+            <ComboBox  id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{/CLIENTESSet}">
+                <core:Item key="{Codigo}" text="{RazonSocial}" />
             </ComboBox>
 
             <Label text="{i18n>lblcodigo}" labelFor="idCodigoClienteInput" />

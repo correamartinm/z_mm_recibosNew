@@ -400,6 +400,7 @@ sap.ui.define(
         });
       },
 
+
       ondeleteModel: function (oModel, oView, oPath) {
         return new Promise((resolve, reject) => {
           oView.setBusy(true);
@@ -416,6 +417,7 @@ sap.ui.define(
           });
         });
       },
+
 
       // Mensajeria -----------------------
 

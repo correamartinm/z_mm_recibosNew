@@ -30,12 +30,9 @@ server:
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         backend:
-          - path:
-            url:
-            client:
           - path: /sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV
             url: https://mxecid.morixe.com.ar:44300
-            client: '100'
+            client: '110'
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

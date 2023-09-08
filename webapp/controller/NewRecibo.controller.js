@@ -111,11 +111,10 @@ sap.ui.define(
             oPayload
           );
           console.log(rta);
-          if (rta.Mensaje !== ""){
-
+          if (rta.Mensaje !== "") {
             oData.Completo = false;
             oMockModel.setProperty("/Paso01Cliente", oData);
-            
+
             this._onValidateStep();
           }
         }
@@ -125,14 +124,12 @@ sap.ui.define(
 
       onInputRazonSocialChange: function (oEvent) {
         let vObject,
-          oMockModel = this.getView().getModel("mockdata"),
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
           oSource = oEvent.getSource(),
-          oPath = oSource
-            .getSelectedItem()
-            .getBindingContext("mockdata")
-            .getPath();
+          oPath = oSource.getSelectedItem().getBindingContext().getPath();
 
-        vObject = oMockModel.getObject(oPath);
+        vObject = oModel.getObject(oPath);
 
         let oPayload = {
           Codigo: vObject.Codigo,
@@ -709,6 +706,52 @@ sap.ui.define(
         //     this.getView().byId("idDetalleWizardStep")
         //   );
         // }
+      },
+
+      onInputTipoPagoChange: function (oEvent) {
+        let vObject,
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
+          oSource = oEvent.getSource(),
+          oPath = oSource.getSelectedItem().getBindingContext().getPath();
+
+        vObject = oModel.getObject(oPath);
+
+        let oPayload = {
+          key: vObject.Codigo,
+          Desc: vObject.Descripcion,
+          DetCbte: this.onCheckValue(vObject.Detalle),
+          FecCbte: this.onCheckValue(vObject.Fecha),
+          NroCheq: this.onCheckValue(vObject.NroCheque),
+          Adjunto: this.onCheckValue(vObject.Adjuntos),
+          FecEmis: this.onCheckValue(vObject.FechaEmision),
+          FecVto: this.onCheckValue(vObject.FechaVencimiento),
+          BcoEmi: this.onCheckValue(vObject.BancoEmisor),
+          BcoDes: this.onCheckValue(vObject.BancoDestino),
+          BcoDesReq: this.onCheckValueReq(vObject.BancoDestino),
+        };
+
+        oMockModel.setProperty("/ActiveMP", oPayload);
+      },
+
+      onCheckValue: function (oValue) {
+        if (oValue === "X") {
+          return true;
+        } else if (oValue === "") {
+          return false;
+        } else {
+          return true;
+        }
+      },
+
+      onCheckValueReq: function (oValue) {
+        if (oValue === "X") {
+          return true;
+        } else if (oValue === "O") {
+          return false;
+        } else {
+          return false;
+        }
       },
 
       onWizardStepDetalleComplete: function (params) {

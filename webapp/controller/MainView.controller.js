@@ -180,7 +180,15 @@ sap.ui.define(
       // *** Nuevo Recibo
 
       onAgregarButtonPress: function (oEvent) {
+
         this.getOwnerComponent().getTargets().display("TargetNewRecibo");
+        let  oModel = this.getOwnerComponent().getModel(),
+        oView = this.getView(),
+        oPath = oModel.createKey("/DocumentosSet", {
+          Cliente: ""
+        });
+        this.ondeleteModel(oModel, oView, oPath);
+
       },
     });
   }
