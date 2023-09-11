@@ -120,7 +120,9 @@ sap.ui.define(
         }
       },
 
-      onWizardStepClienteComplete: async function () {},
+      onWizardStepClienteComplete: async function () {
+        this.onFilterTableCbtes();
+      },
 
       onInputRazonSocialChange: function (oEvent) {
         let vObject,
@@ -148,19 +150,38 @@ sap.ui.define(
         oMockModel.setProperty("/Paso01Cliente", oPayload);
 
         // ******** Hay documentos para el Cliente ???
-        let oView = this.getView(), oEntidad = "/COMPROBANTESSet";
-        let DocumentControl = this._onfilterModel(
+        let oView = this.getView(),
+          oEntidad = "/ComprobantesSet";
+
+        var oFilters = new Array();
+
+        let oFiltro = new sap.ui.model.Filter({
+          path: "Cliente",
+          operator: sap.ui.model.FilterOperator.EQ,
+          value1: vObject.Codigo,
+        });
+        oFilters.push(oFiltro);
+
+        let oComprobantesControl = this._onfilterModel(
           oModel,
           oView,
           oEntidad,
           oFilters
         );
-      
-        
-
       },
 
       // Paso Seleccion Pagos a Cuenta --------------
+
+      onFilterTableCbtes: function () {
+        let oTable = this.getView().byId("idPagoCtaTable"),
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oCliente = oMockModel.getProperty("/Paso01Cliente"),
+          oFilters;
+        oFilters.push(
+          new Filter("Cliente", FilterOperator.EQ, oCliente.Codigo)
+        );
+        oTable.getBinding("items").filter([oFilters]);
+      },
 
       onTablePagoCtaSelectionChange: function () {
         this._onCheckPago();

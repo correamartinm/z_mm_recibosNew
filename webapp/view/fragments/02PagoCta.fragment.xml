@@ -3,7 +3,8 @@
 
 
 
-    <Table id="idPagoCtaTable" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" items="{path : 'mockdata>/Paso02PagoaCta' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idPagoCtaTable" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" items="{path : 'ComprobantesSet' ,events: {
+          dataRequested: '.onFilterTableCbtes' } ,sorter: [ { path: 'Fecha', descending: false }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="75%" search="onSearchFieldSearchPagoCta" placeholder="{i18n>lblnumcomprobante}" />
@@ -58,15 +59,15 @@
 
 
 
-                    <Text text="{mockdata>TC}" wrapping="false"/>
+                    <Text text="{Tipo}" wrapping="false"/>
                     <!-- <Text text="{path : 'START' , formatter : '.formatFecha'}"/> -->
-                    <Label text="{mockdata>Numero}"/>
-                    <Label text="{mockdata>Fecha}" design="Bold"/>
-                   
-                    <Label text="{mockdata>Importe}"/>
-                    <Label text="{mockdata>Saldo}"/>
-                    <Label text="{mockdata>Aplicar}"/>
-                    <!-- <Input enabled="false" value="{mockdata>Aplicar}" textAlign="End" change="onInputImporteChange"/> -->
+                    <Label text="{Numero}"/>
+                    <Label text="{Fecha}" design="Bold"/>
+
+                    <Label text="{Importe}"/>
+                    <Label text="{Saldo}"/>
+                    <Label text="{Aplicado}"/>
+                    <!-- <Input enabled="false" value="{Aplicar}" textAlign="End" change="onInputImporteChange"/> -->
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
                         <Button icon="sap-icon://edit" press="onButtonEditPress" />
@@ -77,19 +78,19 @@
             </ColumnListItem>
         </items>
     </Table>
-    <OverflowToolbar visible="{= ${mockdata>/Paso02CantidadPagos} > 0 }">
+    <OverflowToolbar visible="{= ${/Paso02CantidadPagos} > 0 }">
         <content>
             <ToolbarSpacer />
-            <!-- <HBox visible="{= ${mockdata>/Paso03CantidadComprobantes} > 0 }">
+            <!-- <HBox visible="{= ${/Paso03CantidadComprobantes} > 0 }">
             </HBox> -->
 
-            <!-- <HBox visible="{= ${mockdata>/Paso03CantidadComprobantes} > 0 }"> -->
+            <!-- <HBox visible="{= ${/Paso03CantidadComprobantes} > 0 }"> -->
             <Label text="{i18n>lblseleccion}: " />
             <Label text="{i18n>lblpagoacta}" />
-            <Label text="{mockdata>/Paso02CantidadPagos}" design="Bold" class="sapUiTinyMarginBeginEnd" />
+            <Label text="{/Paso02CantidadPagos}" design="Bold" class="sapUiTinyMarginBeginEnd" />
 
             <Label text="{i18n>lblimpor}" />
-            <Label text="{mockdata>/Paso02ImportePagos}" design="Bold" />
+            <Label text="{/Paso02ImportePagos}" design="Bold" />
             <!-- </HBox> -->
         </content>
 
@@ -99,6 +100,6 @@
 
     <!-- <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
         <Button text="Cerrar" iconDensityAware="false" class="sapUiTinyMarginEnd" />
-        <Button enabled="{mockdata>/AddButtonActive}" text="Guardar" type="Emphasized" icon="sap-icon://save" press="guardarAdicional" />
+        <Button enabled="{/AddButtonActive}" text="Guardar" type="Emphasized" icon="sap-icon://save" press="guardarAdicional" />
     </HBox> -->
 </core:FragmentDefinition>
