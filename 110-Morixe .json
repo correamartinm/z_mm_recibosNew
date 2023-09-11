@@ -1,0 +1,10 @@
+{
+  "systems": [
+    {
+      "name": "110-Morixe ",
+      "type": "abap_onpremise",
+      "url": "https://mxecid.morixe.com.ar:44300",
+      "client": "110"
+    }
+  ]
+}

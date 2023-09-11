@@ -5,7 +5,7 @@ sap.ui.define(
     "sap/ui/core/ValueState",
     "sap/ui/core/routing/History",
   ],
-  function (Controller, MessageBox,ValueState, History) {
+  function (Controller, MessageBox, ValueState, History) {
     "use strict";
 
     return Controller.extend("morixe.zfirecibos.controller.BaseController", {
@@ -206,7 +206,7 @@ sap.ui.define(
         let DataFinal = oldData.concat(oDatos);
         oModel.setProperty("/Detalle", DataFinal);
 
-        let  ActiveDetalle= {
+        let ActiveDetalle = {
           MPkey: 0,
           NroCheq: 0,
           NroCte: 0,
@@ -400,7 +400,6 @@ sap.ui.define(
         });
       },
 
-
       ondeleteModel: function (oModel, oView, oPath) {
         return new Promise((resolve, reject) => {
           oView.setBusy(true);
@@ -418,6 +417,37 @@ sap.ui.define(
         });
       },
 
+      _onreadModel: function (oModel, oView, oPath) {
+        return new Promise((resolve, reject) => {
+          let that = this;
+          oView.setBusy(true);
+          oModel.read(oPath, {
+            success: jQuery.proxy(function (oData) {
+              oView.setBusy(false);
+              resolve(oData);
+            }, this),
+            error: function (oError) {
+              oView.setBusy(false);
+              that._onErrorHandle(oError);
+            },
+          });
+        });
+      },
+
+      _onfilterModel: function (oModel, oView, oEntity, oFilters) {
+        return new Promise((resolve, reject) => {
+          oView.setBusy(true);
+          oModel.read(oEntity, {
+            filters: [oFilters],
+            success: jQuery.proxy(function (oData) {
+              oView.setBusy(false);
+            }, this),
+            error: function (oError) {
+              oView.setBusy(false);
+            },
+          });
+        });
+      },
 
       // Mensajeria -----------------------
 

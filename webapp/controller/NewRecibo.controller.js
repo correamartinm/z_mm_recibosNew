@@ -146,6 +146,18 @@ sap.ui.define(
         };
 
         oMockModel.setProperty("/Paso01Cliente", oPayload);
+
+        // ******** Hay documentos para el Cliente ???
+        let oView = this.getView(), oEntidad = "/COMPROBANTESSet";
+        let DocumentControl = this._onfilterModel(
+          oModel,
+          oView,
+          oEntidad,
+          oFilters
+        );
+      
+        
+
       },
 
       // Paso Seleccion Pagos a Cuenta --------------
@@ -222,7 +234,6 @@ sap.ui.define(
               .getCells()[6]
               .setValueState(sap.ui.core.ValueState.None);
           } else {
-           
             oItems[index].getCells()[6].setEnabled(oItems[index].getSelected());
 
             if (
@@ -232,7 +243,6 @@ sap.ui.define(
               oItems[index].getCells()[6].setValue(vObject.Saldo);
             }
 
-          
             oItems[index]
               .getCells()[6]
               .setValueState(sap.ui.core.ValueState.None);
