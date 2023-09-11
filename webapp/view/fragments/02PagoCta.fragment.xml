@@ -4,7 +4,7 @@
 
 
     <Table id="idPagoCtaTable" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" items="{path : 'ComprobantesSet' ,events: {
-          dataRequested: '.onFilterTableCbtes' } ,sorter: [ { path: 'Fecha', descending: false }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        dataReceived: '.onFilterTableCbtes02' } ,sorter: [ { path: 'Fecha', descending: false }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="75%" search="onSearchFieldSearchPagoCta" placeholder="{i18n>lblnumcomprobante}" />

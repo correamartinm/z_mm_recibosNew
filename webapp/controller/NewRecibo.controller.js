@@ -121,7 +121,7 @@ sap.ui.define(
       },
 
       onWizardStepClienteComplete: async function () {
-        this.onFilterTableCbtes();
+        this.onFilterTableCbtes02();
       },
 
       onInputRazonSocialChange: function (oEvent) {
@@ -172,7 +172,7 @@ sap.ui.define(
 
       // Paso Seleccion Pagos a Cuenta --------------
 
-      onFilterTableCbtes: function () {
+      onFilterTableCbtes02: function () {
         let oTable = this.getView().byId("idPagoCtaTable"),
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oCliente = oMockModel.getProperty("/Paso01Cliente"),
@@ -180,6 +180,7 @@ sap.ui.define(
         oFilters.push(
           new Filter("Cliente", FilterOperator.EQ, oCliente.Codigo)
         );
+        // oFilters.push(new Filter("Tipo", FilterOperator.EQ, oCliente.Codigo));
         oTable.getBinding("items").filter([oFilters]);
       },
 
@@ -220,6 +221,16 @@ sap.ui.define(
       },
 
       // Paso Seleccion de Comprobantes --------------
+      onFilterTableCbtes03: function () {
+        let oTable = this.getView().byId("idPagoCtaTable"),
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oCliente = oMockModel.getProperty("/Paso01Cliente"),
+          oFilters;
+        oFilters.push(new Filter("Cliente", FilterOperator.EQ, oCliente.Codigo));
+        // oFilters.push(new Filter("Tipo", FilterOperator.EQ, oCliente.Codigo));
+        oTable.getBinding("items").filter([oFilters]);
+      },
+
 
       onSearchFieldSearchComprobante: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
