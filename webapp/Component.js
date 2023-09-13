@@ -488,40 +488,10 @@ sap.ui.define(
             BcoDes: "",
             Adjunto: "",
           },
-          Resumen: [],
+          NoComprobantes: false,
+          Resumen: []
 
-          cbts: [
-            {
-              TC: "FC",
-              Numero: 1,
-              Fecha: "03/08/2023",
-              Fechav: "03/09/2023",
-              Importe: 5000,
-              Moneda: "PSO",
-              Saldo: 4500,
-              Aplicar: 0,
-            },
-            {
-              TC: "FC",
-              Numero: 2,
-              Fecha: "04/08/2023",
-              Fechav: "03/09/2023",
-              Importe: 3000,
-              Moneda: "PSO",
-              Saldo: 1500,
-              Aplicar: 0,
-            },
-            {
-              TC: "FC",
-              Numero: 3,
-              Fecha: "05/08/2023",
-              Fechav: "05/09/2023",
-              Importe: 6000,
-              Moneda: "PSO",
-              Saldo: 4500,
-              Aplicar: 0,
-            },
-          ],
+  
         });
         this.setModel(oMockDataModel, "mockdata");
 

@@ -120,8 +120,6 @@ sap.ui.define(
         }
       },
 
-
-
       onInputRazonSocialChange: async function (oEvent) {
         let vObject,
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
@@ -133,7 +131,7 @@ sap.ui.define(
           oPath = oSource.getSelectedItem().getBindingContext().getPath();
 
         let oView = this.getView(),
-        oEntidad2 = "/PagoCuentaSet",
+          oEntidad2 = "/PagoCuentaSet",
           oEntidad = "/ComprobantesSet";
         vObject = oModel.getObject(oPath);
         var oFilters = new Array();
@@ -156,29 +154,24 @@ sap.ui.define(
           // Directo a Detalle de pagos
           anticipo = true;
           recibo = false;
+          oMockModel.setProperty("/NoComprobantes", true);
         } else {
-          
-          oMockModel.setProperty("/Paso3Data",oComprobantesControl.results );
+          oMockModel.setProperty("/Paso3Data", oComprobantesControl.results);
           anticipo = false;
           recibo = false;
+          oMockModel.setProperty("/NoComprobantes", false);
         }
 
-        // let oPagosaCtaControl = await this._onfilterModel(
-        //   oModel,
-        //   oView,
-        //   oEntidad2,
-        //   oFilters
-        // );
+        let oPagosaCtaControl = await this._onfilterModel(
+          oModel,
+          oView,
+          oEntidad2,
+          oFilters
+        );
 
-        // if (oPagosaCtaControl.results.length !== 0) {
-          
-          
-        //   oMockModel.setProperty("/Paso2Data",oPagosaCtaControl.results );
-          
-        // }
-
-
-
+        if (oPagosaCtaControl.results.length !== 0) {
+          oMockModel.setProperty("/Paso2Data", oPagosaCtaControl.results);
+        }
 
         let oPayload = {
           Codigo: vObject.Codigo,
@@ -202,29 +195,70 @@ sap.ui.define(
         this.onFilterTableCbtes02();
       },
 
-
+      // ********************************************
       // Paso Seleccion Pagos a Cuenta --------------
+      // ********************************************
 
       onFilterTableCbtes02: function () {
         let oTable = this.getView().byId("idPagoCtaTable"),
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oCliente = oMockModel.getProperty("/Paso01Cliente"),
-          oCCodigo =oCliente.Codigo,
+          oCCodigo = oCliente.Codigo,
           oFilters = [];
-        oFilters.push( new Filter("Cliente", FilterOperator.Contains, oCCodigo ));
+        oFilters.push(new Filter("Cliente", FilterOperator.Contains, oCCodigo));
 
-//        oFilters.push(new Filter("Tipo", FilterOperator.EQ, oCliente.Codigo));
+        //        oFilters.push(new Filter("Tipo", FilterOperator.EQ, oCliente.Codigo));
         if (oTable.getItems() > 0)
           oTable.getBinding("items").filter([oFilters]);
       },
 
-      onTablePagoCtaSelectionChange: function () {
+      onTablePagoCtaSelectionChange: function (oEvent) {
+        let oTable = this.getView().byId("idPagoCtaTable"),
+          oModel = this.getView().getModel("mockdata"),
+          oItems = oTable.getItems(),
+          oPath,
+          oControlCheck,
+          vObject;
+
+        for (var index = 0; index < oItems.length; index++) {
+          oItems[index].getCells()[5].setEnabled(oItems[index].getSelected());
+          oPath = oItems[index].getBindingContextPath();
+          vObject = oModel.getObject(oPath);
+
+          if (oItems[index].getSelected() === false) {
+            oItems[index].getCells()[5].setValue();
+            oItems[index]
+              .getCells()[5]
+              .setValueState(sap.ui.core.ValueState.None);
+          } else {
+            oItems[index].getCells()[5].setEnabled(oItems[index].getSelected());
+
+            if (
+              oItems[index].getCells()[5].getValue() === "0.00" ||
+              oItems[index].getCells()[5].getValue() === ""
+            ) {
+              if (parseFloat(vObject.Saldo) > 0) {
+                oItems[index].getCells()[5].setValue(vObject.Saldo);
+              } else {
+                oItems[index]
+                  .getCells()[5]
+                  .setValue(parseFloat(vObject.Saldo) * -1);
+              }
+            }
+
+            oItems[index]
+              .getCells()[5]
+              .setValueState(sap.ui.core.ValueState.None);
+
+            this._onFocusControl(oItems[index].getCells()[5]);
+          }
+        }
         this._onCheckPago();
       },
 
       _onCheckPago: function () {
         let oTable = this.getView().byId("idPagoCtaTable"),
-          oMockModel= this.getView().getModel("mockdata"),
+          oMockModel = this.getView().getModel("mockdata"),
           vObject,
           oImportesSuma = 0,
           oPath,
@@ -244,7 +278,7 @@ sap.ui.define(
               Data.push(vObject);
 
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicar);
+                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
           }
         }
@@ -252,16 +286,32 @@ sap.ui.define(
         oMockModel.setProperty(oComprobantes, Data);
         oMockModel.setProperty(oCantidad, Data.length);
         oMockModel.setProperty(oImporte, oImportesSuma);
-     
       },
 
-      onWizardStepPagosComplete: function () {
-        
+      onInputImporteChangePagos: function (oEvent) {
+        let oTarget = oEvent.getSource(),
+          oStockTable = this.getView().byId("idPagoCtaTable"),
+          oMax = oEvent.getSource().getParent().getCells()[3].getText(),
+          oValue = oTarget.getValue();
+        let oItem = oStockTable.getSelectedItem();
+
+        oValue = parseFloat(oValue);
+        oMax = parseFloat(oMax);
+
+        if (oValue > 0 && oValue <= oMax) {
+          oTarget.setValueState(ValueState.None);
+        } else {
+          oTarget.setValueState(ValueState.Warning);
+        }
+
+        this._onCheckPago();
       },
 
+      onWizardStepPagosComplete: function () {},
 
+      // ********************************************
       // Paso Seleccion de Comprobantes --------------
-      
+      // ********************************************
       // onFilterTableCbtes03: function () {
       //   let oTable = this.getView().byId("idPagoCtaTable"),
       //     oMockModel = this.getOwnerComponent().getModel("mockdata"),
@@ -288,8 +338,6 @@ sap.ui.define(
         }
       },
 
-      
-
       onTableComprobantesSelectionChange: function (oEvent) {
         let oTable = this.getView().byId("idComprobanteTable"),
           oModel = this.getView().getModel("mockdata"),
@@ -312,10 +360,16 @@ sap.ui.define(
             oItems[index].getCells()[6].setEnabled(oItems[index].getSelected());
 
             if (
-              oItems[index].getCells()[6].getValue() === "0" ||
+              oItems[index].getCells()[6].getValue() === "0.00" ||
               oItems[index].getCells()[6].getValue() === ""
             ) {
-              oItems[index].getCells()[6].setValue(vObject.Saldo);
+              if (parseFloat(vObject.Saldo) > 0) {
+                oItems[index].getCells()[6].setValue(vObject.Saldo);
+              } else {
+                oItems[index]
+                  .getCells()[6]
+                  .setValue(parseFloat(vObject.Saldo) * -1);
+              }
             }
 
             oItems[index]
@@ -350,7 +404,7 @@ sap.ui.define(
 
       _onCheckComprobantes: function () {
         let oTable = this.getView().byId("idComprobanteTable"),
-          oModel = this.getView().getModel("mockdata"),
+          oMockModel = this.getView().getModel("mockdata"),
           vObject,
           oImportesSuma = 0,
           oPath,
@@ -363,7 +417,7 @@ sap.ui.define(
         if (oItems.length > 0) {
           for (var index = 0; index < oItems.length; index++) {
             oPath = oItems[index].getBindingContextPath();
-            vObject = oModel.getObject(oPath);
+            vObject = oMockModel.getObject(oPath);
 
             if (oItems[index].getSelected() === true) {
               Data.push(vObject);
@@ -380,14 +434,16 @@ sap.ui.define(
             this.getView().byId("idComprobanteWizardStep")
           );
         }
-        this._onUpdateModel(oModel, oComprobantes, Data);
-        this._onUpdateModel(oModel, oCantidad, Data.length);
-        this._onUpdateModel(oModel, oImporte, oImportesSuma);
+        oMockModel.setProperty(oComprobantes, Data);
+        oMockModel.setProperty(oCantidad, Data.length);
+        oMockModel.setProperty(oImporte, oImportesSuma);
       },
 
       onWizardStepComprobanteComplete: function (oEvent) {},
 
+      // ********************************************
       // Paso Descuentos ---------------------------
+      // ********************************************
 
       onAgregarDescuentoButtonPress: function () {
         let oValue = true;
@@ -495,8 +551,8 @@ sap.ui.define(
 
         let oCantidad = "/Paso04CantidadDescuentos",
           oImporteDec = "/Paso04ImporteDescuentos";
-        this._onUpdateModel(oModel, oCantidad, DataFinal.length);
-        this._onUpdateModel(oModel, oImporteDec, oImportesSuma);
+        oModel.setProperty(oCantidad, DataFinal.length);
+        oModel.setProperty(oImporteDec, oImportesSuma);
       },
 
       onVolverButtonCancelarDescPress: function () {
@@ -532,7 +588,13 @@ sap.ui.define(
         this._onshowDescuentoAdd(true, oItem);
       },
 
+      onUploadDescuento: function () {
+        let oFile = this.getView().byId("idDescuentoFileUploader");
+      },
+
+      // ********************************************
       // Paso Retenciones ------------------------
+      // ********************************************
 
       onAgregarRetencionesButtonPress: function () {
         let oValue = true,
@@ -668,7 +730,9 @@ sap.ui.define(
         this._onshowRetencionesAdd(oValue);
       },
 
+      // ********************************************
       // Photo ----------------------------
+      // ********************************************
 
       capturePic: function () {
         var that = this;
@@ -751,6 +815,10 @@ sap.ui.define(
           });
         }
       },
+
+      // ********************************************
+      // Medios de Pago ----------------------------
+      // ********************************************
 
       onButtonDeletePayPress: function (oEvent) {
         let oModel = this.getOwnerComponent().getModel("mockdata"),
@@ -844,6 +912,9 @@ sap.ui.define(
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
       },
 
+      // ********************************************
+      // ********************************************
+
       onNavtoStep2: function (oEvent) {
         this.onWizardStepClienteComplete();
         // this._handleNavigationToStep(2);
@@ -884,7 +955,9 @@ sap.ui.define(
         clearContent(this._wizard.getSteps());
       },
 
+      // ********************************************
       // Impresion *****************************
+      // ********************************************
 
       onPrint: function (oTk, oStd) {
         var oModel = this.getView().getModel(),
@@ -916,10 +989,12 @@ sap.ui.define(
         // this.getOwnerComponent().getTargets().display("TargetMainView");
 
         let sMessage = this._i18n().getText("msgcancel"),
+          oMockModel = this.getView().getModel("mockdata"),
           sMessageTitle = this._i18n().getText("msgvolver");
 
         this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
           if (rta === "OK") this.discardProgress();
+          oMockModel.setProperty("/NoComprobantes", false);
           this.getOwnerComponent().getTargets().display("TargetMainView");
         });
       },

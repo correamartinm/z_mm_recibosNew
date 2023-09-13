@@ -281,8 +281,9 @@ sap.ui.define(
 
       formatFecha: function (sFec) {
         var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-            pattern: "dd/mm/yyyy",
+            pattern: "dd/MM/yyyy" ,
             strictParsing: true,
+            UTC: true
           }),
           oFecha = oDateFormat.format(sFec);
         return oFecha;
@@ -330,8 +331,9 @@ sap.ui.define(
       _onPostFile: function (FileControl, Ref) {
         var sAttachmentURL =
           oModel.sServiceUrl +
-          oModel.createKey("/changeRequests", {
-            ticketNumber: Ref,
+          oModel.createKey("/AttachDocSet", {
+            Cliente: Ref,
+            Tipo: oTipo
           }) +
           "/attachments";
         this._addHeaderParameters(FileControl);
@@ -422,6 +424,7 @@ sap.ui.define(
           let that = this;
           oView.setBusy(true);
           oModel.read(oPath, {
+
             success: jQuery.proxy(function (oData) {
               oView.setBusy(false);
               resolve(oData);

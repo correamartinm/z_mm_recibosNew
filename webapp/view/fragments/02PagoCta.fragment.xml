@@ -46,6 +46,11 @@
                     <Label text="{i18n>lblaplicado}"/>
                 </header>
             </Column>
+            <Column visible="false" width="100px" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                <header>
+                    <!-- <Label text="{i18n>lblaplicado}"/> -->
+                </header>
+            </Column>
             <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header/>
             </Column>
@@ -59,14 +64,15 @@
 
 
                     <Text text="{mockdata>Tipo}" wrapping="false"/>
-                    <!-- <Text text="{path : 'START' , formatter : '.formatFecha'}"/> -->
+                   
                     <Label text="{mockdata>Numero}"/>
-                    <Label text="{mockdata>Fecha}" design="Bold"/>
+                    <Label text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}" design="Bold"/>
+                    
 
                     <Label text="{mockdata>Importe}"/>
                     <Label text="{mockdata>Saldo}"/>
-                    <Label text="{mockdata>Aplicado}"/>
-                    <!-- <Input enabled="false" value="{Aplicar}" textAlign="End" change="onInputImporteChange"/> -->
+                    
+                    <Input enabled="false" value="{mockdata>Aplicado}" textAlign="End" change="onInputImporteChangePagos"/>
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
                         <Button icon="sap-icon://edit" press="onButtonEditPress" />
@@ -77,7 +83,7 @@
             </ColumnListItem>
         </items>
     </Table>
-    <OverflowToolbar visible="{= ${/Paso02CantidadPagos} > 0 }">
+    <OverflowToolbar visible="{= ${mockdata>/Paso02CantidadPagos} > 0 }">
         <content>
             <ToolbarSpacer />
             <!-- <HBox visible="{= ${/Paso03CantidadComprobantes} > 0 }">
@@ -86,10 +92,10 @@
             <!-- <HBox visible="{= ${/Paso03CantidadComprobantes} > 0 }"> -->
             <Label text="{i18n>lblseleccion}: " />
             <Label text="{i18n>lblpagoacta}" />
-            <Label text="{/Paso02CantidadPagos}" design="Bold" class="sapUiTinyMarginBeginEnd" />
+            <Label text="{mockdata>/Paso02CantidadPagos}" design="Bold" class="sapUiTinyMarginBeginEnd" />
 
             <Label text="{i18n>lblimpor}" />
-            <Label text="{/Paso02ImportePagos}" design="Bold" />
+            <Label text="{mockdata>/Paso02ImportePagos}" design="Bold" />
             <!-- </HBox> -->
         </content>
 

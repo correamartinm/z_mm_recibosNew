@@ -1,8 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core">
-    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" 
-    items="{mockdata>/Paso3Data}" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
-    <!-- <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{path : '/cbts' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders"> -->
+    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{mockdata>/Paso3Data}" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        <!-- <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{path : '/cbts' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders"> -->
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="75%" search="onSearchFieldSearchComprobante" placeholder="{i18n>lblnumcomprobante}" />
@@ -61,10 +60,11 @@
 
 
 
-                    <Text text="{mockdata>Tipo}" wrapping="false"/>                   
+                    <Text text="{mockdata>Tipo}" wrapping="false"/>
                     <Label text="{mockdata>Numero}"/>
-                    <Label text="{mockdata>Fecha}" design="Bold"/>
-                    <Label text="{mockdata>Fechav}" design="Bold"/> 
+                    <Label text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}" design="Bold"/>
+                    <Label text="{path : 'mockdata>Vencimiento' , formatter : '.formatFecha'}" design="Bold"/>
+
                     <Label text="{mockdata>Importe}"/>
                     <Label text="{mockdata>Saldo}"/>
                     <Input enabled="false" value="{mockdata>Aplicado}" textAlign="End" change="onInputImporteChange"/>

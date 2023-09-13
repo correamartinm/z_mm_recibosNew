@@ -56,7 +56,7 @@
                     <HBox >
 
                         <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
-                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPress"/>
+                        <!-- <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPress"/> -->
                         <Button icon="sap-icon://edit" press="onButtonEditaDescuentoPress"/>
                     </HBox>
 
@@ -84,10 +84,10 @@
             <Input id="idImporteInput" type="Number" value="{mockdata>/ActiveDescuento/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
-            <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
+            <unified:FileUploader id="idDescuentoFileUploader"  change="onAttachmentChange" name="FUDescuento" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadComplete="onUploadComplete" useMultipart="false"  sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
 
 
-            <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
+            <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" press="onUploadDescuento" /> -->
 
         </form:content>
     </form:SimpleForm>
