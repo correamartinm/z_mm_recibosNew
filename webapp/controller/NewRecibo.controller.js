@@ -176,7 +176,7 @@ sap.ui.define(
         let oTable = this.getView().byId("idPagoCtaTable"),
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oCliente = oMockModel.getProperty("/Paso01Cliente"),
-          oFilters;
+          oFilters = [];
         oFilters.push(
           new Filter("Cliente", FilterOperator.EQ, oCliente.Codigo)
         );
