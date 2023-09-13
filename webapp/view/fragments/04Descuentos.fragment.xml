@@ -70,8 +70,8 @@
         <form:content>
             <Label text="{i18n>lblmotivo}" required="true" labelFor="idMotivoInput"/>
 
-            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/MotivoDesc}" selectedKey="{mockdata>/ActiveDescuento/Motivo}" selectionChange="onInputDescuentoChange" items="{mockdata>/TiposDescuentos}">
-                <core:Item key="{mockdata>key}" text="{mockdata>Desc}" />
+            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/MotivoDesc}" selectedKey="{mockdata>/ActiveDescuento/Motivo}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}">
+                <core:Item key="{Codigo}" text="{Descripcion}" />
             </ComboBox>
 
             <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobanteInput" />

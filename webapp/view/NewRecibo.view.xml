@@ -37,7 +37,7 @@
 
                             </WizardStep>
 
-                            <WizardStep nextStep="idComprobanteWizardStep" icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate">
+                            <WizardStep nextStep="idComprobanteWizardStep" icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate" complete="onWizardStepPagosComplete" >
 
                                 <Panel >
 

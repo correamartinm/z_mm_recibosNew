@@ -441,9 +441,11 @@ sap.ui.define(
             filters: [oFilters],
             success: jQuery.proxy(function (oData) {
               oView.setBusy(false);
+              resolve(oData);
             }, this),
             error: function (oError) {
               oView.setBusy(false);
+              
             },
           });
         });

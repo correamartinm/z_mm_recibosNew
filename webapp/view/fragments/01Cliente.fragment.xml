@@ -29,9 +29,11 @@
             <TextArea id="idObservacionesTextArea" rows="3" value="{mockdata>/Paso01Cliente/Observaciones}"/>
 
             <Label text="{i18n>lbltipocomprobante}" labelFor="idDocumentoSegmentedButton" class="sapUiSmallMarginEnd" />
-            <CheckBox name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox" enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }"/>
-            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox" enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }"/>
+            <CheckBox name="Anticipo" id="idAnticipoCheckBox" text="{i18n>lblanticipo}" width="auto" selected="{mockdata>/Paso01Cliente/Anticipo}" partiallySelected="{mockdata>/Paso01Cliente/Anticipo}" select="onReciboPreliminarCheckBox" enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }"/>
+            <CheckBox name="Recibo" id="idReciboPreliminarCheckBox" text="{i18n>lblrecibopreliminar}" selected="{mockdata>/Paso01Cliente/Recibo}" partiallySelected="{mockdata>/Paso01Cliente/Recibo}" select="onReciboPreliminarCheckBox" enabled="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }"/>
 
+
+                
         </form:content>
     </form:SimpleForm>
 

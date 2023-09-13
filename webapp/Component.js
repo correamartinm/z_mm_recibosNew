@@ -86,6 +86,8 @@ sap.ui.define(
               TipoIVA: "Resposable Inscripto",
             },
           ],
+          Paso2Data : [],
+          Paso3Data : [],
           Paso01Cliente: {
             Codigo: "",
             RazonSocial: "",

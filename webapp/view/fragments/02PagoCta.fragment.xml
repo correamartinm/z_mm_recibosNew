@@ -3,8 +3,7 @@
 
 
 
-    <Table id="idPagoCtaTable" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" items="{path : 'ComprobantesSet' ,events: {
-        dataReceived: '.onFilterTableCbtes02' } ,sorter: [ { path: 'Fecha', descending: false }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idPagoCtaTable" items="{mockdata>/Paso2Data}" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="75%" search="onSearchFieldSearchPagoCta" placeholder="{i18n>lblnumcomprobante}" />
@@ -59,14 +58,14 @@
 
 
 
-                    <Text text="{Tipo}" wrapping="false"/>
+                    <Text text="{mockdata>Tipo}" wrapping="false"/>
                     <!-- <Text text="{path : 'START' , formatter : '.formatFecha'}"/> -->
-                    <Label text="{Numero}"/>
-                    <Label text="{Fecha}" design="Bold"/>
+                    <Label text="{mockdata>Numero}"/>
+                    <Label text="{mockdata>Fecha}" design="Bold"/>
 
-                    <Label text="{Importe}"/>
-                    <Label text="{Saldo}"/>
-                    <Label text="{Aplicado}"/>
+                    <Label text="{mockdata>Importe}"/>
+                    <Label text="{mockdata>Saldo}"/>
+                    <Label text="{mockdata>Aplicado}"/>
                     <!-- <Input enabled="false" value="{Aplicar}" textAlign="End" change="onInputImporteChange"/> -->
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
