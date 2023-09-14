@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m"
-    xmlns:form="sap.ui.layout.form"
+   
     xmlns:core="sap.ui.core">
 
 
@@ -9,34 +9,34 @@
         <HBox justifyContent="SpaceBetween">
 
             <Label text="{i18n>lbldocsafectados}" design="Bold" />
-            <ObjectNumber number="1000" unit="$" inverted="true" state="Success"/>
+            <ObjectNumber number="{mockdata>/Paso03ImporteComprobantes}" unit="$" inverted="true" state="Success"/>
 
         </HBox>
 
         <HBox justifyContent="SpaceBetween">
             <Label text="{i18n>lbldescuentos}" design="Bold" />
-            <ObjectNumber number="1000" unit="$" state="Error" />
+            <ObjectNumber number="{mockdata>/Paso04ImporteDescuentos}" unit="$" state="Error" />
         </HBox >
 
         <HBox justifyContent="SpaceBetween">
             <Label text="{i18n>lblretenciones}" design="Bold"/>
-            <ObjectNumber number="1000" unit="$" state="Error"/>
+            <ObjectNumber number="{mockdata>/Paso05ImporteRetenciones}" unit="$" state="Error"/>
         </HBox>
 
         <HBox justifyContent="SpaceBetween">
             <Label text="{i18n>lblpagoacta}" design="Bold" />
-            <ObjectNumber number="10000" unit="$" state="Error"/>
+            <ObjectNumber number="{mockdata>/Paso02ImportePagos}" unit="$" state="Error"/>
         </HBox>
 
         <HBox justifyContent="SpaceBetween">
             <Label text="{i18n>lblmedios}"  design="Bold"/>
-            <ObjectNumber number="10000" unit="$" state="Error"/>
+            <ObjectNumber number="{mockdata>/Paso06ImporteDetalle}" unit="$" state="Error"/>
         </HBox>
         <Label text="{i18n>lbltotal}" visible="{= ${mockdata>/Cliente/Anticipo} === false }" design="Bold"/>
-        <ObjectNumber number="1000" unit="$" visible="{= ${mockdata>/Cliente/Anticipo} === false }" inverted="true" state="Success"/>
+        <ObjectNumber number="{mockdata>/TOTAL}" unit="$" visible="{= ${mockdata>/Cliente/Anticipo} === false }" inverted="true" state="Success"/>
         <HBox justifyContent="SpaceBetween">
             <Label text="{i18n>lblimporteacta}" visible="{mockdata>/Cliente/Anticipo}" design="Bold"/>
-            <ObjectNumber number="1000" unit="$" visible="{mockdata>/Cliente/Anticipo}" inverted="true" state="Success"/>
+            <ObjectNumber number="{mockdata>/ANTICIPO}" unit="$" visible="{mockdata>/Cliente/Anticipo}" inverted="true" state="Success"/>
         </HBox>
 
 

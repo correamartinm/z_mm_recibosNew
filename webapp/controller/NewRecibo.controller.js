@@ -528,7 +528,7 @@ sap.ui.define(
         }
 
         let oValue = false,
-          oImportesSuma,
+          oImportesSuma =0,
           oRetenciones = "/Descuentos";
 
         oldData = this._onGetDataModel(oModel, oRetenciones);
@@ -664,7 +664,7 @@ sap.ui.define(
           oImporte = this.getView().byId("idImporteRetencionInput"),
           oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
           oFile = this.getView().byId("idRetencionesFileUploader"),
-          oImportesSuma,
+          oImportesSuma = 0,
           oldData = [];
 
         if (!oTipo.getSelectedKey()) {
@@ -786,6 +786,23 @@ sap.ui.define(
 
         oModel.refresh();
       },
+
+      onWizardStepRetencionComplete:function () {
+        let oModel = this.getView().getModel("mockdata"),
+        ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
+        ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
+        ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
+        ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
+        
+
+        oModel.setProperty("/Paso02ImportePagos", parseFloat(ImportePGOCTA));
+        oModel.setProperty("/Paso03ImporteComprobantes", parseFloat(ImporteCBTES));
+        oModel.setProperty("/Paso04ImporteDescuentos", parseFloat(ImporteDTO));
+        oModel.setProperty("/Paso05ImporteRetenciones", parseFloat(ImporteRET));
+        
+      },
+
+
 
       // ********************************************
       // Photo ----------------------------
@@ -1236,11 +1253,54 @@ sap.ui.define(
       },
 
       onWizardStepDetalleComplete: function (params) {
+        let oModel = this.getView().getModel("mockdata"),
+          ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
+          ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
+          ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
+          ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones"),
+          ImporteDET = oModel.getProperty("/Paso06ImporteDetalle");
+
+          oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
+
+          let oTotal = parseFloat(ImporteCBTES) - ( parseFloat(ImportePGOCTA) + parseFloat(ImporteDTO) + parseFloat(ImporteRET) + parseFloat(ImporteDET) );
+          let  oAnticipo = parseFloat(ImporteDET);
+
+          oModel.setProperty("/TOTAL", oTotal);
+          oModel.setProperty("/ANTICIPO", oAnticipo);
+
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
+
       },
 
+      onShowInfoMsg: function (oEvent) {
+        let oModel = this.getView().getModel("mockdata"),
+
+        ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
+        ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
+        ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
+        ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
+        
+        
+        let MPGOCTA = this._i18n().getText("lblpagoacta") + ": " + ImportePGOCTA.toString() +"\n" ;
+        let MCBTES = this._i18n().getText("lbldocsafectados") + ": " + ImporteCBTES.toString() +"\n";
+        let MDTO = this._i18n().getText("lbldescuentos") + ": " + ImporteDTO.toString() +"\n";
+        let MRET = this._i18n().getText("lblretenciones") + ": " + ImporteRET.toString() ;
+        
+
+          let sMessage =  MCBTES+MPGOCTA+MDTO+MRET,
+
+          sMessageTitle = this._i18n().getText("msginfotitle");
+
+        this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
+          
+        });
+      },
       // ********************************************
       // ********************************************
+
+      onAnularButtonPress: function () {
+        this.onNavBack();
+      },
 
       onNavtoStep2: function (oEvent) {
         this.onWizardStepClienteComplete();

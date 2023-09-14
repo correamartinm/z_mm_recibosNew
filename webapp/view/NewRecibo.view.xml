@@ -72,7 +72,7 @@
                                 </Panel>
                             </WizardStep>
 
-                            <WizardStep nextStep="idDetalleWizardStep" icon="sap-icon://sales-quote" id="idRetencionesWizardStep" title="{i18n>retencionestitle}">
+                            <WizardStep nextStep="idDetalleWizardStep" icon="sap-icon://sales-quote" id="idRetencionesWizardStep" title="{i18n>retencionestitle}" complete="onWizardStepRetencionComplete">
 
                                 <Panel >
 
