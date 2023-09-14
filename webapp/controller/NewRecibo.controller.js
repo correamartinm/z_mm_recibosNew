@@ -423,7 +423,7 @@ sap.ui.define(
               Data.push(vObject);
 
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicar);
+                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
           }
           this._wizard.validateStep(
@@ -462,11 +462,13 @@ sap.ui.define(
       _onshowDescuentoAdd: function (oValue, Object) {
         let oMockModel = this.getView().getModel("mockdata"),
           oModel = this.getView().getModel("layout"),
+          oMotivo = this.getView().byId("idMotivoInput"),
           oDescuento = "/descuentosadd",
           data = [];
 
         this._onUpdateModel(oModel, oDescuento, oValue);
 
+        // oMotivo.setSelectedKey(Object.Motivokey);
         oMockModel.setProperty("/ActiveDescuento", Object);
 
         if (oValue === true) {
@@ -527,9 +529,9 @@ sap.ui.define(
 
         let oValue = false,
           oImportesSuma,
-          oDescuentos = "/Descuentos";
+          oRetenciones = "/Descuentos";
 
-        oldData = this._onGetDataModel(oModel, oDescuentos);
+        oldData = this._onGetDataModel(oModel, oRetenciones);
 
         let oDatos = {
           Motivokey: oMotivo.getSelectedKey(),
@@ -542,7 +544,7 @@ sap.ui.define(
 
         this._onshowDescuentoAdd(oValue, []);
 
-        this._onUpdateModel(oModel, oDescuentos, DataFinal);
+        this._onUpdateModel(oModel, oRetenciones, DataFinal);
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
@@ -553,6 +555,10 @@ sap.ui.define(
           oImporteDec = "/Paso04ImporteDescuentos";
         oModel.setProperty(oCantidad, DataFinal.length);
         oModel.setProperty(oImporteDec, oImportesSuma);
+
+        if (oPostDataDescuento.UpdPath !== "") {
+          this.onButtonDeleteDescuentoPress(oPostDataDescuento.UpdPath);
+        }
       },
 
       onVolverButtonCancelarDescPress: function () {
@@ -560,9 +566,8 @@ sap.ui.define(
         this._onshowDescuentoAdd(oValue, []);
       },
 
-      onButtonDeleteDescuentoPress: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+      onButtonDeleteDescuentoPressMsg: function (oEvent) {
+        let oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
           oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
           sMessage =
             this._i18n().getText("lblnumcomprobante") +
@@ -575,7 +580,9 @@ sap.ui.define(
           sMessageTitle = this._i18n().getText("msgdelete");
 
         this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
-          //  alert(rta);
+          if (rta === "OK") {
+            this.onButtonDeleteDescuentoPress(oPath);
+          }
         });
       },
 
@@ -590,6 +597,28 @@ sap.ui.define(
 
       onUploadDescuento: function () {
         let oFile = this.getView().byId("idDescuentoFileUploader");
+      },
+
+      onButtonDeleteDescuentoPress: function (oPath) {
+        let oModel = this.getView().getModel("mockdata"),
+          oItem = oModel.getObject(oPath),
+          oCertNro = oItem.Codigo,
+          oAddedData = this.getView()
+            .getModel("mockdata")
+            .getProperty("/Descuentos");
+
+        let oRetencionExist = oAddedData.findIndex(function (oRetenciones) {
+          return oRetenciones.Codigo === oCertNro;
+        });
+
+        if (oAddedData.length > 1) {
+          let removed = oAddedData.splice(oRetencionExist, 1);
+          oModel.setProperty("/Descuentos", oAddedData);
+        } else {
+          oModel.setProperty("/Descuentos", []);
+        }
+
+        oModel.refresh();
       },
 
       // ********************************************
@@ -675,6 +704,7 @@ sap.ui.define(
 
         oldData = oModel.getProperty("/Retenciones");
 
+        let oActiveRetencion = oModel.getProperty("/ActiveRetencion");
         let oDatos = {
           Tipokey: oTipo.getSelectedKey(),
           TipoDesc: oTipo.getSelectedItem().getText(),
@@ -695,25 +725,10 @@ sap.ui.define(
 
         let oValue = false;
         this._onshowRetencionesAdd(oValue);
-      },
 
-      onButtonDeleteRetencionPress: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
-          sMessage =
-            this._i18n().getText("lblncertificado") +
-            ": " +
-            oItem.NCertificado +
-            " " +
-            this._i18n().getText("lblimpor") +
-            ": " +
-            oItem.Importe,
-          sMessageTitle = this._i18n().getText("msgdelete");
-
-        this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
-          //  alert(rta);
-        });
+        if (oActiveRetencion.UpdPath !== "") {
+          this.onButtonDeleteRetencionPress(oActiveRetencion.UpdPath);
+        }
       },
 
       onButtonEditaRetencionPress: function (oEvent) {
@@ -728,6 +743,48 @@ sap.ui.define(
       cancelarRetencion: function () {
         let oValue = false;
         this._onshowRetencionesAdd(oValue);
+      },
+
+      onButtonDeleteRetencionPressMsg: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+          sMessage =
+            this._i18n().getText("lblncertificado") +
+            ": " +
+            oItem.NCertificado +
+            " " +
+            this._i18n().getText("lblimpor") +
+            ": " +
+            oItem.Importe,
+          sMessageTitle = this._i18n().getText("msgdelete");
+
+        this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
+          if (rta === "OK") {
+            this.onButtonDeleteRetencionPress(oPath);
+          }
+        });
+      },
+      onButtonDeleteRetencionPress: function (oPath) {
+        let oModel = this.getView().getModel("mockdata"),
+          oItem = oModel.getObject(oPath),
+          oCertNro = oItem.NCertificado,
+          oAddedData = this.getView()
+            .getModel("mockdata")
+            .getProperty("/Retenciones");
+
+        let oRetencionExist = oAddedData.findIndex(function (oRetenciones) {
+          return oRetenciones.NCertificado === oCertNro;
+        });
+
+        if (oAddedData.length > 1) {
+          let removed = oAddedData.splice(oRetencionExist, 1);
+          oModel.setProperty("/Retenciones", oAddedData);
+        } else {
+          oModel.setProperty("/Retenciones", []);
+        }
+
+        oModel.refresh();
       },
 
       // ********************************************
@@ -819,29 +876,299 @@ sap.ui.define(
       // ********************************************
       // Medios de Pago ----------------------------
       // ********************************************
+      onAgregarDetalleButtonPress: function () {
+        let oValue = true;
+        this.onshowDetalleAdd(oValue);
+      },
 
-      onButtonDeletePayPress: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
+      onshowDetalleAdd: function (oValue) {
+        let oModel = this.getView().getModel("layout"),
+          oDescuento = "/detalleadd",
+          data = [];
+        this._onUpdateModel(oModel, oDescuento, oValue);
 
-        let oTarget = oEvent.getSource(),
-          // oMaterialCod = oItem.codMaterial,
+        let oFile = this.getView().byId("idChequeFileUploader");
+        oFile.setValue();
+
+        let EditRecibo = oModel.getProperty("/EdicionRecibo");
+
+        if (EditRecibo === true) {
+          if (oValue === true) {
+            this._wizard.invalidateStep(
+              this.getView().byId("idDetalleWizardStep")
+            );
+          } else {
+            this._wizard.validateStep(
+              this.getView().byId("idDetalleWizardStep")
+            );
+          }
+        }
+      },
+
+      onCheckDetalles: function () {
+        let oModel = this.getView().getModel("mockdata"),
           oAddedData = this.getView()
             .getModel("mockdata")
             .getProperty("/Detalle");
 
-        // let oMaterialExist = oAddedData.findIndex(function (oMaterial) {
-        //   return oMaterial.codMaterial === oMaterialCod;
-        // });
+        if (oAddedData.length > 0) {
+          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
+        } else {
+          this._wizard.invalidateStep(
+            this.getView().byId("idDetalleWizardStep")
+          );
+        }
+      },
 
-        // if (oAddedData.length > 1) {
-        //   let removed = oAddedData.splice(oMaterialExist, 1);
-        //   oModel.setProperty("/Detalle", oAddedData);
-        // } else {
-        //   oModel.setProperty("/Detalle", []);
-        //   this._onCheckTableItems();
+      // Paso Detalle  (Seleccion de Madios de Pago)
+
+      onInputTipoPagoChange: function (oEvent) {
+        let vObject,
+          oEntidad = "/ActiveMP",
+          oModel = this.getView().getModel("mockdata"),
+          Step = this.getView().byId("idClienteWizardStep"),
+          oSource = oEvent.getSource(),
+          oPath = oSource
+            .getSelectedItem()
+            .getBindingContext("mockdata")
+            .getPath();
+
+        vObject = oModel.getObject(oPath);
+
+        this._onUpdateModel(oModel, oEntidad, vObject);
+      },
+
+      onGuardarButtonDetallePress: function () {
+        let oModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout");
+
+        let MpActive = this._onGetDataModel(oModel, "/ActiveDetalle"),
+          oMP = this.getView().byId("idselectMP"),
+          oCheque = this.getView().byId("idDetNroCheque"),
+          oCbte = this.getView().byId("idDetComprobante"),
+          oBcoDestino = this.getView().byId("idDetBcoDestino"),
+          oBcoEmisor = this.getView().byId("idDetBcoEmisor"),
+          oFechaDeposito = this.getView().byId("idDetFecDeposito"),
+          oFechaEmision = this.getView().byId("idDetFechaEmision"),
+          oFechaVencimiento = this.getView().byId("idDetFecVto"),
+          oImportePago = this.getView().byId("idImportePagoInput");
+        // oFile = this.getView().byId("idChequeFileUploader"),
+        // oFileCheque = this.getView().byId("");
+
+        let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
+        let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
+
+        // ********* Fijos
+        if (!oMP.getSelectedKey()) {
+          oMP.setValueState(ValueState.Error);
+          return;
+        } else {
+          oMP.setValueState(ValueState.None);
+        }
+
+        if (!oImportePago.getValue()) {
+          oImportePago.setValueState(ValueState.Error);
+          return;
+        } else {
+          oImportePago.setValueState(ValueState.None);
+        }
+
+        //***** Segun MP Seleccionado */
+
+        if (MpKValidate.DetCbte === true) {
+          if (!oCbte.getValue()) {
+            oCbte.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCbte.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.FecCbte === true) {
+          if (!oFechaDeposito.getDateValue()) {
+            oFechaDeposito.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaDeposito.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.FecVto === true) {
+          if (!oFechaVencimiento.getDateValue()) {
+            oFechaVencimiento.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaVencimiento.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.NroCheq === true) {
+          if (!oCheque.getValue()) {
+            oCheque.setValueState(ValueState.Error);
+            return;
+          } else {
+            oCheque.setValueState(ValueState.None);
+          }
+        }
+
+        // if (MpKValidate.Adjunto === true) {
+        //   if (!oFile.getValue()) {
+        //     oFile.setValueState(ValueState.Error);
+        //     return;
+        //   } else {
+        //     oFile.setValueState(ValueState.None);
+        //   }
+
+        //   if (!oFileCheque.getValue()) {
+        //     oFileCheque.setValueState(ValueState.Error);
+        //     return;
+        //   } else {
+        //     oFoFileChequeile.setValueState(ValueState.None);
+        //   }
         // }
+
+        if (MpKValidate.FecEmis === true) {
+          if (!oFechaEmision.getDateValue()) {
+            oFechaEmision.setValueState(ValueState.Error);
+            return;
+          } else {
+            oFechaEmision.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.BcoEmi === true) {
+          if (!oBcoEmisor.getValue()) {
+            oBcoEmisor.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoEmisor.setValueState(ValueState.None);
+          }
+        }
+
+        if (MpKValidate.BcoDes === true && MpKValidate.BcoDesReq === true) {
+          if (!oBcoDestino.getValue()) {
+            oBcoDestino.setValueState(ValueState.Error);
+            return;
+          } else {
+            oBcoDestino.setValueState(ValueState.None);
+          }
+        }
+
+        let oldData = oModel.getProperty("/Detalle"),
+          oImportesSuma = 0;
+
+        let oDatos = {
+          Tipo: oMP.getSelectedKey(),
+          TipoDesc: oMP.getSelectedItem().getText(),
+          NroCbte: oCbte.getValue(),
+          NroCheque: oCheque.getValue(),
+          FechaVto: oFechaVencimiento.getDateValue(),
+          FechaDto: oFechaDeposito.getDateValue(),
+          FechaEmi: oFechaEmision.getDateValue(),
+          BcoDestino: oBcoDestino.getValue(),
+          BcoEmisor: oBcoEmisor.getValue(),
+          Importe: parseFloat(oImportePago.getValue()),
+        };
+        let DataFinal = oldData.concat(oDatos);
+        oModel.setProperty("/Detalle", DataFinal);
+
+        let ActiveDetalle = {
+          MPkey: 0,
+          NroCheq: 0,
+          NroCte: 0,
+          Importe: 0,
+          FecEmis: null,
+          FecDepo: null,
+          FecCbte: null,
+          FecVto: null,
+          BcoEmi: "",
+          BcoDes: "",
+          Adjunto: "",
+        };
+
+        oModel.setProperty("/Detalle", DataFinal);
+        oModel.setProperty("/ActiveDetalle", ActiveDetalle);
+
+        for (var index = 0; index < DataFinal.length; index++) {
+          oImportesSuma =
+            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+        }
+
+        let oValue = false;
+        this.onshowDetalleAdd(oValue);
+
+        oModel.setProperty("/Paso06Detalles", DataFinal.length);
+        oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
+      },
+      _onResetDetalleValues: function name() {
+        let oModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout"),
+          ActiveMP = {
+            key: 1,
+            Desc: "Efectivo",
+            DetCbte: false,
+            FecCbte: false,
+            NroCheq: false,
+            Adjunto: false,
+            FecEmis: false,
+            FecVto: false,
+            BcoEmi: false,
+            BcoDes: false,
+            BcoDesReq: false,
+          };
+        let oFile = this.getView().byId("idChequeFileUploader");
+        oFile.setValue();
+
+        this._onUpdateModel(oModel, "/ActiveMP", ActiveMP);
+        this._onUpdateModel(oLayoutModel, "/MpKey", ActiveMP.key);
+      },
+
+      cancelarDetlles: function () {
+        this._onResetDetalleValues();
+        let oValue = false;
+        this.onshowDetalleAdd(oValue);
+        this.onCheckDetalles();
+      },
+      onButtonDeletePagoPressMsg: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
+          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+          sMessage =
+            this._i18n().getText("lbldescripcion") +
+            ": " +
+            oItem.TipoDesc +
+            " " +
+            this._i18n().getText("lblimpor") +
+            ": " +
+            oItem.Importe,
+          sMessageTitle = this._i18n().getText("msgdelete");
+
+        this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
+          if (rta === "OK") {
+            this.onButtonDeletePagoPress(oPath);
+          }
+        });
+      },
+
+      onButtonDeletePagoPress: function (oPath) {
+        let oModel = this.getView().getModel("mockdata"),
+          oItem = oModel.getObject(oPath),
+          oCertNro = oItem.TipoDesc,
+          oAddedData = this.getView()
+            .getModel("mockdata")
+            .getProperty("/Detalle");
+
+        let oDetalleExist = oAddedData.findIndex(function (oRetenciones) {
+          return oRetenciones.TipoDesc === oCertNro;
+        });
+
+        if (oAddedData.length > 1) {
+          let removed = oAddedData.splice(oDetalleExist, 1);
+          oModel.setProperty("/Detalle", oAddedData);
+        } else {
+          oModel.setProperty("/Detalle", []);
+          this.onCheckDetalles();
+        }
 
         oModel.refresh();
       },

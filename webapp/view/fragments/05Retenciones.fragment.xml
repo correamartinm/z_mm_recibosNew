@@ -52,7 +52,7 @@
                     <Label text="{mockdata>Importe}"/>
 
                     <HBox>
-                        <!-- <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPress" /> -->
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPressMsg" />
                         <Button icon="sap-icon://edit" press="onButtonEditaRetencionPress" />
                     </HBox>
 

@@ -56,7 +56,7 @@
                     <HBox >
 
                         <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
-                        <!-- <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPress"/> -->
+                        <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteDescuentoPressMsg"/>
                         <Button icon="sap-icon://edit" press="onButtonEditaDescuentoPress"/>
                     </HBox>
 
@@ -70,7 +70,7 @@
         <form:content>
             <Label text="{i18n>lblmotivo}" required="true" labelFor="idMotivoInput"/>
 
-            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/MotivoDesc}" selectedKey="{mockdata>/ActiveDescuento/Motivo}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}">
+            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/MotivoDesc}" selectedKey="{mockdata>/ActiveDescuento/Motivokey}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}">
                 <core:Item key="{Codigo}" text="{Descripcion}" />
             </ComboBox>
 

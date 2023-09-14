@@ -461,7 +461,7 @@ sap.ui.define(
             NComprobante: "",
             Fecha: null,
             Importe: "",
-            Motivo: "",
+            Codigo: "",
             MotivoDesc: "",
             UpdPath: ""
           },

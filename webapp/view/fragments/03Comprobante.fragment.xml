@@ -78,7 +78,7 @@
             </ColumnListItem>
         </items>
     </Table>
-    <OverflowToolbar visible="{= ${/Paso03CantidadComprobantes} > 0 }">
+    <OverflowToolbar visible="{= ${mockdata>/Paso03CantidadComprobantes} > 0 }">
         <content>
             <ToolbarSpacer />
             <!-- <HBox visible="{= ${/Paso03CantidadComprobantes} > 0 }">
@@ -87,10 +87,10 @@
             <!-- <HBox visible="{= ${/Paso03CantidadComprobantes} > 0 }"> -->
             <Label text="{i18n>lblseleccion}: " />
             <Label text="{i18n>lblcomprobantes}" />
-            <Label text="{/Paso03CantidadComprobantes}" design="Bold" class="sapUiTinyMarginBeginEnd" />
+            <Label text="{mockdata>/Paso03CantidadComprobantes}" design="Bold" class="sapUiTinyMarginBeginEnd" />
 
             <Label text="{i18n>lblimpor}" />
-            <Label text="{/Paso03ImporteComprobantes}" design="Bold" />
+            <Label text="{mockdata>/Paso03ImporteComprobantes}" design="Bold" />
             <!-- </HBox> -->
         </content>
 

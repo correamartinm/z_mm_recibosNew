@@ -37,17 +37,17 @@
                 <cells>
 
 
-                    <Text text=" {mockdata>TipoDesc}"/>
+                    <Text text=" {mockdata>Tipo} {mockdata>TipoDesc}"/>
                     <HBox >
                         <Text text="{mockdata>NroCbte}" wrapping="false"/>
                         <Text text="{path : 'mockdata>FechaEmi' , formatter : '.formatFecha'}"/>
-                        <Text text="{mockdata>Nro}"/>
+                        <Text text="{mockdata>NroCheque}"/>
                     </HBox>
-
-                    <ObjectNumber number="{mockdata>Importe}" unit="$"/>
+                   
+                    <ObjectNumber number="{mockdata>Importe}" unit=""/>
                     <HBox>
-                        <Button icon="sap-icon://delete" press="onButtonDeletePayPress" class="sapUiTinyMarginEnd"/>
-                        <Button icon="sap-icon://attachment" press="onButtonAtachPress" />
+                        <Button icon="sap-icon://delete" press="onButtonDeletePagoPressMsg" class="sapUiTinyMarginEnd"/>
+                        <!-- <Button icon="sap-icon://attachment" press="onButtonAtachPress" /> -->
                     </HBox>
 
                 </cells>
