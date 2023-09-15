@@ -204,6 +204,19 @@ sap.ui.define(
       // ********************************************
       // Paso Seleccion Pagos a Cuenta --------------
       // ********************************************
+      onSearchFieldSearchPagoCta: function (oEvent) {
+        let oTable = oEvent.getSource().getParent().getParent(),
+          oValue = oEvent.getSource().getValue(),
+          oFilters = [];
+
+        if (oValue) {
+          oFilters.push(new Filter("Numero", FilterOperator.Contains, oValue));
+          oTable.getBinding("items").filter([oFilters]);
+        } else {
+          oTable.getBinding("items").filter([oFilters]);
+        }
+      },
+
 
       onFilterTableCbtes02: function () {
         let oTable = this.getView().byId("idPagoCtaTable"),
@@ -393,7 +406,7 @@ sap.ui.define(
           oFilters = [];
 
         if (oValue) {
-          oFilters.push(new Filter("Numero", FilterOperator.EQ, oValue));
+          oFilters.push(new Filter("Numero", FilterOperator.Contains, oValue));
           oTable.getBinding("items").filter([oFilters]);
         } else {
           oTable.getBinding("items").filter([oFilters]);

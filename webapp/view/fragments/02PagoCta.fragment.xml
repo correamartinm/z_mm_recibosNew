@@ -14,14 +14,14 @@
         </headerToolbar>
         <columns>
 
-            <Column width="2rem" hAlign="Center">
+            <Column width="3rem" hAlign="Center">
                 <header>
                     <Label text="{i18n>lbltc}" tooltip="{i18n>lbltipocomprobante}"/>
                 </header>
             </Column>
-            <Column width="3rem" hAlign="Center">
+            <Column width="4rem" hAlign="Center">
                 <header>
-                    <Label text="{i18n>lblnumcomprobante}" wrapping="true"/>
+                    <Label text="{i18n>lblnumcomprobante}" />
                 </header>
             </Column>
             <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
