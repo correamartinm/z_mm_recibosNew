@@ -38,6 +38,8 @@ sap.ui.define(
 
       _onObjectMatched: function () {
         this._onValidateStep();
+        
+        this._oNavContainer.to(this.byId("idRecibosPage"));
       },
       // ************ Controles ****************
 
@@ -92,6 +94,8 @@ sap.ui.define(
         }
 
         if (oData !== undefined) {
+
+       
           let oPayload = {
             Cliente: oData.Codigo,
             Comentarios: oData.Observaciones,
@@ -279,7 +283,7 @@ sap.ui.define(
             if (oItems[index].getSelected() === true) {
               // let  oValue = oItems[index].getCells()[6].getValue();
               Data.push(vObject);
-
+              Data.NroLinea = index;
               oImportesSuma =
                 parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
@@ -340,12 +344,27 @@ sap.ui.define(
 
         for (var index = 0; index < oItems.length; index++) {
           oItems[index].TipoLinea = Tipo;
+          oItems[index].NroLinea = index;
           rtaP2 = await this._onSaveData(oModel, oView, oItems[index]);
 
-          if (rtaP2 !== "") {
-            this._wizard.validateStep(this.getView().byId(Step));
+          if (Step !== "END") {
+            if (rtaP2 !== "") {
+              this._wizard.validateStep(this.getView().byId(Step));
+            } else {
+              this._wizard.invalidateStep(this.getView().byId(Step));
+            }
           } else {
-            this._wizard.invalidateStep(this.getView().byId(Step));
+            if (rtaP2 !== "") {
+              let sMessage = rtaP2.Mensaje,
+                oMockModel = this.getView().getModel("mockdata"),
+                sMessageTitle = this._i18n().getText("msgmsgokvolver");
+
+              this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
+                if (rta === "OK") this.discardProgress();
+                oMockModel.setProperty("/NoComprobantes", false);
+                this.getOwnerComponent().getTargets().display("TargetMainView");
+              });
+            }
           }
         }
       },
@@ -464,7 +483,7 @@ sap.ui.define(
 
             if (oItems[index].getSelected() === true) {
               Data.push(vObject);
-
+              Data.NroLinea = index;
               oImportesSuma =
                 parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
@@ -562,12 +581,12 @@ sap.ui.define(
           oFecha.setValueState(ValueState.None);
         }
 
-        if (!oFile.getValue()) {
-          oFile.setValueState(ValueState.Error);
-          return;
-        } else {
-          oFile.setValueState(ValueState.None);
-        }
+        // if (!oFile.getValue()) {
+        //   oFile.setValueState(ValueState.Error);
+        //   return;
+        // } else {
+        //   oFile.setValueState(ValueState.None);
+        // }
 
         let oValue = false,
           oImportesSuma = 0,
@@ -589,13 +608,14 @@ sap.ui.define(
 
         this._onshowDescuentoAdd(oValue, []);
 
-        oModel.setProperty(oRetenciones, DataFinal);
-
+        
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+          parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+          DataFinal.NroLinea = index;
         }
-
+        
+        oModel.setProperty(oRetenciones, DataFinal);
         let oCantidad = "/Paso04CantidadDescuentos",
           oImporteDec = "/Paso04ImporteDescuentos";
         oModel.setProperty(oCantidad, DataFinal.length);
@@ -748,8 +768,8 @@ sap.ui.define(
         }
 
         if (!oFile.getValue()) {
-          oFile.setValueState(ValueState.Error);
-          return;
+          // oFile.setValueState(ValueState.Error);
+          // return;
         } else {
           oFile.setValueState(ValueState.None);
         }
@@ -768,12 +788,13 @@ sap.ui.define(
           Numero: oNCertificado.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
-        oModel.setProperty("/Retenciones", DataFinal);
-
+        
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+          parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+            DataFinal.NroLinea = index;
         }
+          oModel.setProperty("/Retenciones", DataFinal);
 
         oModel.setProperty("/Paso05CantidadRetenciones", DataFinal.length);
         oModel.setProperty("/Paso05ImporteRetenciones", oImportesSuma);
@@ -1176,7 +1197,7 @@ sap.ui.define(
           BancoDestino: oBcoDestino.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
-        oModel.setProperty("/Detalle", DataFinal);
+     
 
         let ActiveDetalle = {
           MPkey: "0000000001",
@@ -1198,8 +1219,9 @@ sap.ui.define(
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
             parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+            DataFinal.NroLinea = index;
         }
-
+        oModel.setProperty("/Detalle", DataFinal);
         let oValue = false;
         this.onshowDetalleAdd(oValue);
 
@@ -1470,12 +1492,37 @@ sap.ui.define(
 
       onWizardComplete: function () {},
 
-      onConfirmarReciboButtonPress: function () {
-        let oEntidad = "/Detalle",
-        Tipo = "DETA",
-        Step = "idDetalleWizardStep";
+      onConfirmarReciboButtonPress: async function () {
+        let oMockModel = this.getView().getModel("mockdata"),
+          oEntidad = "/DocumentosSet",
+        oModel = this.getOwnerComponent().getModel(),
+          oView = this.getView(),
+          oData = oMockModel.getProperty("/Paso01Cliente");
 
-      this._onGuardar(oEntidad, Tipo, Step);
+          oData.Accion = "S";
+
+        let oPayload = {
+          Cliente: oData.Codigo,
+          Comentarios: oData.Observaciones,
+          Accion: oData.Accion,
+          TipoComprobante: oData.TipoComprobante
+        };
+
+        let rta2 = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
+
+        if (rta2.Mensaje) {
+          let sMessage = rta2.Mensaje,
+            sMessageTitle = this._i18n().getText("msgok");
+
+          this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
+            if (rta === "OK") this.discardProgress();
+            oMockModel.setProperty("/NoComprobantes", false);
+            this.discardProgress();
+            
+           
+            this.getOwnerComponent().getTargets().display("TargetMainView");
+          });
+        }
       },
       onAnularButtonPress: function () {
         this.discardProgress();

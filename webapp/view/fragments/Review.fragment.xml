@@ -3,7 +3,7 @@
     xmlns:core="sap.ui.core">
 
 
-    <VBox  class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginTopBottom" height="50%" justifyContent="SpaceBetween" width="80%" alignContent="Center" >
+    <VBox  class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginTopBottom" height="40%" justifyContent="SpaceBetween" width="60%" alignContent="Center" >
 
 
         <HBox justifyContent="SpaceBetween">
@@ -38,16 +38,20 @@
             <Label text="{i18n>lblimporteacta}" visible="{mockdata>/Cliente/Anticipo}" design="Bold"/>
             <ObjectNumber number="{mockdata>/ANTICIPO}" unit="$" visible="{mockdata>/Cliente/Anticipo}" inverted="true" state="Success"/>
         </HBox>
+        
+        <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" >
 
+            <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/>
+                <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" />
+        </HBox>
 
     </VBox>
 
 
     <OverflowToolbar >
         <ToolbarSpacer/>
-        <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack"/>
-        <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" class="sapUiLargeMarginEnd"/>
-
+     
+            <ToolbarSpacer/>
     </OverflowToolbar>
 
 </core:FragmentDefinition>

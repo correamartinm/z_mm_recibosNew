@@ -122,7 +122,7 @@ sap.ui.define(
           }
 
           if (item.Fecha === undefined ||  item.Fecha === null ){
-            item.Fecha = item.FechaEmision;
+            item.Fecha = new Date();
           }
 
         let oPayload = {
@@ -130,6 +130,7 @@ sap.ui.define(
             Cliente: paso1.Codigo || "",
             TipoLinea: item.TipoLinea || "",
             Descripcion: item.Descripcion || "",
+            NroLinea: item.NroLinea.toString() || "",
             Importe: item.Importe.toString() || "",
             Numero: item.Numero.toString() || "",
             Fecha: item.Fecha || "",

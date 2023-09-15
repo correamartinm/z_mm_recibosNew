@@ -59,7 +59,7 @@
     </Table>
 
     <VBox visible="{layout>/detalleadd}">
-        <HBox justifyContent="End">
+        <HBox justifyContent="End"  visible="{= ${mockdata>/Paso03ImporteComprobantes} > 0}">
             <Button icon="sap-icon://message-information" text="{i18n>msginfotitle}" press="onShowInfoMsg" class="sapUiTinyMarginEnd"/>
            
         </HBox>
