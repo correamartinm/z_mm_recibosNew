@@ -88,10 +88,15 @@
         </form:content>
     </form:SimpleForm>
 
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/retencionesadd} === false }" >
+            <Button enabled="{= ${mockdata>/Paso05ImporteRetenciones} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonRETSavePress" />
+    </HBox>
+
+
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/retencionesadd}">
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarRetencion" class="sapUiTinyMarginEnd"/>
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="guardarRetencion" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="guardarRetencion" />
     </HBox>
 
 </core:FragmentDefinition>

@@ -95,8 +95,10 @@
         </content>
 
     </OverflowToolbar>
-    <!-- <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
-        <Button text="Cerrar" iconDensityAware="false" class="sapUiTinyMarginEnd" />
-        <Button enabled="{/AddButtonActive}" text="Guardar" type="Emphasized" icon="sap-icon://save" press="guardarAdicional" />
-    </HBox> -->
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" >
+
+    
+        <!-- <Button  text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" /> -->
+        <Button  enabled="{= ${mockdata>/Paso03ImporteComprobantes} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonComprobantesPress" />
+</HBox>
 </core:FragmentDefinition>

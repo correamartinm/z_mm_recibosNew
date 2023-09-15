@@ -16,21 +16,27 @@
 
             </form:content>
         </form:SimpleForm>
-      
-        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${device>/system/desktop} === false }" >
+
+        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${device>/system/desktop} === false }">
             <form:content>
                 <!-- <Button text="{i18n>btnadjuntofoooto}" icon="sap-icon://add-photo" class="sapUiTinyMarginEnd" press="capturePic" /> -->
 
             </form:content>
         </form:SimpleForm>
 
+
+
         <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
             <VBox id="vBox1"/>
             <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
 
-                <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" class="sapUiTinyMarginEnd" />
-                <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDetallePress" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" class="sapUiTinyMarginEnd" />
+            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDetallePress" />
         </HBox>
 
     </VBox>
+
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/detalleadd} === false }" >
+        <Button enabled="{= ${mockdata>/Paso06ImporteDetalle} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDETSavePress" />
+    </HBox>
 </core:FragmentDefinition>

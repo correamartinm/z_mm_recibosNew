@@ -205,9 +205,10 @@ sap.ui.define(
           Detalle: [],
           ActiveDetalle: {
             MPkey: 0,
-            NroCheq: 0,
-            NroCte: 0,
-            Importe: 0,
+            MPDesc:"",
+            NroCheq: "",
+            NroCte: "",
+            Importe: "",
             FecEmis: null,
             FecDepo: null,
             FecCbte: null,

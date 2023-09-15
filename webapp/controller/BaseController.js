@@ -28,8 +28,6 @@ sap.ui.define(
 
       //  Detalle
 
-
-
       onAddCliente: function () {
         let Payload = {
             Codigo: "1",
@@ -50,9 +48,9 @@ sap.ui.define(
 
       formatFecha: function (sFec) {
         var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-            pattern: "dd/MM/yyyy" ,
+            pattern: "dd/MM/yyyy",
             strictParsing: true,
-            UTC: true
+            UTC: true,
           }),
           oFecha = oDateFormat.format(sFec);
         return oFecha;
@@ -102,7 +100,7 @@ sap.ui.define(
           oModel.sServiceUrl +
           oModel.createKey("/AttachDocSet", {
             Cliente: Ref,
-            Tipo: oTipo
+            Tipo: oTipo,
           }) +
           "/attachments";
         this._addHeaderParameters(FileControl);
@@ -114,6 +112,35 @@ sap.ui.define(
       },
 
       //*********************************** */
+
+      _onSaveData: async function (oModel, oView, item) {
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          paso1 = oMockModel.getProperty("/Paso01Cliente");
+
+        let oPayload = {
+            Codigo: item.Codigo || "",
+            Cliente: paso1.Cliente || "",
+            TipoLinea: item.TipoLinea || "",
+            Descripcion: item.Descripcion || "",
+            Importe: item.Importe.toString() || "",
+            Numero: item.Numero.toString() || "",
+            Fecha: item.Fecha || "",
+            Documentacion: item.Documentacion || "",
+            Mensaje: item.Mensaje || "",
+            Resultado: item.Resultado || "",
+            Detalle: item.Detalle || "",
+            NroCheque: item.NroCheque || "",
+            FechaEmision: item.FechaEmision || null,
+            FechaVencimiento: item.FechaVencimiento || null,
+            BancoEmisor: item.BancoEmisor || "",
+            BancoDestino: item.BancoDestino || "",
+          },
+          oEntidad = "/DocumenPosSet";
+        console.log(oPayload);
+        let rta = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
+
+        return rta;
+      },
 
       _i18n: function () {
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
@@ -193,7 +220,6 @@ sap.ui.define(
           let that = this;
           oView.setBusy(true);
           oModel.read(oPath, {
-
             success: jQuery.proxy(function (oData) {
               oView.setBusy(false);
               resolve(oData);
@@ -217,7 +243,6 @@ sap.ui.define(
             }, this),
             error: function (oError) {
               oView.setBusy(false);
-              
             },
           });
         });

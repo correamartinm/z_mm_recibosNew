@@ -22,7 +22,8 @@ sap.ui.define(
     Download,
     MessageToast
   ) {
-    "use strict";
+    let rtaP2, rtaP3, rtaP4, rtaP5, rtaP6;
+    ("use strict");
 
     return BaseController.extend("morixe.zfirecibos.controller.NewRecibo", {
       onInit: function () {
@@ -193,6 +194,7 @@ sap.ui.define(
       },
       onWizardStepClienteComplete: async function () {
         this.onFilterTableCbtes02();
+        this._onCheckPago();
       },
 
       // ********************************************
@@ -281,11 +283,25 @@ sap.ui.define(
                 parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
           }
+
+          oMockModel.setProperty(oComprobantes, Data);
+          oMockModel.setProperty(oCantidad, Data.length);
+          oMockModel.setProperty(oImporte, oImportesSuma);
+        } else {
+          oMockModel.setProperty(oComprobantes, []);
+          oMockModel.setProperty(oCantidad, 0);
+          oMockModel.setProperty(oImporte, 0);
         }
 
-        oMockModel.setProperty(oComprobantes, Data);
-        oMockModel.setProperty(oCantidad, Data.length);
-        oMockModel.setProperty(oImporte, oImportesSuma);
+        if (Data.length === 0) {
+          this._wizard.validateStep(
+            this.getView().byId("idPagoaCtaWizardStep")
+          );
+        } else {
+          this._wizard.invalidateStep(
+            this.getView().byId("idPagoaCtaWizardStep")
+          );
+        }
       },
 
       onInputImporteChangePagos: function (oEvent) {
@@ -305,6 +321,38 @@ sap.ui.define(
         }
 
         this._onCheckPago();
+      },
+
+      onGuardarButtonPagoAdicionalPress: async function () {
+       
+         let oEntidad ="/Paso02Seleccionados", 
+         Tipo = "ACTA",
+         Step = "idPagoaCtaWizardStep";
+          
+         this._onGuardar(oEntidad, Tipo, Step);
+          
+      },
+
+      _onGuardar: async function (oEntidad, Tipo , Step) {
+        let oMockModel = this.getView().getModel("mockdata"),
+          oView = this.getView(),
+          oModel = this.getOwnerComponent().getModel(),
+          oItems = oMockModel.getProperty(oEntidad);
+
+        for (var index = 0; index < oItems.length; index++) {
+          oItems[index].TipoLinea = Tipo;
+          rtaP2 = await this._onSaveData(oModel, oView, oItems[index]);
+
+          if (rtaP2 !== "") {
+            this._wizard.validateStep(
+              this.getView().byId(Step)
+            );
+          } else {
+            this._wizard.invalidateStep(
+              this.getView().byId(Step)
+            );
+          }
+        }
       },
 
       onWizardStepPagosComplete: function () {},
@@ -426,20 +474,23 @@ sap.ui.define(
                 parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
           }
-          this._wizard.validateStep(
-            this.getView().byId("idComprobanteWizardStep")
-          );
-        } else {
-          this._wizard.invalidateStep(
-            this.getView().byId("idComprobanteWizardStep")
-          );
-        }
+          
+        } 
         oMockModel.setProperty(oComprobantes, Data);
         oMockModel.setProperty(oCantidad, Data.length);
         oMockModel.setProperty(oImporte, oImportesSuma);
       },
-
+      onGuardarButtonComprobantesPress: function () {
+        
+        let oEntidad ="/Paso03Comprobantes", 
+        Tipo = "APLIC",
+        Step = "idComprobanteWizardStep";
+         
+        this._onGuardar(oEntidad, Tipo, Step);
+      },
       onWizardStepComprobanteComplete: function (oEvent) {},
+
+
 
       // ********************************************
       // Paso Descuentos ---------------------------
@@ -471,15 +522,15 @@ sap.ui.define(
         // oMotivo.setSelectedKey(Object.Motivokey);
         oMockModel.setProperty("/ActiveDescuento", Object);
 
-        if (oValue === true) {
-          this._wizard.invalidateStep(
-            this.getView().byId("idDescuentosWizardStep")
-          );
-        } else {
-          this._wizard.validateStep(
-            this.getView().byId("idDescuentosWizardStep")
-          );
-        }
+        // if (oValue === true) {
+        //   this._wizard.invalidateStep(
+        //     this.getView().byId("idDescuentosWizardStep")
+        //   );
+        // } else {
+        //   this._wizard.validateStep(
+        //     this.getView().byId("idDescuentosWizardStep")
+        //   );
+        // }
       },
 
       onGuardarButtonDescPress: function () {
@@ -528,7 +579,7 @@ sap.ui.define(
         }
 
         let oValue = false,
-          oImportesSuma =0,
+          oImportesSuma = 0,
           oRetenciones = "/Descuentos";
 
         oldData = this._onGetDataModel(oModel, oRetenciones);
@@ -539,12 +590,15 @@ sap.ui.define(
           NComprobante: parseFloat(oNcomprobante.getValue()),
           Fecha: oFecha.getDateValue(),
           Importe: parseFloat(oImporte.getValue()),
+          Codigo: oMotivo.getSelectedKey(),
+          Descripcion: oMotivo.getSelectedItem().getText(),
+          Numero: oNcomprobante.getValue()
         };
         let DataFinal = oldData.concat(oDatos);
 
         this._onshowDescuentoAdd(oValue, []);
 
-        this._onUpdateModel(oModel, oRetenciones, DataFinal);
+        oModel.setProperty(oRetenciones, DataFinal);
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
@@ -559,6 +613,13 @@ sap.ui.define(
         if (oPostDataDescuento.UpdPath !== "") {
           this.onButtonDeleteDescuentoPress(oPostDataDescuento.UpdPath);
         }
+      },
+      onGuardarButtonDescSavePress: function () {
+        let oEntidad ="/Descuentos", 
+        Tipo = "DESC",
+        Step = "idDescuentosWizardStep";
+         
+        this._onGuardar(oEntidad, Tipo, Step);
       },
 
       onVolverButtonCancelarDescPress: function () {
@@ -646,15 +707,15 @@ sap.ui.define(
         oMockModel.setProperty("/ActiveRetencion", Object);
         oLayModel.setProperty("/retencionesadd", oValue);
 
-        if (oValue === true) {
-          this._wizard.invalidateStep(
-            this.getView().byId("idRetencionesWizardStep")
-          );
-        } else {
-          this._wizard.validateStep(
-            this.getView().byId("idRetencionesWizardStep")
-          );
-        }
+        // if (oValue === true) {
+        //   this._wizard.invalidateStep(
+        //     this.getView().byId("idRetencionesWizardStep")
+        //   );
+        // } else {
+        //   this._wizard.validateStep(
+        //     this.getView().byId("idRetencionesWizardStep")
+        //   );
+        // }
       },
 
       guardarRetencion: function () {
@@ -711,6 +772,10 @@ sap.ui.define(
           NCertificado: parseFloat(oNCertificado.getValue()),
           Fecha: oFecha.getDateValue(),
           Importe: parseFloat(oImporte.getValue()),
+          Codigo: oTipo.getSelectedKey(),
+          Descripcion: oTipo.getSelectedItem().getText(),
+          Numero: oNCertificado.getValue()
+         
         };
         let DataFinal = oldData.concat(oDatos);
         oModel.setProperty("/Retenciones", DataFinal);
@@ -726,9 +791,19 @@ sap.ui.define(
         let oValue = false;
         this._onshowRetencionesAdd(oValue);
 
+        
+
         if (oActiveRetencion.UpdPath !== "") {
           this.onButtonDeleteRetencionPress(oActiveRetencion.UpdPath);
         }
+      },
+
+      onGuardarButtonRETSavePress: function () {
+        let oEntidad ="/Retenciones", 
+        Tipo = "RETE",
+        Step = "idRetencionesWizardStep";
+         
+        this._onGuardar(oEntidad, Tipo, Step);
       },
 
       onButtonEditaRetencionPress: function (oEvent) {
@@ -787,22 +862,21 @@ sap.ui.define(
         oModel.refresh();
       },
 
-      onWizardStepRetencionComplete:function () {
+      onWizardStepRetencionComplete: function () {
         let oModel = this.getView().getModel("mockdata"),
-        ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
-        ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
-        ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
-        ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
-        
+          ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
+          ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
+          ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
+          ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
 
         oModel.setProperty("/Paso02ImportePagos", parseFloat(ImportePGOCTA));
-        oModel.setProperty("/Paso03ImporteComprobantes", parseFloat(ImporteCBTES));
+        oModel.setProperty(
+          "/Paso03ImporteComprobantes",
+          parseFloat(ImporteCBTES)
+        );
         oModel.setProperty("/Paso04ImporteDescuentos", parseFloat(ImporteDTO));
         oModel.setProperty("/Paso05ImporteRetenciones", parseFloat(ImporteRET));
-        
       },
-
-
 
       // ********************************************
       // Photo ----------------------------
@@ -909,17 +983,17 @@ sap.ui.define(
 
         let EditRecibo = oModel.getProperty("/EdicionRecibo");
 
-        if (EditRecibo === true) {
-          if (oValue === true) {
-            this._wizard.invalidateStep(
-              this.getView().byId("idDetalleWizardStep")
-            );
-          } else {
-            this._wizard.validateStep(
-              this.getView().byId("idDetalleWizardStep")
-            );
-          }
-        }
+        // if (EditRecibo === true) {
+        //   if (oValue === true) {
+        //     this._wizard.invalidateStep(
+        //       this.getView().byId("idDetalleWizardStep")
+        //     );
+        //   } else {
+        //     this._wizard.validateStep(
+        //       this.getView().byId("idDetalleWizardStep")
+        //     );
+        //   }
+        // }
       },
 
       onCheckDetalles: function () {
@@ -953,6 +1027,25 @@ sap.ui.define(
         vObject = oModel.getObject(oPath);
 
         this._onUpdateModel(oModel, oEntidad, vObject);
+      },
+
+      
+      onConfirmarReciboButtonPress: function () {
+        let oEntidad ="/Detalle", 
+        Tipo = "DETA",
+        Step = "idDetalleWizardStep";
+         
+        this._onGuardar(oEntidad, Tipo, Step);
+      },
+
+
+      
+      onGuardarButtonDETSavePress: function () {
+        let oEntidad ="/Detalle", 
+        Tipo = "DETA",
+        Step = "idDetalleWizardStep";
+         
+        this._onGuardar(oEntidad, Tipo, Step);
       },
 
       onGuardarButtonDetallePress: function () {
@@ -1085,15 +1178,19 @@ sap.ui.define(
           BcoDestino: oBcoDestino.getValue(),
           BcoEmisor: oBcoEmisor.getValue(),
           Importe: parseFloat(oImportePago.getValue()),
+          Codigo: oMP.getSelectedKey(),
+          Descripcion: oMP.getSelectedItem().getText(),
+          Numero: oCbte.getValue()
+          
         };
         let DataFinal = oldData.concat(oDatos);
         oModel.setProperty("/Detalle", DataFinal);
 
         let ActiveDetalle = {
-          MPkey: 0,
-          NroCheq: 0,
-          NroCte: 0,
-          Importe: 0,
+          MPkey: "0000000001",
+          NroCheq: "",
+          NroCte: "",
+          Importe: "",
           FecEmis: null,
           FecDepo: null,
           FecCbte: null,
@@ -1103,8 +1200,8 @@ sap.ui.define(
           Adjunto: "",
         };
 
-        oModel.setProperty("/Detalle", DataFinal);
         oModel.setProperty("/ActiveDetalle", ActiveDetalle);
+        oMP.setSelectedKey("0000000001");
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
@@ -1114,9 +1211,17 @@ sap.ui.define(
         let oValue = false;
         this.onshowDetalleAdd(oValue);
 
+
+       
+
         oModel.setProperty("/Paso06Detalles", DataFinal.length);
         oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
+
+
+
       },
+
+
       _onResetDetalleValues: function name() {
         let oModel = this.getView().getModel("mockdata"),
           oLayoutModel = this.getView().getModel("layout"),
@@ -1184,6 +1289,8 @@ sap.ui.define(
           oModel.setProperty("/Detalle", oAddedData);
         } else {
           oModel.setProperty("/Detalle", []);
+          oModel.setProperty("/Paso06Detalles", 0);
+        oModel.setProperty("/Paso06ImporteDetalle", 0);
           this.onCheckDetalles();
         }
 
@@ -1260,40 +1367,51 @@ sap.ui.define(
           ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones"),
           ImporteDET = oModel.getProperty("/Paso06ImporteDetalle");
 
-          oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
+        oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
 
-          let oTotal = parseFloat(ImporteCBTES) - ( parseFloat(ImportePGOCTA) + parseFloat(ImporteDTO) + parseFloat(ImporteRET) + parseFloat(ImporteDET) );
-          let  oAnticipo = parseFloat(ImporteDET);
+        let oTotal =
+          parseFloat(ImporteCBTES) -
+          (parseFloat(ImportePGOCTA) +
+            parseFloat(ImporteDTO) +
+            parseFloat(ImporteRET) +
+            parseFloat(ImporteDET));
+        let oAnticipo = parseFloat(ImporteDET);
 
-          oModel.setProperty("/TOTAL", oTotal);
-          oModel.setProperty("/ANTICIPO", oAnticipo);
+        oModel.setProperty("/TOTAL", oTotal);
+        oModel.setProperty("/ANTICIPO", oAnticipo);
 
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
-
       },
 
       onShowInfoMsg: function (oEvent) {
         let oModel = this.getView().getModel("mockdata"),
+          ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
+          ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
+          ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
+          ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
 
-        ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
-        ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
-        ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
-        ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
-        
-        
-        let MPGOCTA = this._i18n().getText("lblpagoacta") + ": " + ImportePGOCTA.toString() +"\n" ;
-        let MCBTES = this._i18n().getText("lbldocsafectados") + ": " + ImporteCBTES.toString() +"\n";
-        let MDTO = this._i18n().getText("lbldescuentos") + ": " + ImporteDTO.toString() +"\n";
-        let MRET = this._i18n().getText("lblretenciones") + ": " + ImporteRET.toString() ;
-        
+        let MPGOCTA =
+          this._i18n().getText("lblpagoacta") +
+          ": " +
+          ImportePGOCTA.toString() +
+          "\n";
+        let MCBTES =
+          this._i18n().getText("lbldocsafectados") +
+          ": " +
+          ImporteCBTES.toString() +
+          "\n";
+        let MDTO =
+          this._i18n().getText("lbldescuentos") +
+          ": " +
+          ImporteDTO.toString() +
+          "\n";
+        let MRET =
+          this._i18n().getText("lblretenciones") + ": " + ImporteRET.toString();
 
-          let sMessage =  MCBTES+MPGOCTA+MDTO+MRET,
-
+        let sMessage = MCBTES + MPGOCTA + MDTO + MRET,
           sMessageTitle = this._i18n().getText("msginfotitle");
 
-        this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
-          
-        });
+        this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {});
       },
       // ********************************************
       // ********************************************

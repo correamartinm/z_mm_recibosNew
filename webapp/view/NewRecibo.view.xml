@@ -49,7 +49,7 @@
 
                             </WizardStep>
 
-                            <WizardStep complete="onWizardStepComprobanteComplete" nextStep="idDescuentosWizardStep" validated="false" icon="sap-icon://sales-order-item" id="idComprobanteWizardStep" title="{i18n>comprobantetitle}">
+                            <WizardStep validated="false" complete="onWizardStepComprobanteComplete" nextStep="idDescuentosWizardStep"  icon="sap-icon://sales-order-item" id="idComprobanteWizardStep" title="{i18n>comprobantetitle}">
 
                                 <Panel >
 
@@ -61,7 +61,7 @@
 
                             </WizardStep>
 
-                            <WizardStep nextStep="idRetencionesWizardStep" icon="sap-icon://waiver" id="idDescuentosWizardStep" title="{i18n>descuentotitle}">
+                            <WizardStep validated="false" nextStep="idRetencionesWizardStep" icon="sap-icon://waiver" id="idDescuentosWizardStep" title="{i18n>descuentotitle}">
 
                                 <Panel >
 
@@ -72,7 +72,7 @@
                                 </Panel>
                             </WizardStep>
 
-                            <WizardStep nextStep="idDetalleWizardStep" icon="sap-icon://sales-quote" id="idRetencionesWizardStep" title="{i18n>retencionestitle}" complete="onWizardStepRetencionComplete">
+                            <WizardStep nextStep="idDetalleWizardStep" icon="sap-icon://sales-quote" id="idRetencionesWizardStep" title="{i18n>retencionestitle}" complete="onWizardStepRetencionComplete" validated="false">
 
                                 <Panel >
 

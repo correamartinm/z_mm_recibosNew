@@ -2,6 +2,13 @@ VPN Consultor4	M0r1x3#9
 100	jruiz	Morixe.06-2023
 110	jruiz	Morixe.06-2023
 
+APLIC	Comprobantes Aplicados
+DESC	Descuentos
+DETA	Detalle Medios Pago
+ACTA	Pagos a Cuenta
+RECIB	Cabecera
+RETE	Retenciones
+
 Tareas a Realizar
 Usuario? NO
 Resetear el Wizard
