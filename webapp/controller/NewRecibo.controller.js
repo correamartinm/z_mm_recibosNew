@@ -1497,6 +1497,7 @@ sap.ui.define(
           oEntidad = "/DocumentosSet",
         oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
+          oTotal= oMockModel.getProperty("/TOTAL");
           oData = oMockModel.getProperty("/Paso01Cliente");
 
           oData.Accion = "S";
@@ -1505,7 +1506,8 @@ sap.ui.define(
           Cliente: oData.Codigo,
           Comentarios: oData.Observaciones,
           Accion: oData.Accion,
-          TipoComprobante: oData.TipoComprobante
+          TipoComprobante: oData.TipoComprobante,
+          Total: oTotal
         };
 
         let rta2 = await this._oncreateModel(oModel, oView, oEntidad, oPayload);

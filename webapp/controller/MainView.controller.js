@@ -15,6 +15,8 @@ sap.ui.define(
     return BaseController.extend("morixe.zfirecibos.controller.MainView", {
       onInit: function () {
         this._createUserModel();
+        // let oTarget = oRouter.getTarget("TargetMainView");
+        // oTarget.attachDisplay(this._onObjectMatched, this);
       },
 
       // ****************** Usuario
@@ -24,6 +26,10 @@ sap.ui.define(
         var appPath = appId.replaceAll(".", "/");
         var appModulePath = jQuery.sap.getModulePath(appPath);
         return appModulePath;
+      },
+
+      _onObjectMatched: function () {
+        
       },
 
       _createUserModel: function () {

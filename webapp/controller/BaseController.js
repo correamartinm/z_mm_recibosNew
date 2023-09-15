@@ -57,7 +57,7 @@ sap.ui.define(
       },
 
       formatIconBool: function (param) {
-        if (param === true) {
+        if (param === "X") {
           return "accept";
         } else {
           return "decline";
@@ -65,7 +65,7 @@ sap.ui.define(
       },
 
       formatStateBool: function (param) {
-        if (param === true) {
+        if (param === "X") {
           return "Success";
         } else {
           return "Error";
@@ -121,9 +121,7 @@ sap.ui.define(
             item.Importe = item.Aplicado;
           }
 
-          if (item.Fecha === undefined ||  item.Fecha === null ){
-            item.Fecha = new Date();
-          }
+           // TipoComprobante
 
         let oPayload = {
             Codigo: item.Codigo || "",
@@ -133,7 +131,7 @@ sap.ui.define(
             NroLinea: item.NroLinea.toString() || "",
             Importe: item.Importe.toString() || "",
             Numero: item.Numero.toString() || "",
-            Fecha: item.Fecha || "",
+            Fecha: item.Fecha || new Date(),
             Documentacion: item.Documentacion || "",
             Mensaje: item.Mensaje || "",
             Resultado: item.Resultado || "",
@@ -143,6 +141,7 @@ sap.ui.define(
             FechaVencimiento: item.FechaVencimiento || null,
             BancoEmisor: item.BancoEmisor || "",
             BancoDestino: item.BancoDestino || "",
+            TipoComprobante : item.Tipo || paso1.TipoComprobante
           };
 
           let oEntidad = "/DocumenPosSet";
