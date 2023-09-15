@@ -78,8 +78,8 @@
                 <Label text="{i18n>lblfechaemision}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecEmis}"/>
                 <DatePicker id="idDetFechaEmision" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecEmis}"  dateValue="{mockdata>/ActiveDetalle/FecEmis}"/>
 
-                <Label text="{i18n>lblfechadeposito}" required="true" labelFor="idFechaDatePickerFDeposito" visible="{mockdata>/ActiveMP/FecCbte}" />
-                <DatePicker id="idDetFecDeposito" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecCbte}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
+                <Label text="{i18n>lblfechadeposito}" required="true" labelFor="idFechaDatePickerFDeposito" visible="{mockdata>/ActiveMP/FecVto}" />
+                <DatePicker id="idDetFecDeposito" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
 
 
                 <Label text="{i18n>lblncheque}" required="true" labelFor="idCodigoClienteInput" visible="{mockdata>/ActiveMP/NroCheq}"/>

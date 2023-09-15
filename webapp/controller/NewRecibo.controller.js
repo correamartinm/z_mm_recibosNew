@@ -246,6 +246,7 @@ sap.ui.define(
                   .getCells()[5]
                   .setValue(parseFloat(vObject.Saldo) * -1);
               }
+              vObject.Aplicado = oItems[index].getCells()[5].getValue();
             }
 
             oItems[index]
@@ -324,16 +325,14 @@ sap.ui.define(
       },
 
       onGuardarButtonPagoAdicionalPress: async function () {
-       
-         let oEntidad ="/Paso02Seleccionados", 
-         Tipo = "ACTA",
-         Step = "idPagoaCtaWizardStep";
-          
-         this._onGuardar(oEntidad, Tipo, Step);
-          
+        let oEntidad = "/Paso02Seleccionados",
+          Tipo = "ACTA",
+          Step = "idPagoaCtaWizardStep";
+
+        this._onGuardar(oEntidad, Tipo, Step);
       },
 
-      _onGuardar: async function (oEntidad, Tipo , Step) {
+      _onGuardar: async function (oEntidad, Tipo, Step) {
         let oMockModel = this.getView().getModel("mockdata"),
           oView = this.getView(),
           oModel = this.getOwnerComponent().getModel(),
@@ -344,13 +343,9 @@ sap.ui.define(
           rtaP2 = await this._onSaveData(oModel, oView, oItems[index]);
 
           if (rtaP2 !== "") {
-            this._wizard.validateStep(
-              this.getView().byId(Step)
-            );
+            this._wizard.validateStep(this.getView().byId(Step));
           } else {
-            this._wizard.invalidateStep(
-              this.getView().byId(Step)
-            );
+            this._wizard.invalidateStep(this.getView().byId(Step));
           }
         }
       },
@@ -474,23 +469,19 @@ sap.ui.define(
                 parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
           }
-          
-        } 
+        }
         oMockModel.setProperty(oComprobantes, Data);
         oMockModel.setProperty(oCantidad, Data.length);
         oMockModel.setProperty(oImporte, oImportesSuma);
       },
       onGuardarButtonComprobantesPress: function () {
-        
-        let oEntidad ="/Paso03Comprobantes", 
-        Tipo = "APLIC",
-        Step = "idComprobanteWizardStep";
-         
+        let oEntidad = "/Paso03Comprobantes",
+          Tipo = "APLIC",
+          Step = "idComprobanteWizardStep";
+
         this._onGuardar(oEntidad, Tipo, Step);
       },
       onWizardStepComprobanteComplete: function (oEvent) {},
-
-
 
       // ********************************************
       // Paso Descuentos ---------------------------
@@ -592,7 +583,7 @@ sap.ui.define(
           Importe: parseFloat(oImporte.getValue()),
           Codigo: oMotivo.getSelectedKey(),
           Descripcion: oMotivo.getSelectedItem().getText(),
-          Numero: oNcomprobante.getValue()
+          Numero: oNcomprobante.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
 
@@ -615,10 +606,10 @@ sap.ui.define(
         }
       },
       onGuardarButtonDescSavePress: function () {
-        let oEntidad ="/Descuentos", 
-        Tipo = "DESC",
-        Step = "idDescuentosWizardStep";
-         
+        let oEntidad = "/Descuentos",
+          Tipo = "DESC",
+          Step = "idDescuentosWizardStep";
+
         this._onGuardar(oEntidad, Tipo, Step);
       },
 
@@ -774,8 +765,7 @@ sap.ui.define(
           Importe: parseFloat(oImporte.getValue()),
           Codigo: oTipo.getSelectedKey(),
           Descripcion: oTipo.getSelectedItem().getText(),
-          Numero: oNCertificado.getValue()
-         
+          Numero: oNCertificado.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
         oModel.setProperty("/Retenciones", DataFinal);
@@ -791,18 +781,16 @@ sap.ui.define(
         let oValue = false;
         this._onshowRetencionesAdd(oValue);
 
-        
-
         if (oActiveRetencion.UpdPath !== "") {
           this.onButtonDeleteRetencionPress(oActiveRetencion.UpdPath);
         }
       },
 
       onGuardarButtonRETSavePress: function () {
-        let oEntidad ="/Retenciones", 
-        Tipo = "RETE",
-        Step = "idRetencionesWizardStep";
-         
+        let oEntidad = "/Retenciones",
+          Tipo = "RETE",
+          Step = "idRetencionesWizardStep";
+
         this._onGuardar(oEntidad, Tipo, Step);
       },
 
@@ -1029,22 +1017,19 @@ sap.ui.define(
         this._onUpdateModel(oModel, oEntidad, vObject);
       },
 
-      
       onConfirmarReciboButtonPress: function () {
-        let oEntidad ="/Detalle", 
-        Tipo = "DETA",
-        Step = "idDetalleWizardStep";
-         
+        let oEntidad = "/Detalle",
+          Tipo = "DETA",
+          Step = "idDetalleWizardStep";
+
         this._onGuardar(oEntidad, Tipo, Step);
       },
 
-
-      
       onGuardarButtonDETSavePress: function () {
-        let oEntidad ="/Detalle", 
-        Tipo = "DETA",
-        Step = "idDetalleWizardStep";
-         
+        let oEntidad = "/Detalle",
+          Tipo = "DETA",
+          Step = "idDetalleWizardStep";
+
         this._onGuardar(oEntidad, Tipo, Step);
       },
 
@@ -1180,8 +1165,15 @@ sap.ui.define(
           Importe: parseFloat(oImportePago.getValue()),
           Codigo: oMP.getSelectedKey(),
           Descripcion: oMP.getSelectedItem().getText(),
-          Numero: oCbte.getValue()
-          
+          Numero: oCbte.getValue(),
+
+          Fecha: oFechaDeposito.getDateValue(),
+
+          Detalle: oMP.getSelectedItem().getText(),
+          FechaEmision: oFechaEmision.getDateValue(),
+          FechaVencimiento: oFechaVencimiento.getDateValue(),
+          BancoEmisor: oBcoEmisor.getValue(),
+          BancoDestino: oBcoDestino.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
         oModel.setProperty("/Detalle", DataFinal);
@@ -1211,16 +1203,9 @@ sap.ui.define(
         let oValue = false;
         this.onshowDetalleAdd(oValue);
 
-
-       
-
         oModel.setProperty("/Paso06Detalles", DataFinal.length);
         oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
-
-
-
       },
-
 
       _onResetDetalleValues: function name() {
         let oModel = this.getView().getModel("mockdata"),
@@ -1290,7 +1275,7 @@ sap.ui.define(
         } else {
           oModel.setProperty("/Detalle", []);
           oModel.setProperty("/Paso06Detalles", 0);
-        oModel.setProperty("/Paso06ImporteDetalle", 0);
+          oModel.setProperty("/Paso06ImporteDetalle", 0);
           this.onCheckDetalles();
         }
 
@@ -1485,7 +1470,13 @@ sap.ui.define(
 
       onWizardComplete: function () {},
 
-      onConfirmarReciboButtonPress: function () {},
+      onConfirmarReciboButtonPress: function () {
+        let oEntidad = "/Detalle",
+        Tipo = "DETA",
+        Step = "idDetalleWizardStep";
+
+      this._onGuardar(oEntidad, Tipo, Step);
+      },
       onAnularButtonPress: function () {
         this.discardProgress();
       },

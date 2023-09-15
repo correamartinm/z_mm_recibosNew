@@ -10,29 +10,4 @@ RECIB	Cabecera
 RETE	Retenciones
 
 Tareas a Realizar
-Usuario? NO
-Resetear el Wizard
-Controlar si no tiene facturas Pendientes
-    si no tiene, directo adelanto?
-03 Busqueda en tabla
-
-Edicion y Eliminacion
-    Descuentos
-    Retenciones
-    MP
-   
-    Device Celular Carga Foto
-    FileUploaders :
-    idDescuentoFileUploader name="FUDescuento"
-    idRetencionesFileUploader name="FURetencion"
-    idDetalleFileUploader 
-    idChequeFileUploader name="FUCheque"
-
-Validaciones!
-Paso Previo?
-Comportamiento pasos previos
-
-
-
-
-
+Paso 2 importe en 0

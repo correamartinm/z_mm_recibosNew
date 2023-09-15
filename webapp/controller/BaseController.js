@@ -117,9 +117,17 @@ sap.ui.define(
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           paso1 = oMockModel.getProperty("/Paso01Cliente");
 
+          if (item.Aplicado ){
+            item.Importe = item.Aplicado;
+          }
+
+          if (item.Fecha === undefined ||  item.Fecha === null ){
+            item.Fecha = item.FechaEmision;
+          }
+
         let oPayload = {
             Codigo: item.Codigo || "",
-            Cliente: paso1.Cliente || "",
+            Cliente: paso1.Codigo || "",
             TipoLinea: item.TipoLinea || "",
             Descripcion: item.Descripcion || "",
             Importe: item.Importe.toString() || "",
@@ -134,8 +142,9 @@ sap.ui.define(
             FechaVencimiento: item.FechaVencimiento || null,
             BancoEmisor: item.BancoEmisor || "",
             BancoDestino: item.BancoDestino || "",
-          },
-          oEntidad = "/DocumenPosSet";
+          };
+
+          let oEntidad = "/DocumenPosSet";
         console.log(oPayload);
         let rta = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
 

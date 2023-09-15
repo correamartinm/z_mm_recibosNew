@@ -46,7 +46,7 @@
     <OverflowToolbar >
         <ToolbarSpacer/>
         <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack"/>
-        <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" />
+        <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" class="sapUiLargeMarginEnd"/>
 
     </OverflowToolbar>
 
