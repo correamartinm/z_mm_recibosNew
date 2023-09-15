@@ -19,12 +19,12 @@
         </headerToolbar>
         <columns>
 
-            <Column >
+            <Column width="180px" >
                 <header>
-                    <Label text="{i18n>lblnumero}"/>
+                    <Label  text="{i18n>lblnumero}"/>
                 </header>
             </Column>
-            <Column >
+            <Column width="90px" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblfecha}"/>
                 </header>
@@ -36,23 +36,23 @@
                 </header>
             </Column>
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column width="auto" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblrazonsocial}"/>
                 </header>
             </Column>
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column width="110px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblcuit}"/>
                 </header>
             </Column>
-            <Column visible="false" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column width="120px" visible="false" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lbltotalrecibo}"/>
                 </header>
             </Column>
-            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column width="120px" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lbltotal}"/>
                 </header>
@@ -65,16 +65,16 @@
             </Column>
 
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column  width="90px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblprocesado}"/>
                 </header>
             </Column>
 
 
-            <Column visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column width="110px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
-                    <Label text="{i18n>lblfechaproceso}"/>
+                    <Label text="{i18n>lblfechaproceso}" wrapping="true"/>
                 </header>
             </Column>
             <Column width="3rem">
