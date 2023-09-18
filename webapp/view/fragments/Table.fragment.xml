@@ -19,7 +19,7 @@
         </headerToolbar>
         <columns>
 
-            <Column width="180px" >
+            <Column  >
                 <header>
                     <Label  text="{i18n>lblnumero}"/>
                 </header>
@@ -32,7 +32,7 @@
 
             <Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
-
+                
                 </header>
             </Column>
 
@@ -91,7 +91,7 @@
                     <Label text="{Numero}" design="Bold"/>
                     <Text text="{path : 'Fecha' , formatter : '.formatFecha'}"/>
                    
-                    <Label text="{Cuit} - {Rsocial}" design="Bold" wrapping="true"/>
+                    <Label text="{RazonSocial}" design="Bold" wrapping="true"/>
                     <Label text="{RazonSocial}" design="Bold"/>
                     <Label text="{Cuit}" design="Bold"/>
 
