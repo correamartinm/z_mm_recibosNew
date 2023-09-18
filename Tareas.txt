@@ -10,4 +10,5 @@ RECIB	Cabecera
 RETE	Retenciones
 
 Tareas a Realizar
-Paso 2 importe en 0
+
+Edicion Recibo

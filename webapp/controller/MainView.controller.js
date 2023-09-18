@@ -28,9 +28,7 @@ sap.ui.define(
         return appModulePath;
       },
 
-      _onObjectMatched: function () {
-        
-      },
+      _onObjectMatched: function () {},
 
       _createUserModel: function () {
         let oMockModel = this.getView().getModel("mockdata");
@@ -174,27 +172,32 @@ sap.ui.define(
         oTable.getBinding("items").filter([oFilters]);
       },
 
-      onEditarButtonPress: function (oEvent) {
-        let oModel = this.getView().getModel("layout"),
+      onButtonEditPress: function (oEvent) {
+        this._onEditMode();
+        let oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject();
+          
+      },
+
+      _onEditMode: function () {
+        let oLayoutModel = this.getView().getModel("layout"),
           oEntidad = "/EdicionRecibo",
-          oValue = oModel.getProperty(oEntidad);
+          oValue = oLayoutModel.getProperty(oEntidad);
         oValue = !oValue;
 
-        oModel.setProperty(oEntidad, oValue);
+        oLayoutModel.setProperty(oEntidad, oValue);
       },
 
       // *** Nuevo Recibo
 
       onAgregarButtonPress: function (oEvent) {
-
         this.getOwnerComponent().getTargets().display("TargetNewRecibo");
-        let  oModel = this.getOwnerComponent().getModel(),
-        oView = this.getView(),
-        oPath = oModel.createKey("/DocumentosSet", {
-          Cliente: ""
-        });
+        let oModel = this.getOwnerComponent().getModel(),
+          oView = this.getView(),
+          oPath = oModel.createKey("/DocumentosSet", {
+            Cliente: "",
+          });
         this.ondeleteModel(oModel, oView, oPath);
-
       },
     });
   }

@@ -77,7 +77,7 @@
                     <Label text="{i18n>lblfechaproceso}" wrapping="true"/>
                 </header>
             </Column>
-            <Column width="3rem">
+            <Column width="5rem">
                 <header/>
             </Column>
 
@@ -116,7 +116,11 @@
                     }" inverted="true" />
                    
                     <Text text="{path : 'FechaProceso' , formatter : '.formatFecha'}"/>
-                    <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />
+                    <HBox >
+                        
+                        <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />
+                        <Button icon="sap-icon://edit" enabled="{= ${Procesado} !== 'X' }" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
+                    </HBox>
 
                 </cells>
             </ColumnListItem>

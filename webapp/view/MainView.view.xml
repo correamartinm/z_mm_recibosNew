@@ -28,7 +28,7 @@
 					</VBox>
 
 					<VBox visible="{= ${layout>/EdicionRecibo} === false }">
-						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.06Detalle" type="XML"/>
+						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.EditaDetalle" type="XML"/>
 					</VBox>
 
 
