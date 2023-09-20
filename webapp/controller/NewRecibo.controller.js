@@ -38,7 +38,7 @@ sap.ui.define(
 
       _onObjectMatched: function () {
         this._onValidateStep();
-        
+
         this._oNavContainer.to(this.byId("idRecibosPage"));
       },
       // ************ Controles ****************
@@ -94,8 +94,6 @@ sap.ui.define(
         }
 
         if (oData !== undefined) {
-
-       
           let oPayload = {
             Cliente: oData.Codigo,
             Comentarios: oData.Observaciones,
@@ -216,7 +214,6 @@ sap.ui.define(
           oTable.getBinding("items").filter([oFilters]);
         }
       },
-
 
       onFilterTableCbtes02: function () {
         let oTable = this.getView().byId("idPagoCtaTable"),
@@ -545,15 +542,15 @@ sap.ui.define(
         // oMotivo.setSelectedKey(Object.Motivokey);
         oMockModel.setProperty("/ActiveDescuento", Object);
 
-        // if (oValue === true) {
-        //   this._wizard.invalidateStep(
-        //     this.getView().byId("idDescuentosWizardStep")
-        //   );
-        // } else {
-        //   this._wizard.validateStep(
-        //     this.getView().byId("idDescuentosWizardStep")
-        //   );
-        // }
+        if (oValue === true) {
+          this._wizard.invalidateStep(
+            this.getView().byId("idDescuentosWizardStep")
+          );
+        } else {
+          this._wizard.validateStep(
+            this.getView().byId("idDescuentosWizardStep")
+          );
+        }
       },
 
       onGuardarButtonDescPress: function () {
@@ -621,13 +618,12 @@ sap.ui.define(
 
         this._onshowDescuentoAdd(oValue, []);
 
-        
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-          parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
           DataFinal.NroLinea = index;
         }
-        
+
         oModel.setProperty(oRetenciones, DataFinal);
         let oCantidad = "/Paso04CantidadDescuentos",
           oImporteDec = "/Paso04ImporteDescuentos";
@@ -801,13 +797,13 @@ sap.ui.define(
           Numero: oNCertificado.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
-        
+
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-          parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
-            DataFinal.NroLinea = index;
+            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+          DataFinal.NroLinea = index;
         }
-          oModel.setProperty("/Retenciones", DataFinal);
+        oModel.setProperty("/Retenciones", DataFinal);
 
         oModel.setProperty("/Paso05CantidadRetenciones", DataFinal.length);
         oModel.setProperty("/Paso05ImporteRetenciones", oImportesSuma);
@@ -898,6 +894,15 @@ sap.ui.define(
         );
         oModel.setProperty("/Paso04ImporteDescuentos", parseFloat(ImporteDTO));
         oModel.setProperty("/Paso05ImporteRetenciones", parseFloat(ImporteRET));
+
+        let oSubTotal =
+          parseFloat(ImporteCBTES) || 0  -
+          (parseFloat(ImportePGOCTA) || 0+
+            parseFloat(ImporteDTO) || 0+
+            parseFloat(ImporteRET) || 0);
+        
+
+        oModel.setProperty("/SUBTOTAL", oSubTotal);
       },
 
       // ********************************************
@@ -1210,7 +1215,6 @@ sap.ui.define(
           BancoDestino: oBcoDestino.getValue(),
         };
         let DataFinal = oldData.concat(oDatos);
-     
 
         let ActiveDetalle = {
           MPkey: "0000000001",
@@ -1232,7 +1236,7 @@ sap.ui.define(
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
             parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
-            DataFinal.NroLinea = index;
+          DataFinal.NroLinea = index;
         }
         oModel.setProperty("/Detalle", DataFinal);
         let oValue = false;
@@ -1389,7 +1393,7 @@ sap.ui.define(
 
         oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
 
-        let oTotal =
+        let oSubTotal =
           parseFloat(ImporteCBTES) -
           (parseFloat(ImportePGOCTA) +
             parseFloat(ImporteDTO) +
@@ -1397,7 +1401,7 @@ sap.ui.define(
             parseFloat(ImporteDET));
         let oAnticipo = parseFloat(ImporteDET);
 
-        oModel.setProperty("/TOTAL", oTotal);
+        oModel.setProperty("/TOTAL", oSubTotal);
         oModel.setProperty("/ANTICIPO", oAnticipo);
 
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
@@ -1508,19 +1512,19 @@ sap.ui.define(
       onConfirmarReciboButtonPress: async function () {
         let oMockModel = this.getView().getModel("mockdata"),
           oEntidad = "/DocumentosSet",
-        oModel = this.getOwnerComponent().getModel(),
+          oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
-          oTotal= oMockModel.getProperty("/TOTAL");
-          oData = oMockModel.getProperty("/Paso01Cliente");
+          oSubTotal = oMockModel.getProperty("/TOTAL");
+        oData = oMockModel.getProperty("/Paso01Cliente");
 
-          oData.Accion = "S";
+        oData.Accion = "S";
 
         let oPayload = {
           Cliente: oData.Codigo,
           Comentarios: oData.Observaciones,
           Accion: oData.Accion,
           TipoComprobante: oData.TipoComprobante,
-          Total: oTotal
+          Total: oSubTotal.toString(),
         };
 
         let rta2 = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
@@ -1533,9 +1537,9 @@ sap.ui.define(
             if (rta === "OK") this.discardProgress();
             oMockModel.setProperty("/NoComprobantes", false);
             this.discardProgress();
-            
-           
+
             this.getOwnerComponent().getTargets().display("TargetMainView");
+            oModel.refresh();
           });
         }
       },

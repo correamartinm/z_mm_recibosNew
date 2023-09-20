@@ -14,9 +14,10 @@ sap.ui.define(
 
     return BaseController.extend("morixe.zfirecibos.controller.MainView", {
       onInit: function () {
-        this._createUserModel();
-        // let oTarget = oRouter.getTarget("TargetMainView");
-        // oTarget.attachDisplay(this._onObjectMatched, this);
+        // this._createUserModel();
+        var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+        let oTarget = oRouter.getTarget("TargetMainView");
+        oTarget.attachDisplay(this._onObjectMatched, this);
       },
 
       // ****************** Usuario
@@ -28,7 +29,9 @@ sap.ui.define(
         return appModulePath;
       },
 
-      _onObjectMatched: function () {},
+      _onObjectMatched: function () {
+        this._onRefreshTable([]);
+      },
 
       _createUserModel: function () {
         let oMockModel = this.getView().getModel("mockdata");
@@ -117,12 +120,12 @@ sap.ui.define(
             orFilterL.push(
               new sap.ui.model.Filter(
                 "RazonSocial",
-                sap.ui.model.FilterOperator.EQ,
+                sap.ui.model.FilterOperator.Contains,
                 oRazonsocial.getTokens()[l].getKey()
               )
             );
           }
-          oFilter.push(new sap.ui.model.Filter(orFilterL, false));
+          oFilter.push(new sap.ui.model.Filter(orFilterL, true));
         }
 
         if (oCuit.getTokens().length !== 0) {
@@ -136,7 +139,7 @@ sap.ui.define(
               )
             );
           }
-          oFilter.push(new sap.ui.model.Filter(orFilterL, false));
+          oFilter.push(new sap.ui.model.Filter(orFilterL, true));
         }
 
         if (oRangoFecha.getValue().length !== 0) {
@@ -151,6 +154,7 @@ sap.ui.define(
         let AllFilter = new sap.ui.model.Filter(oFilter, true);
 
         this._onRefreshTable(AllFilter);
+
       },
       onSearchRS: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
@@ -159,7 +163,7 @@ sap.ui.define(
           oValue = oEvent.getSource().getValue();
 
         if (oValue.length >= 0) {
-          oFilters.push(new Filter("Rsocial", FilterOperator.Contains, oValue));
+          oFilters.push(new Filter("RazonSocial", FilterOperator.Contains, oValue));
         } else {
           oEvent.getSource().setValue();
 
@@ -176,7 +180,6 @@ sap.ui.define(
         this._onEditMode();
         let oPath = oEvent.getSource().getBindingContext().getPath(),
           oItem = oEvent.getSource().getBindingContext().getObject();
-          
       },
 
       _onEditMode: function () {

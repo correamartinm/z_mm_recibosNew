@@ -119,7 +119,7 @@
                     <HBox >
                         
                         <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />
-                        <Button icon="sap-icon://edit" enabled="{= ${Procesado} !== 'X' }" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
+                        <Button icon="sap-icon://edit" enabled="false" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
                     </HBox>
 
                 </cells>
