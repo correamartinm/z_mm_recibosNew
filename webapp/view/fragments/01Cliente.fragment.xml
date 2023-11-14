@@ -5,7 +5,7 @@
     <form:SimpleForm id="idClienteSimpleForm" editable="true" layout="ColumnLayout">
         <form:content>
 
-            <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
+        <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
             <ComboBox id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{/CLIENTESSet}">
                 <core:Item key="{Codigo}" text="{RazonSocial}" />
             </ComboBox>
@@ -41,7 +41,7 @@
 
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
         <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onNavBack" class="sapUiTinyMarginEnd" />
-        <Button visible="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" enabled="{mockdata>/Paso01Cliente/Completo}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
+        <Button visible="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" enabled="{mockdata>/Paso01Cliente/Completo}" text="{i18n>btnconfirmar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
     </HBox>
 
 </core:FragmentDefinition>

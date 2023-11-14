@@ -7,7 +7,19 @@
         <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
     </Toolbar>
 
-    <Table id="idTable" items="{/RECIBOSSet}" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idTable" items="{
+        path : '/RECIBOSSet',
+        sorter: [{
+            path: 'Fecha',
+            descending: true
+        }, {
+            path: 'Procesado',
+            descending: true
+        }],
+        filters : [
+            { path : 'Procesado', operator : 'NE', value1 : '' }
+        ]					
+    }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="95%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
@@ -21,7 +33,7 @@
 
             <Column  >
                 <header>
-                    <Label  text="{i18n>lblnumero}"/>
+                    <Label text="{i18n>lblnumero}"/>
                 </header>
             </Column>
             <Column width="90px" hAlign="Center">
@@ -32,7 +44,7 @@
 
             <Column visible="{device>/system/phone}" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
-                
+
                 </header>
             </Column>
 
@@ -65,7 +77,7 @@
             </Column>
 
 
-            <Column  width="90px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+            <Column width="90px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblprocesado}"/>
                 </header>
@@ -77,9 +89,11 @@
                     <Label text="{i18n>lblfechaproceso}" wrapping="true"/>
                 </header>
             </Column>
-            <Column width="5rem">
+            <Column width="8rem">
                 <header/>
             </Column>
+
+
 
 
         </columns>
@@ -88,9 +102,9 @@
                 <cells>
 
 
-                    <Label text="{Numero}" design="Bold"/>
+                    <Label text="{Numero} " design="Bold"/>
                     <Text text="{path : 'Fecha' , formatter : '.formatFecha'}"/>
-                   
+
                     <Label text="{RazonSocial}" design="Bold" wrapping="true"/>
                     <Label text="{RazonSocial}" design="Bold"/>
                     <Label text="{Cuit}" design="Bold"/>
@@ -114,12 +128,13 @@
                         path: 'Procesado',
                         formatter: '.formatStateBool'
                     }" inverted="true" />
-                   
+
                     <Text text="{path : 'FechaProceso' , formatter : '.formatFecha'}"/>
                     <HBox >
-                        
+
                         <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />
                         <Button icon="sap-icon://edit" enabled="false" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
+                        <Button text="{Procesado}" icon="sap-icon://attachment" enabled="{= ${Procesado} !== 'X' }" press="onButtonEditAttachPress"  class="sapUiTinyMarginBegin"/>
                     </HBox>
 
                 </cells>

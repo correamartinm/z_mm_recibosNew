@@ -32,7 +32,7 @@ server:
         backend:
           - path: /sap
             url: https://mxecid.morixe.com.ar:44300
-            client: '110'
+            client: '100'
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

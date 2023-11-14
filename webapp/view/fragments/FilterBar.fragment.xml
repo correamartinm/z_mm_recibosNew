@@ -31,6 +31,17 @@
                 </fb:control>
             </fb:FilterGroupItem>
 
+            
+            <fb:FilterGroupItem groupName="search" name="procesado" label="{i18n>lblprocesado}" visibleInFilterBar="true">
+                <fb:control>
+                    <ComboBox id="idProcesadoFilter"  width="60px" >
+                        <core:Item key="X" text="SI" />
+                        <core:Item key="null" text="NO" />
+                    </ComboBox>
+                    
+                </fb:control>
+            </fb:FilterGroupItem>
+
 
         </fb:filterGroupItems>
 

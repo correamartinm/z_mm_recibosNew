@@ -95,9 +95,11 @@ sap.ui.define(
         let oView = this.getView(),
           oRazonsocial = oView.byId("idRazonSocialMultiInput"),
           oCuit = oView.byId("idCuitMultiInput"),
+          oProcesado = oView.byId("idProcesadoFilter"),
           oFecha = oView.byId("idFechaDateRangeSelection");
 
         oRazonsocial.setValue(null);
+        oProcesado.setSelectedKey(null);
         oCuit.setValue(null);
         oFecha.setValue(null);
         let oFilter = [];
@@ -108,6 +110,7 @@ sap.ui.define(
         let oView = this.getView(),
           oFilter = [],
           oRazonsocial = oView.byId("idRazonSocialMultiInput"),
+          oProcesado = oView.byId("idProcesadoFilter").getSelectedKey(),
           oCuit = oView.byId("idCuitMultiInput"),
           oRangoFecha = oView.byId("idFechaDateRangeSelection"),
           oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
@@ -151,10 +154,29 @@ sap.ui.define(
           );
         }
 
+        if (oProcesado) {
+          if (oProcesado === "X") {
+            oFilter.push(
+              new sap.ui.model.Filter(
+                "Procesado",
+                sap.ui.model.FilterOperator.EQ,
+                oProcesado
+              )
+            );
+          } else {
+            oFilter.push(
+              new sap.ui.model.Filter(
+                "Procesado",
+                sap.ui.model.FilterOperator.NE,
+                "X"
+              )
+            );
+          }
+        }
+
         let AllFilter = new sap.ui.model.Filter(oFilter, true);
 
         this._onRefreshTable(AllFilter);
-
       },
       onSearchRS: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
@@ -163,7 +185,9 @@ sap.ui.define(
           oValue = oEvent.getSource().getValue();
 
         if (oValue.length >= 0) {
-          oFilters.push(new Filter("RazonSocial", FilterOperator.Contains, oValue));
+          oFilters.push(
+            new Filter("RazonSocial", FilterOperator.Contains, oValue)
+          );
         } else {
           oEvent.getSource().setValue();
 
