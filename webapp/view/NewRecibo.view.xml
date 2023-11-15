@@ -25,7 +25,7 @@
 
                         <Wizard id="idWizard" complete="onWizardComplete" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" enableBranching="true">
 
-                            <WizardStep icon="sap-icon://person-placeholder" validated="false" id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
+                            <WizardStep   icon="sap-icon://person-placeholder" validated="false" id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
 
                                 <Panel >
                                     <content>

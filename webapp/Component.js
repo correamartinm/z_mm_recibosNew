@@ -222,7 +222,8 @@ sap.ui.define(
           SUBTOTAL: "",
           RESTANTE: "",
           TOTAL:"",
-          ANTICIPO:""
+          ANTICIPO:"",
+          ActiveStep:"1"
 
   
         });
