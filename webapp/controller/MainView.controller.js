@@ -215,6 +215,8 @@ sap.ui.define(
         oLayoutModel.setProperty(oEntidad, oValue);
       },
 
+
+
       // *** Nuevo Recibo
 
       onAgregarButtonPress: function (oEvent) {

@@ -220,6 +220,7 @@ sap.ui.define(
           NoComprobantes: false,
           Resumen: [],
           SUBTOTAL: "",
+          RESTANTE: "",
           TOTAL:"",
           ANTICIPO:""
 

@@ -155,6 +155,69 @@ sap.ui.define(
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
       },
 
+// *************************
+// Ficheros
+
+      onFileDialog: function(oEvent) {
+        let oPath = oEvent.getSource().getBindingContext().getPath(),
+        oItem = oEvent.getSource().getBindingContext().getObject();
+        if (!this._oDialogUploadSet) {
+          this._oDialogUploadSet = sap.ui.xmlfragment("UploadFile", "morixe.zfirecibos.view.fragments.FileUploader", this);
+          this.getView().addDependent(this._oDialogUploadSet);
+        }
+  
+        // Filtro Ficheros
+        // var oUploadCollection = sap.ui.core.Fragment.byId("UploadFile", "UploadSet");
+        // var oFilter2 = new Filter("Recibo", FilterOperator.EQ, gOrder);
+        
+  
+        // oUploadCollection.getBinding("items").filter([oFilter2]);
+        // Muestro Dialogo		
+  
+        // this._oDialogUploadSet.setTitle("Ficheros Ficha: " + gOrder + " Intervencion: " + gNumIntervencion);
+        this._oDialogUploadSet.open();
+  
+      },
+  
+      onCloseonFileDialog: function() {
+  
+        this._oDialogUploadSet.close();
+        this._oDialogUploadSet.destroy();
+        this._oDialogUploadSet = null;
+  
+      },
+
+      onUploadStarted: function (oEvent) {
+        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+          oItem = oEvent.getParameter("item");
+        oList.insertItem(new ListItem({
+          title: "Upload started: " + oItem.getFileName()
+        }));
+      },
+      onUploadProgressed: function (oEvent) {
+        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+          oItem = oEvent.getParameter("item");
+        oList.insertItem(new ListItem({
+          title: "Upload progressed: " + oItem.getFileName()
+        }));
+      },
+      onUploadCompleted: function (oEvent) {
+        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+          oItem = oEvent.getParameter("item");
+        oList.insertItem(new ListItem({
+          title: "Upload completed: " + oItem.getFileName()
+        }));
+      },
+      onUploadAborted: function (oEvent) {
+        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+          oItem = oEvent.getParameter("item");
+        oList.insertItem(new ListItem({
+          title: "Upload aborted: " + oItem.getFileName()
+        }));
+      },
+      onFileRenamed: function(oEvent) {
+        MessageToast.show("FileRenamed event triggered.");
+      },
       // Actualizacion Modelos -------------------
 
       _oncreateModel: function (oModel, oView, oEntity, oPayload) {

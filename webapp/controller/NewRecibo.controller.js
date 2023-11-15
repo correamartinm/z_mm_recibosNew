@@ -896,13 +896,15 @@ sap.ui.define(
         oModel.setProperty("/Paso05ImporteRetenciones", parseFloat(ImporteRET));
 
         let oSubTotal =
-          parseFloat(ImporteCBTES) || 0  -
-          (parseFloat(ImportePGOCTA) || 0+
-            parseFloat(ImporteDTO) || 0+
-            parseFloat(ImporteRET) || 0);
-        
+          parseFloat(ImporteCBTES) ||
+          0 -
+            (parseFloat(ImportePGOCTA) ||
+              0 + parseFloat(ImporteDTO) ||
+              0 + parseFloat(ImporteRET) ||
+              0);
 
         oModel.setProperty("/SUBTOTAL", oSubTotal);
+        oModel.getProperty("/RESTANTE", oSubTotal);
       },
 
       // ********************************************
@@ -1000,6 +1002,7 @@ sap.ui.define(
       },
 
       onshowDetalleAdd: function (oValue) {
+        this._onUpdateValues();
         let oModel = this.getView().getModel("layout"),
           oDescuento = "/detalleadd",
           data = [];
@@ -1244,6 +1247,8 @@ sap.ui.define(
 
         oModel.setProperty("/Paso06Detalles", DataFinal.length);
         oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
+
+        this._onUpdateValues();
       },
 
       _onResetDetalleValues: function name() {
@@ -1315,6 +1320,7 @@ sap.ui.define(
           oModel.setProperty("/Detalle", []);
           oModel.setProperty("/Paso06Detalles", 0);
           oModel.setProperty("/Paso06ImporteDetalle", 0);
+          oModel.getProperty("/RESTANTE", 0);
           this.onCheckDetalles();
         }
 
@@ -1383,7 +1389,7 @@ sap.ui.define(
         }
       },
 
-      onWizardStepDetalleComplete: function (params) {
+      _onUpdateValues: function () {
         let oModel = this.getView().getModel("mockdata"),
           ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
           ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
@@ -1391,7 +1397,7 @@ sap.ui.define(
           ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones"),
           ImporteDET = oModel.getProperty("/Paso06ImporteDetalle");
 
-        oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
+        // oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
 
         let oSubTotal =
           parseFloat(ImporteCBTES) -
@@ -1399,10 +1405,26 @@ sap.ui.define(
             parseFloat(ImporteDTO) +
             parseFloat(ImporteRET) +
             parseFloat(ImporteDET));
-        let oAnticipo = parseFloat(ImporteDET);
+
+        let oSub =
+          parseFloat(ImporteCBTES) -
+          (parseFloat(ImportePGOCTA) +
+            parseFloat(ImporteDTO) +
+            parseFloat(ImporteRET));
+
+        let oAnticipo = ImporteDET - oSubTotal;
+
+        let ActST = oSub - parseFloat(ImporteDET);
+
+        oModel.setProperty("/RESTANTE", ActST);
 
         oModel.setProperty("/TOTAL", oSubTotal);
+
         oModel.setProperty("/ANTICIPO", oAnticipo);
+      },
+
+      onWizardStepDetalleComplete: function (params) {
+        this._onUpdateValues();
 
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
       },
@@ -1412,7 +1434,8 @@ sap.ui.define(
           ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
           ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
           ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
-          ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
+          ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones"),
+          ImportePGO = oModel.getProperty("/Paso06ImporteDetalle");
 
         let MPGOCTA =
           this._i18n().getText("lblpagoacta") +
@@ -1430,9 +1453,15 @@ sap.ui.define(
           ImporteDTO.toString() +
           "\n";
         let MRET =
-          this._i18n().getText("lblretenciones") + ": " + ImporteRET.toString();
+          this._i18n().getText("lblretenciones") +
+          ": " +
+          ImporteRET.toString() +
+          "\n";
 
-        let sMessage = MCBTES + MPGOCTA + MDTO + MRET,
+        let PGO =
+          this._i18n().getText("lblmedios") + ": " + ImportePGO.toString();
+
+        let sMessage = MCBTES + MPGOCTA + MDTO + MRET + PGO,
           sMessageTitle = this._i18n().getText("msginfotitle");
 
         this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {});
@@ -1483,6 +1512,12 @@ sap.ui.define(
         };
         clearContent(this._wizard.getSteps());
       },
+
+      // ********************************************
+      // Ficheros *****************************
+      // ********************************************
+
+
 
       // ********************************************
       // Impresion *****************************
