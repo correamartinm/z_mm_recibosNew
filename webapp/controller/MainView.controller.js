@@ -215,11 +215,15 @@ sap.ui.define(
         oLayoutModel.setProperty(oEntidad, oValue);
       },
 
-
-
       // *** Nuevo Recibo
 
       onAgregarButtonPress: function (oEvent) {
+        let oMockModel = this.getView().getModel("mockdata");
+        let oData = {};
+        oData.Completo = false;
+      
+        oMockModel.setProperty("/Paso01Cliente", oData);
+
         this.getOwnerComponent().getTargets().display("TargetNewRecibo");
         let oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),

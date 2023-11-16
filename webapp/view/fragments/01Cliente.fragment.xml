@@ -1,12 +1,13 @@
 <core:FragmentDefinition xmlns="sap.m"
-    xmlns:form="sap.ui.layout.form"
+xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core">
+    <Panel >
     <MessageStrip text="{i18n>msgnocomprobantes}" showIcon="true" class="sapUiTinyMargin" visible="{mockdata>/NoComprobantes}"/>
-    <form:SimpleForm id="idClienteSimpleForm" editable="true" layout="ColumnLayout" >
+        <form:SimpleForm id="idClienteSimpleForm" editable="true" layout="ColumnLayout" >
         <form:content>
 
         <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
-            <ComboBox id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{/CLIENTESSet}">
+            <ComboBox id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{/CLIENTESSet}" enabled="{= ${mockdata>/Paso01Cliente/Mensaje} === undefined }">
                 <core:Item key="{Codigo}" text="{RazonSocial}" />
             </ComboBox>
 
@@ -37,11 +38,13 @@
         </form:content>
     </form:SimpleForm>
 
-    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{= ${mockdata>/Paso01Cliente/Mensaje} === undefined }">
 
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
         <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onNavBack" class="sapUiTinyMarginEnd" />
         <Button visible="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" enabled="{mockdata>/Paso01Cliente/Completo}" text="{i18n>btnconfirmar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
     </HBox>
+
+    </Panel>
 
 </core:FragmentDefinition>

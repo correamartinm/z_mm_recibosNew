@@ -118,6 +118,7 @@ sap.ui.define(
           console.log(rta);
           if (rta.Mensaje !== "") {
             oData.Completo = false;
+            oData.Mensaje = rta.Mensaje;
             oMockModel.setProperty("/Paso01Cliente", oData);
 
             this._onValidateStep();
