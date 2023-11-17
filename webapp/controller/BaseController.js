@@ -117,34 +117,34 @@ sap.ui.define(
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           paso1 = oMockModel.getProperty("/Paso01Cliente");
 
-          if (item.Aplicado ){
-            item.Importe = item.Aplicado;
-          }
+        if (item.Aplicado) {
+          item.Importe = item.Aplicado;
+        }
 
-           // TipoComprobante
+        // TipoComprobante
 
         let oPayload = {
-            Codigo: item.Codigo || "",
-            Cliente: paso1.Codigo || "",
-            TipoLinea: item.TipoLinea || "",
-            Descripcion: item.Descripcion || "",
-            NroLinea: item.NroLinea.toString() || "",
-            Importe: item.Importe.toString() || "",
-            Numero: item.Numero.toString() || "",
-            Fecha: item.Fecha || new Date(),
-            Documentacion: item.Documentacion || "",
-            Mensaje: item.Mensaje || "",
-            Resultado: item.Resultado || "",
-            Detalle: item.Detalle || "",
-            NroCheque: item.NroCheque || "",
-            FechaEmision: item.FechaEmision || null,
-            FechaVencimiento: item.FechaVencimiento || null,
-            BancoEmisor: item.BancoEmisor || "",
-            BancoDestino: item.BancoDestino || "",
-            TipoComprobante : item.Tipo || paso1.TipoComprobante
-          };
+          Codigo: item.Codigo || "",
+          Cliente: paso1.Codigo || "",
+          TipoLinea: item.TipoLinea || "",
+          Descripcion: item.Descripcion || "",
+          NroLinea: item.NroLinea.toString() || "",
+          Importe: item.Importe.toString() || "",
+          Numero: item.Numero.toString() || "",
+          Fecha: item.Fecha || new Date(),
+          Documentacion: item.Documentacion || "",
+          Mensaje: item.Mensaje || "",
+          Resultado: item.Resultado || "",
+          Detalle: item.Detalle || "",
+          NroCheque: item.NroCheque || "",
+          FechaEmision: item.FechaEmision || null,
+          FechaVencimiento: item.FechaVencimiento || null,
+          BancoEmisor: item.BancoEmisor || "",
+          BancoDestino: item.BancoDestino || "",
+          TipoComprobante: item.Tipo || paso1.TipoComprobante,
+        };
 
-          let oEntidad = "/DocumenPosSet";
+        let oEntidad = "/DocumenPosSet";
         console.log(oPayload);
         let rta = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
 
@@ -155,69 +155,123 @@ sap.ui.define(
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
       },
 
-// *************************
-// Ficheros
+      // *************************
+      // Ficheros
 
-      onFileDialog: function(oEvent) {
+      onFileDialog: function (oEvent) {
         let oPath = oEvent.getSource().getBindingContext().getPath(),
-        oItem = oEvent.getSource().getBindingContext().getObject();
+          oItem = oEvent.getSource().getBindingContext().getObject();
         if (!this._oDialogUploadSet) {
-          this._oDialogUploadSet = sap.ui.xmlfragment("UploadFile", "morixe.zfirecibos.view.fragments.FileUploader", this);
+          this._oDialogUploadSet = sap.ui.xmlfragment(
+            "UploadFile",
+            "morixe.zfirecibos.view.fragments.FileUploader",
+            this
+          );
           this.getView().addDependent(this._oDialogUploadSet);
         }
-  
+
         // Filtro Ficheros
         // var oUploadCollection = sap.ui.core.Fragment.byId("UploadFile", "UploadSet");
         // var oFilter2 = new Filter("Recibo", FilterOperator.EQ, gOrder);
-        
-  
+
         // oUploadCollection.getBinding("items").filter([oFilter2]);
-        // Muestro Dialogo		
-  
+        // Muestro Dialogo
+
         // this._oDialogUploadSet.setTitle("Ficheros Ficha: " + gOrder + " Intervencion: " + gNumIntervencion);
         this._oDialogUploadSet.open();
-  
       },
-  
-      onCloseonFileDialog: function() {
-  
+
+      onBeforeUploadStarts: function (oEvent) {
+        var fileName = oEvent.getParameter("fileName");
+        // Header Slug
+        var oCustomerHeaderSlug = new UploadCollectionParameter({
+          name: "slug",
+          value: fileName,
+        });
+        var oUploadCollection = oEvent.getSource();
+        oEvent.getParameters().addHeaderParameter(oCustomerHeaderSlug);
+      },
+
+      onUploadComplete: function (oEvent) {
+        var oUploadCollection = oEvent.getSource();
+        oUploadCollection.getBinding("items").refresh();
+        MessageToast.show("Upload Completado");
+      },
+
+      onCloseonFileDialog: function () {
         this._oDialogUploadSet.close();
         this._oDialogUploadSet.destroy();
         this._oDialogUploadSet = null;
-  
       },
 
       onUploadStarted: function (oEvent) {
-        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+        var oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
           oItem = oEvent.getParameter("item");
-        oList.insertItem(new ListItem({
-          title: "Upload started: " + oItem.getFileName()
-        }));
+        oList.insertItem(
+          new ListItem({
+            title: "Upload started: " + oItem.getFileName(),
+          })
+        );
       },
       onUploadProgressed: function (oEvent) {
-        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+        var oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
           oItem = oEvent.getParameter("item");
-        oList.insertItem(new ListItem({
-          title: "Upload progressed: " + oItem.getFileName()
-        }));
+        oList.insertItem(
+          new ListItem({
+            title: "Upload progressed: " + oItem.getFileName(),
+          })
+        );
       },
       onUploadCompleted: function (oEvent) {
-        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+        var oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
           oItem = oEvent.getParameter("item");
-        oList.insertItem(new ListItem({
-          title: "Upload completed: " + oItem.getFileName()
-        }));
+        oList.insertItem(
+          new ListItem({
+            title: "Upload completed: " + oItem.getFileName(),
+          })
+        );
       },
       onUploadAborted: function (oEvent) {
-        var  oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
+        var oList = sap.ui.core.Fragment.byId("UploadFile", "progressList"),
           oItem = oEvent.getParameter("item");
-        oList.insertItem(new ListItem({
-          title: "Upload aborted: " + oItem.getFileName()
-        }));
+        oList.insertItem(
+          new ListItem({
+            title: "Upload aborted: " + oItem.getFileName(),
+          })
+        );
       },
-      onFileRenamed: function(oEvent) {
+      onFileRenamed: function (oEvent) {
         MessageToast.show("FileRenamed event triggered.");
       },
+
+      // Files Individual ------------------------
+
+      OnFileUploadMethod: function (FileUploader, oValue) {
+        var that = this;
+        FileUploader.addHeaderParameter(
+          new sap.ui.unified.FileUploaderParameter({
+            name: "slug",
+            value: oValue,
+          })
+        );
+
+        // var sAttachmentURL = oModel.sServiceUrl + oModel.createKey("/AttachDocSet", {
+        //   ticketNumber: oData.ticketNumber
+        //   }) + "/attachments";
+
+
+        FileUploader.setSendXHR(true);
+        // FileUploader.setUploadUrl(sAttachmentURL);
+        FileUploader.upload();
+        FileUploader.setValue("");
+        FileUploader.removeAllHeaderParameters();
+
+        // FileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
+        //   name: "x-csrf-token",
+        //   value: that.getOwnerComponent().getModel("oVendorChangeRequest").getSecurityToken()
+        // }));
+      },
+
       // Actualizacion Modelos -------------------
 
       _oncreateModel: function (oModel, oView, oEntity, oPayload) {

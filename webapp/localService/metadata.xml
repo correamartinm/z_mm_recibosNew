@@ -15,7 +15,7 @@
                 <Property Name="Cuit" Type="Edm.String" Nullable="false" MaxLength="16" sap:unicode="false" sap:label="Nº ident.fis.1" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Total" Type="Edm.Decimal" Nullable="false" Precision="11" Scale="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Moneda" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Procesado" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Procesado" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="FechaProcesado" Type="Edm.DateTime" Precision="8" sap:unicode="false" sap:label="Cronomarcador" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="CLIENTES" sap:content-version="1">
@@ -95,6 +95,7 @@
                 <Property Name="Importe" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Saldo" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Aplicado" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Asignacion" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="MotivoRet" sap:content-version="1">
                 <Key>

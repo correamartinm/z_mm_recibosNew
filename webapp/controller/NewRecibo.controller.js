@@ -703,6 +703,8 @@ sap.ui.define(
           oModel.setProperty("/Descuentos", []);
         }
 
+        
+
         oModel.refresh();
       },
 
