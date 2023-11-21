@@ -348,11 +348,12 @@ sap.ui.define(
           oModel.read(oPath, {
             success: jQuery.proxy(function (oData) {
               oView.setBusy(false);
-              resolve(oData);
+              resolve({Rta : "OK", Data: oData});
             }, this),
             error: function (oError) {
               oView.setBusy(false);
-              that._onErrorHandle(oError);
+              resolve({Rta : "ERROR", Data: oError});
+              
             },
           });
         });

@@ -42,7 +42,6 @@ sap.ui.define(
         this._oNavContainer.to(this.byId("idRecibosPage"));
       },
 
-
       // ************ Control de los Pasos ****************
 
       // ********************************************
@@ -139,7 +138,26 @@ sap.ui.define(
         let oView = this.getView(),
           oEntidad2 = "/PagoCuentaSet",
           oEntidad = "/ComprobantesSet";
-        vObject = oModel.getObject(oPath);
+
+        let oResponseModel = await this._onreadModel(oModel, oView, oPath);
+
+        if (oResponseModel.Rta === "OK") {
+          vObject = oResponseModel.Data;
+        } else {
+          vObject = oResponseModel.Data;
+
+          let sMessage = vObject.message +" "+ vObject.responseText,
+          sMessageTitle = this._i18n().getText("msgerror");
+
+        this._onShowMsgBoxError(sMessage, sMessageTitle).then((rta) => {
+         return;
+         
+        });
+
+
+        }
+        // vObject = oModel.getObject(oPath);
+
         var oFilters = new Array();
 
         let oFiltro = new sap.ui.model.Filter({
@@ -702,8 +720,6 @@ sap.ui.define(
         } else {
           oModel.setProperty("/Descuentos", []);
         }
-
-        
 
         oModel.refresh();
       },
