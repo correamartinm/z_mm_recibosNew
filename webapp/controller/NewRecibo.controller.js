@@ -141,78 +141,79 @@ sap.ui.define(
 
         let oResponseModel = await this._onreadModel(oModel, oView, oPath);
 
-        if (oResponseModel.Rta === "OK") {
-          vObject = oResponseModel.Data;
+        if (oResponseModel.Rta !== "OK") {
+          vObject = [];
+
+          let sMessage =
+          oResponseModel.Data.message +
+              " : " +
+              oResponseModel.Data.statusCode +
+              " - " +
+              oResponseModel.Data.statusText,
+            sMessageTitle = this._i18n().getText("msgerror");
+
+          this._onShowMsgBoxError(sMessage, sMessageTitle).then((rta) => {
+            oMockModel.setProperty("/Paso01Cliente", {});
+            return;
+          });
         } else {
           vObject = oResponseModel.Data;
 
-          let sMessage = vObject.message +" "+ vObject.responseText,
-          sMessageTitle = this._i18n().getText("msgerror");
+          var oFilters = new Array();
 
-        this._onShowMsgBoxError(sMessage, sMessageTitle).then((rta) => {
-         return;
-         
-        });
+          let oFiltro = new sap.ui.model.Filter({
+            path: "Cliente",
+            operator: sap.ui.model.FilterOperator.EQ,
+            value1: vObject.Codigo,
+          });
+          oFilters.push(oFiltro);
 
+          let oComprobantesControl = await this._onfilterModel(
+            oModel,
+            oView,
+            oEntidad,
+            oFilters
+          );
 
+          if (oComprobantesControl.results.length === 0) {
+            // Directo a Detalle de pagos
+            anticipo = true;
+            recibo = false;
+            oMockModel.setProperty("/NoComprobantes", true);
+          } else {
+            oMockModel.setProperty("/Paso3Data", oComprobantesControl.results);
+            anticipo = false;
+            recibo = false;
+            oMockModel.setProperty("/NoComprobantes", false);
+          }
+
+          let oPagosaCtaControl = await this._onfilterModel(
+            oModel,
+            oView,
+            oEntidad2,
+            oFilters
+          );
+
+          if (oPagosaCtaControl.results.length !== 0) {
+            oMockModel.setProperty("/Paso2Data", oPagosaCtaControl.results);
+          }
+
+          let oPayload = {
+            Codigo: vObject.Codigo,
+            RazonSocial: vObject.RazonSocial,
+            Domicilio: vObject.Domicilio,
+            Localidad: vObject.Localidad,
+            TipoIva: vObject.TipoIVA,
+            Cuit: vObject.Cuit,
+            Observaciones: vObject.Observaciones,
+            Accion: "C",
+            Anticipo: anticipo,
+            Recibo: recibo,
+            TipoComprobante: vObject.TipoComprobante,
+          };
+
+          oMockModel.setProperty("/Paso01Cliente", oPayload);
         }
-        // vObject = oModel.getObject(oPath);
-
-        var oFilters = new Array();
-
-        let oFiltro = new sap.ui.model.Filter({
-          path: "Cliente",
-          operator: sap.ui.model.FilterOperator.EQ,
-          value1: vObject.Codigo,
-        });
-        oFilters.push(oFiltro);
-
-        let oComprobantesControl = await this._onfilterModel(
-          oModel,
-          oView,
-          oEntidad,
-          oFilters
-        );
-
-        if (oComprobantesControl.results.length === 0) {
-          // Directo a Detalle de pagos
-          anticipo = true;
-          recibo = false;
-          oMockModel.setProperty("/NoComprobantes", true);
-        } else {
-          oMockModel.setProperty("/Paso3Data", oComprobantesControl.results);
-          anticipo = false;
-          recibo = false;
-          oMockModel.setProperty("/NoComprobantes", false);
-        }
-
-        let oPagosaCtaControl = await this._onfilterModel(
-          oModel,
-          oView,
-          oEntidad2,
-          oFilters
-        );
-
-        if (oPagosaCtaControl.results.length !== 0) {
-          oMockModel.setProperty("/Paso2Data", oPagosaCtaControl.results);
-        }
-
-        let oPayload = {
-          Codigo: vObject.Codigo,
-          RazonSocial: vObject.RazonSocial,
-          Domicilio: vObject.Domicilio,
-          Localidad: vObject.Localidad,
-          TipoIva: vObject.TipoIVA,
-          Cuit: vObject.Cuit,
-          Observaciones: vObject.Observaciones,
-          Accion: "C",
-          Anticipo: anticipo,
-          Recibo: recibo,
-          TipoComprobante: vObject.TipoComprobante,
-        };
-
-        oMockModel.setProperty("/Paso01Cliente", oPayload);
-
         // ******** Hay documentos para el Cliente ???
       },
       onWizardStepClienteComplete: async function () {
