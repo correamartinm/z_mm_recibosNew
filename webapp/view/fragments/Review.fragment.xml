@@ -41,7 +41,7 @@
 
     </VBox>
     <HBox width="100%">
-        <List id="idResumenSetList" headerText="Products" items="{
+        <List id="idResumenSetList" items="{
         path: '/ResumenSet',   events: {
             dataRequested: '.onResumenData'
            
