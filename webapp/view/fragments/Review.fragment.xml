@@ -2,7 +2,7 @@
     xmlns:core="sap.ui.core">
 
 
-    <VBox class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginTopBottom" height="40%" justifyContent="SpaceBetween" width="70%" alignContent="Center">
+    <VBox visible="false" class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginTopBottom" height="40%" justifyContent="SpaceBetween" width="70%" alignContent="Center">
 
 
         <HBox justifyContent="SpaceBetween">
@@ -40,7 +40,17 @@
 
 
     </VBox>
+    <HBox>
+        <List id="idResumenSetList" headerText="Products" items="{
+        path: '/ResumenSet',   events: {
+            dataRequested: '.onResumenData'
+           
+          }
+    }">
+            <StandardListItem title="{TipoLinea}" description="{Importe}" />
+        </List>
 
+    </HBox>
 
     <OverflowToolbar >
         <ToolbarSpacer/>

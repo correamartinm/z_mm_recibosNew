@@ -40,6 +40,11 @@ sap.ui.define(
         this._onValidateStep();
 
         this._oNavContainer.to(this.byId("idRecibosPage"));
+        this.getView().byId("idPagoCtaTable").removeSelections();
+        this.getView().byId("idComprobanteTable").removeSelections();
+        this._wizard.invalidateStep(
+          this.getView().byId("idClienteWizardStep")
+        );
       },
 
       // ************ Control de los Pasos ****************
@@ -1457,6 +1462,9 @@ sap.ui.define(
         this._onUpdateValues();
 
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
+
+        let oModel = this.getOwnerComponent().getModel();
+        oModel.refresh(true);
       },
 
       onShowInfoMsg: function (oEvent) {

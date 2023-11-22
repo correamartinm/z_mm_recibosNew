@@ -69,10 +69,10 @@
                     <Label text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}" design="Bold"/>
                     
 
-                    <Label text="{mockdata>Importe}"/>
+                    <Label text="{mockdata>Total}"/>
                     <Label text="{mockdata>Saldo}"/>
                     
-                    <Input enabled="false" value="{mockdata>Aplicado}" textAlign="End" change="onInputImporteChangePagos"/>
+                    <Input enabled="false" value="{mockdata>Importe}" textAlign="End" change="onInputImporteChangePagos"/>
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
                         <Button icon="sap-icon://edit" press="onButtonEditPress" />

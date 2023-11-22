@@ -142,6 +142,8 @@ sap.ui.define(
           BancoEmisor: item.BancoEmisor || "",
           BancoDestino: item.BancoDestino || "",
           TipoComprobante: item.Tipo || paso1.TipoComprobante,
+          Periodo: item.Periodo || "",
+          Sociedad : item.Sociedad || ""
         };
 
         let oEntidad = "/DocumenPosSet";
