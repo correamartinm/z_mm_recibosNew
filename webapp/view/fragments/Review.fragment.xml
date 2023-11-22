@@ -40,7 +40,7 @@
 
 
     </VBox>
-    <HBox>
+    <HBox width="100%">
         <List id="idResumenSetList" headerText="Products" items="{
         path: '/ResumenSet',   events: {
             dataRequested: '.onResumenData'
@@ -51,7 +51,7 @@
 
                 <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
                     <Text text="{TipoLinea}" class="BoldOK" textAlign="End"/>
-                    <Text text="        "  width="200px" />
+                    <Text text="        " width="200px" />
                     <Text class="BoldOK" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/>
                 </HBox>
             </CustomListItem>
@@ -59,8 +59,8 @@
         </List>
     </HBox>
 
-        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class="sapUiSmallMarginTopBottom"/>
-    
+    <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class="sapUiSmallMarginTopBottom"/>
+
     <OverflowToolbar >
         <ToolbarSpacer/>
 
