@@ -25,6 +25,19 @@ sap.ui.define(
           oControl.focus;
         });
       },
+      formatItem: function (text, value) {
+        if (!text) {
+          return "";
+        } else {
+          let ovalue = parseFloat(value);
+          if (text.toUpperCase() === "SALDO" && value !== "") {
+            this.getOwnerComponent()
+              .getModel("mockdata")
+              .setProperty("/SALDO", value);
+          }
+        }
+        return value;
+      },
 
       //  Detalle
 
@@ -143,7 +156,7 @@ sap.ui.define(
           BancoDestino: item.BancoDestino || "",
           TipoComprobante: item.Tipo || paso1.TipoComprobante,
           Periodo: item.Periodo || "",
-          Sociedad : item.Sociedad || ""
+          Sociedad: item.Sociedad || "",
         };
 
         let oEntidad = "/DocumenPosSet";
@@ -261,7 +274,6 @@ sap.ui.define(
         //   ticketNumber: oData.ticketNumber
         //   }) + "/attachments";
 
-
         FileUploader.setSendXHR(true);
         // FileUploader.setUploadUrl(sAttachmentURL);
         FileUploader.upload();
@@ -350,12 +362,11 @@ sap.ui.define(
           oModel.read(oPath, {
             success: jQuery.proxy(function (oData) {
               oView.setBusy(false);
-              resolve({Rta : "OK", Data: oData});
+              resolve({ Rta: "OK", Data: oData });
             }, this),
             error: function (oError) {
               oView.setBusy(false);
-              resolve({Rta : "ERROR", Data: oError});
-              
+              resolve({ Rta: "ERROR", Data: oError });
             },
           });
         });

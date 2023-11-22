@@ -24,10 +24,9 @@
 }
 
 .BoldOK {
-    color: rgba(3, 177, 133, 0.966);
-    font-size: 15px;
+    color: rgba(20, 3, 177, 0.966);
+    font-size: 20px;
     font-weight: bold;
-    align-content: center;
     vertical-align: middle;
 
 }

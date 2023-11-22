@@ -1580,6 +1580,8 @@ sap.ui.define(
           oSubTotal = oMockModel.getProperty("/TOTAL");
         oData = oMockModel.getProperty("/Paso01Cliente");
 
+        
+
         oData.Accion = "S";
 
         let oPayload = {

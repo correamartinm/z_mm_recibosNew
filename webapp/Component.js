@@ -223,6 +223,7 @@ sap.ui.define(
           RESTANTE: "",
           TOTAL:"",
           ANTICIPO:"",
+          SALDO:"",
           ActiveStep:"1"
 
   

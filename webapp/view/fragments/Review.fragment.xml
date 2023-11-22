@@ -47,11 +47,20 @@
            
           }
     }">
-            <StandardListItem title="{TipoLinea}" description="{Importe}" />
-        </List>
+            <CustomListItem >
 
+                <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
+                    <Text text="{TipoLinea}" class="BoldOK" textAlign="End"/>
+                    <Text text="        "  width="200px" />
+                    <Text class="BoldOK" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/>
+                </HBox>
+            </CustomListItem>
+
+        </List>
     </HBox>
 
+        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class="sapUiSmallMarginTopBottom"/>
+    
     <OverflowToolbar >
         <ToolbarSpacer/>
 
