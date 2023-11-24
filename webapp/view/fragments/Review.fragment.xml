@@ -40,24 +40,26 @@
 
 
     </VBox>
-    <HBox width="100%">
-        <List id="idResumenSetList" items="{
+
+        <List class="sapUiSmallMarginBeginEnd"  id="idResumenSetList" width="90%" items="{
         path: '/ResumenSet',   events: {
             dataRequested: '.onResumenData'
            
           }
     }">
             <CustomListItem >
+                <VBox  >
 
-                <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
-                    <Text text="{TipoLinea}" class="BoldOK" textAlign="End"/>
-                    <Text text="        " width="200px" />
-                    <Text class="BoldOK" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/>
-                </HBox>
+                    <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
+                        <Text text="{TipoLinea}" class="BoldOK" textAlign="End"/>
+                        <Text text="        " width="200px" />
+                        <Text class="BoldOK" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/>
+                    </HBox>
+                </VBox>
             </CustomListItem>
 
         </List>
-    </HBox>
+
 
     <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class="sapUiSmallMarginTopBottom"/>
 

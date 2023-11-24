@@ -6,8 +6,8 @@
 }
 
 .Bold {
-    color: rgba(44, 44, 121, 0.966);
-    font-size: 15px;
+   
+    font-size: 17px;
     font-weight: bold;
     align-content: center;
     vertical-align: middle;
@@ -83,4 +83,8 @@
 
 .specialToolbarBorder {
     border-bottom: 0 !important;
+}
+
+.PanelLightCyan {
+    background: LightCyan;
 }

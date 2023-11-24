@@ -1,6 +1,7 @@
 <mvc:View controllerName="morixe.zfirecibos.controller.NewRecibo"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
     xmlns="sap.m">
     <Page >
         <content>
@@ -13,7 +14,7 @@
                                     <Button icon="sap-icon://nav-back" press="onNavBack" type="Emphasized" />
                                 </contentLeft>
                                 <contentMiddle>
-                                   
+
 
                                 </contentMiddle>
                                 <contentRight>
@@ -25,11 +26,11 @@
 
                         <Wizard id="idWizard" complete="onWizardComplete" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" enableBranching="true">
 
-                            <WizardStep   icon="sap-icon://person-placeholder" validated="false" id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
+                            <WizardStep icon="sap-icon://person-placeholder" validated="false" id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
 
                                 <Panel >
                                     <content>
-                                        
+
                                         <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.01Cliente" type="XML"/>
                                     </content>
 
@@ -37,7 +38,7 @@
 
                             </WizardStep>
 
-                            <WizardStep nextStep="idComprobanteWizardStep" icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate" complete="onWizardStepPagosComplete" >
+                            <WizardStep nextStep="idComprobanteWizardStep" icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate" complete="onWizardStepPagosComplete">
 
                                 <Panel >
 
@@ -49,7 +50,7 @@
 
                             </WizardStep>
 
-                            <WizardStep validated="false" complete="onWizardStepComprobanteComplete" nextStep="idDescuentosWizardStep"  icon="sap-icon://sales-order-item" id="idComprobanteWizardStep" title="{i18n>comprobantetitle}">
+                            <WizardStep validated="false" complete="onWizardStepComprobanteComplete" nextStep="idDescuentosWizardStep" icon="sap-icon://sales-order-item" id="idComprobanteWizardStep" title="{i18n>comprobantetitle}">
 
                                 <Panel >
 
@@ -100,8 +101,44 @@
 
 
                     </Page>
-                    <Page id="idwizardReviewPage" showHeader="false">
-                        <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Review" type="XML"/>
+                    <Page id="idwizardReviewPage" showHeader="false" class="PanelLightCyan">
+
+
+                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Review" type="XML"/> -->
+                        <List class="sapUiSmallMarginBeginEnd sapUiSmallMarginTopBottom" id="idResumenSetList" width="95%" items="{
+                                    path: '/ResumenSet',   events: {
+                                        dataRequested: '.onResumenData'
+                                       
+                                      }
+                                }">
+                            <CustomListItem >
+                                <VBox  >
+
+                                    <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
+                                        <Text text="{TipoLinea}" class="BoldOK sapUiTinyMarginBegin" />
+                                        <Text text="        " width="200px" />
+                                        <!-- <Text class="BoldOK sapUiTinyMarginEnd" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/> -->
+
+                                        <ObjectNumber unit="$" number="{parts: ['Importe'], formatter: '.formatNumber'}" state="{parts: ['Importe'], formatter: '.formatState'}" class="Bold sapUiTinyMarginEnd" inverted="{parts: ['Importe'], formatter: '.formatStatus'}" />
+                                    </HBox>
+                                </VBox>
+                            </CustomListItem>
+
+                        </List>
+
+
+
+                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class="sapUiSmallMarginTopBottom"/>
+
+                        <OverflowToolbar >
+                            <ToolbarSpacer/>
+
+                            <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Critical" press="onNavBack" class="sapUiTinyMarginEnd"/>
+                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" />
+                            <ToolbarSpacer/>
+                        </OverflowToolbar>
+
+
                     </Page>
                 </pages>
             </NavContainer>

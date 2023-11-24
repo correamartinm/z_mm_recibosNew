@@ -39,6 +39,40 @@ sap.ui.define(
         return value;
       },
 
+      formatNumber: function (value) {
+       
+        if (!value) return 0;
+         
+        let ovalue = parseFloat(value);
+          return ovalue;
+      },
+      formatState: function (value) {
+       
+        if (!value) return "Error";
+
+        let ovalue = parseFloat(value);
+        if (ovalue > 0 ){
+
+          return "Warning";
+        } else {
+
+          return "Success";
+        }
+      },
+
+      formatStatus: function (value) {
+       
+        if (!value) return false;
+
+        let ovalue = parseFloat(value);
+        if (ovalue > 0 ){
+
+          return false;
+        } else {
+
+          return true;
+        }
+      },
       //  Detalle
 
       onAddCliente: function () {

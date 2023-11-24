@@ -40,11 +40,40 @@ sap.ui.define(
         this._onValidateStep();
 
         this._oNavContainer.to(this.byId("idRecibosPage"));
-        this.getView().byId("idPagoCtaTable").removeSelections();
-        this.getView().byId("idComprobanteTable").removeSelections();
+        
         this._wizard.invalidateStep(
           this.getView().byId("idClienteWizardStep")
         );
+       
+        this.onClearData();
+      },
+
+      _onClearTable: function (oTable, column) {
+        let oItems = oTable.getSelectedItems();
+
+        if (oItems.length > 0) {
+          for (var index = 0; index < oItems.length; index++) {
+            oItems[index].getCells()[column].setEnabled(false);
+            oItems[index].getCells()[column].setValue();
+          }
+        }
+
+        oTable.removeSelections();
+      },
+
+      onClearData: function () {
+        let oMockModel = this.getView().getModel("mockdata");
+        oMockModel.setProperty("/Paso01Cliente", {});
+        oMockModel.setProperty("/Paso02Seleccionados", []);
+        oMockModel.setProperty("/Paso03Comprobantes", []);
+        oMockModel.setProperty("/Descuentos", []);
+        oMockModel.setProperty("/Detalle", []);
+        oMockModel.setProperty("/ActiveStep", "1");
+
+
+        this._onClearTable( this.getView().byId("idPagoCtaTable"),5);
+        this._onClearTable( this.getView().byId("idComprobanteTable"), 6);
+
       },
 
       // ************ Control de los Pasos ****************
