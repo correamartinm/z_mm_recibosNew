@@ -115,6 +115,7 @@ sap.ui.define(
           Paso03ImporteComprobantes: 0,
           Paso04CantidadDescuentos: 0,
           Paso04ImporteDescuentos: 0,
+          Paso04Grabado: false,
           Paso05CantidadRetenciones: 0,
           Paso05ImporteRetenciones: 0,
           Paso06Detalles: 0,

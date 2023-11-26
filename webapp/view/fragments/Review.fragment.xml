@@ -52,7 +52,6 @@
 
                     <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
                         <Text text="{TipoLinea}" class="BoldOK" textAlign="End"/>
-                        <Text text="        " width="200px" />
                         <Text class="BoldOK" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/>
                     </HBox>
                 </VBox>

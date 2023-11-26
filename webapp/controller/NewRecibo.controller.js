@@ -152,6 +152,9 @@ sap.ui.define(
           if (rta.Mensaje !== "") {
             oData.Completo = false;
             oData.Mensaje = rta.Mensaje;
+            // oData.Periodo = rta.Periodo || "",
+            // oData.Sociedad = rta.Sociedad|| ""
+            
             oMockModel.setProperty("/Paso01Cliente", oData);
 
             this._onValidateStep();
@@ -599,15 +602,14 @@ sap.ui.define(
         // oMotivo.setSelectedKey(Object.Motivokey);
         oMockModel.setProperty("/ActiveDescuento", Object);
 
-        if (oValue === true) {
-          this._wizard.invalidateStep(
-            this.getView().byId("idDescuentosWizardStep")
-          );
-        } else {
-          this._wizard.validateStep(
-            this.getView().byId("idDescuentosWizardStep")
-          );
-        }
+        //       if (oValue === true) {
+        // } else {
+        //   this._wizard.validateStep(
+        //     this.getView().byId("idDescuentosWizardStep")
+        //   );
+        // }
+
+
       },
 
       onGuardarButtonDescPress: function () {
@@ -686,22 +688,43 @@ sap.ui.define(
           oImporteDec = "/Paso04ImporteDescuentos";
         oModel.setProperty(oCantidad, DataFinal.length);
         oModel.setProperty(oImporteDec, oImportesSuma);
+       
+        oModel.setProperty("/Paso04Grabado", false);
 
         if (oPostDataDescuento.UpdPath !== "") {
           this.onButtonDeleteDescuentoPress(oPostDataDescuento.UpdPath);
         }
       },
       onGuardarButtonDescSavePress: function () {
+
         let oEntidad = "/Descuentos",
           Tipo = "DESC",
           Step = "idDescuentosWizardStep";
 
         this._onGuardar(oEntidad, Tipo, Step);
+
+        let oModel = this.getView().getModel("mockdata");
+        oModel.setProperty("/Paso04Grabado", true);
+
+        this._wizard.validateStep(
+          this.getView().byId("idDescuentosWizardStep")
+        );
+        
+       
+
+  
+
+
       },
 
       onVolverButtonCancelarDescPress: function () {
         let oValue = false;
         this._onshowDescuentoAdd(oValue, []);
+        let oModel = this.getView().getModel("mockdata");
+        oModel.setProperty("/Paso04Grabado", false);
+
+      
+
       },
 
       onButtonDeleteDescuentoPressMsg: function (oEvent) {
@@ -1046,13 +1069,7 @@ sap.ui.define(
         this._onUpdateModel(oModel, oEntidad, vObject);
       },
 
-      onConfirmarReciboButtonPress: function () {
-        let oEntidad = "/Detalle",
-          Tipo = "DETA",
-          Step = "idDetalleWizardStep";
 
-        this._onGuardar(oEntidad, Tipo, Step);
-      },
 
       onGuardarButtonDETSavePress: function () {
         let oEntidad = "/Detalle",
@@ -1601,6 +1618,14 @@ sap.ui.define(
 
       onWizardComplete: function () {},
 
+      // onConfirmarReciboButtonPress: function () {
+      //   let oEntidad = "/Detalle",
+      //     Tipo = "DETA",
+      //     Step = "idDetalleWizardStep";
+
+      //   this._onGuardar(oEntidad, Tipo, Step);
+      // },
+
       onConfirmarReciboButtonPress: async function () {
         let oMockModel = this.getView().getModel("mockdata"),
           oEntidad = "/DocumentosSet",
@@ -1608,8 +1633,6 @@ sap.ui.define(
           oView = this.getView(),
           oSubTotal = oMockModel.getProperty("/TOTAL");
         oData = oMockModel.getProperty("/Paso01Cliente");
-
-        
 
         oData.Accion = "S";
 
@@ -1619,6 +1642,8 @@ sap.ui.define(
           Accion: oData.Accion,
           TipoComprobante: oData.TipoComprobante,
           Total: oSubTotal.toString(),
+          Periodo: oData.Periodo || "",
+          Sociedad: oData.Sociedad || ""
         };
 
         let rta2 = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
@@ -1637,6 +1662,8 @@ sap.ui.define(
           });
         }
       },
+
+
       onAnularButtonPress: function () {
         this.discardProgress();
       },

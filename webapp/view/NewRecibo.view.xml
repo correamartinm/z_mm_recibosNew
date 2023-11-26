@@ -119,7 +119,7 @@
                                         <Text text="        " width="200px" />
                                         <!-- <Text class="BoldOK sapUiTinyMarginEnd" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/> -->
 
-                                        <ObjectNumber unit="$" number="{parts: ['Importe'], formatter: '.formatNumber'}" state="{parts: ['Importe'], formatter: '.formatState'}" class="Bold sapUiTinyMarginEnd" inverted="{parts: ['Importe'], formatter: '.formatStatus'}" />
+                                        <ObjectNumber unit="$" number="{parts: ['Importe'], formatter: '.formatNumber'}" state="{parts: ['Importe'], formatter: '.formatState'}" class="Bold sapUiTinyMarginEnd" />
                                     </HBox>
                                 </VBox>
                             </CustomListItem>
@@ -128,7 +128,7 @@
 
 
 
-                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class="sapUiSmallMarginTopBottom"/>
+                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class=" BoldOK sapUiSmallMarginTopBottom"/>
 
                         <OverflowToolbar >
                             <ToolbarSpacer/>

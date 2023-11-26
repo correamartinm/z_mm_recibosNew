@@ -65,7 +65,7 @@
                     <Label text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}" design="Bold"/>
                     <Label text="{path : 'mockdata>Vencimiento' , formatter : '.formatFecha'}" design="Bold"/>
 
-                    <Label text="{mockdata>Importe}"/>
+                    <Label text="{mockdata>Total}"/>
                     <Label text="{mockdata>Saldo}"/>
                     <Input enabled="false" value="{mockdata>Aplicado}" textAlign="End" change="onInputImporteChange"/>
                     <HBox visible="false">

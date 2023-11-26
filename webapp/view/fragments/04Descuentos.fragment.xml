@@ -98,7 +98,7 @@
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/descuentosadd} === false }" >
 
     
-            <Button  enabled="{= ${mockdata>/Paso04ImporteDescuentos} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDescSavePress" />
+            <Button  enabled="{= ${mockdata>/Paso04ImporteDescuentos} > 0 &amp;&amp; ${mockdata>/Paso04Grabado} === false }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDescSavePress" />
     </HBox>
 
 
