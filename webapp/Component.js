@@ -115,9 +115,11 @@ sap.ui.define(
           Paso03ImporteComprobantes: 0,
           Paso04CantidadDescuentos: 0,
           Paso04ImporteDescuentos: 0,
+          Paso04PathUpdate: "",
           Paso04Grabado: false,
           Paso05CantidadRetenciones: 0,
           Paso05ImporteRetenciones: 0,
+          Paso05PathUpdate: "",
           Paso06Detalles: 0,
           Paso06ImporteDetalle: 0,
           Recibos: [

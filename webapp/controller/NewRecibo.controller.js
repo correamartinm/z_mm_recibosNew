@@ -40,11 +40,9 @@ sap.ui.define(
         this._onValidateStep();
 
         this._oNavContainer.to(this.byId("idRecibosPage"));
-        
-        this._wizard.invalidateStep(
-          this.getView().byId("idClienteWizardStep")
-        );
-       
+
+        this._wizard.invalidateStep(this.getView().byId("idClienteWizardStep"));
+
         this.onClearData();
       },
 
@@ -70,10 +68,15 @@ sap.ui.define(
         oMockModel.setProperty("/Detalle", []);
         oMockModel.setProperty("/ActiveStep", "1");
 
+        oMockModel.setProperty("/SUBTOTAL", "");
+        oMockModel.setProperty("/RESTANTE", "");
+        oMockModel.setProperty("/TOTAL", "");
+        oMockModel.setProperty("/ANTICIPO", "");
+        oMockModel.setProperty("/SALDO", "");
+        oMockModel.setProperty("/Paso04PathUpdate", "");
 
-        this._onClearTable( this.getView().byId("idPagoCtaTable"),5);
-        this._onClearTable( this.getView().byId("idComprobanteTable"), 6);
-
+        this._onClearTable(this.getView().byId("idPagoCtaTable"), 5);
+        this._onClearTable(this.getView().byId("idComprobanteTable"), 6);
       },
 
       // ************ Control de los Pasos ****************
@@ -152,9 +155,9 @@ sap.ui.define(
           if (rta.Mensaje !== "") {
             oData.Completo = false;
             oData.Mensaje = rta.Mensaje;
-            // oData.Periodo = rta.Periodo || "",
-            // oData.Sociedad = rta.Sociedad|| ""
-            
+            oData.Periodo = rta.Periodo || "";
+            oData.Sociedad = rta.Sociedad || "";
+
             oMockModel.setProperty("/Paso01Cliente", oData);
 
             this._onValidateStep();
@@ -177,12 +180,13 @@ sap.ui.define(
           oEntidad = "/ComprobantesSet";
 
         let oResponseModel = await this._onreadModel(oModel, oView, oPath);
+        console.log(oResponseModel);
 
         if (oResponseModel.Rta !== "OK") {
           vObject = [];
 
           let sMessage =
-          oResponseModel.Data.message +
+              oResponseModel.Data.message +
               " : " +
               oResponseModel.Data.statusCode +
               " - " +
@@ -247,6 +251,8 @@ sap.ui.define(
             Anticipo: anticipo,
             Recibo: recibo,
             TipoComprobante: vObject.TipoComprobante,
+            Periodo: oComprobantesControl.results[0].Periodo,
+            Sociedad: oComprobantesControl.results[0].Sociedad,
           };
 
           oMockModel.setProperty("/Paso01Cliente", oPayload);
@@ -401,31 +407,38 @@ sap.ui.define(
       onGuardarButtonPagoAdicionalPress: async function () {
         let oEntidad = "/Paso02Seleccionados",
           Tipo = "ACTA",
+          PostEntidad = "/PagoCuentaSet",
           Step = "idPagoaCtaWizardStep";
 
-        this._onGuardar(oEntidad, Tipo, Step);
+        this._onGuardar(oEntidad, Tipo, Step, PostEntidad);
       },
 
-      _onGuardar: async function (oEntidad, Tipo, Step) {
+      _onGuardar: async function (oEntidad, Tipo, Step, PostEntidad) {
         let oMockModel = this.getView().getModel("mockdata"),
           oView = this.getView(),
           oModel = this.getOwnerComponent().getModel(),
           oItems = oMockModel.getProperty(oEntidad);
 
         for (var index = 0; index < oItems.length; index++) {
-          oItems[index].TipoLinea = Tipo;
-          oItems[index].NroLinea = index;
-          rtaP2 = await this._onSaveData(oModel, oView, oItems[index]);
+          // oItems[index].TipoLinea = Tipo;
+          // oItems[index].NroLinea = index;
+          // rtaP2 = await this._onSaveData(oModel, oView, oItems[index]);
+          rtaP2 = await this._oncreateModelNew(
+            oModel,
+            oView,
+            PostEntidad,
+            oItems[index]
+          );
 
           if (Step !== "END") {
-            if (rtaP2 !== "") {
+            if (rtaP2.Respuesta === "OK") {
               this._wizard.validateStep(this.getView().byId(Step));
             } else {
               this._wizard.invalidateStep(this.getView().byId(Step));
             }
           } else {
-            if (rtaP2 !== "") {
-              let sMessage = rtaP2.Mensaje,
+            if (rtaP2.Respuesta === "OK") {
+              let sMessage = rtaP2.Datos.Mensaje,
                 oMockModel = this.getView().getModel("mockdata"),
                 sMessageTitle = this._i18n().getText("msgmsgokvolver");
 
@@ -563,12 +576,14 @@ sap.ui.define(
         oMockModel.setProperty(oCantidad, Data.length);
         oMockModel.setProperty(oImporte, oImportesSuma);
       },
+
       onGuardarButtonComprobantesPress: function () {
         let oEntidad = "/Paso03Comprobantes",
           Tipo = "APLIC",
+          EntidadPost = "/ComprobantesSet",
           Step = "idComprobanteWizardStep";
 
-        this._onGuardar(oEntidad, Tipo, Step);
+        this._onGuardar(oEntidad, Tipo, Step, EntidadPost);
       },
       onWizardStepComprobanteComplete: function (oEvent) {},
 
@@ -608,8 +623,6 @@ sap.ui.define(
         //     this.getView().byId("idDescuentosWizardStep")
         //   );
         // }
-
-
       },
 
       onGuardarButtonDescPress: function () {
@@ -620,7 +633,9 @@ sap.ui.define(
           oImporte = this.getView().byId("idImporteInput"),
           oMotivo = this.getView().byId("idMotivoInput"),
           oFile = this.getView().byId("idDescuentoFileUploader"),
-          oldData = [];
+          oldData = [],
+          DataFinal = [],
+          oDatos = {};
 
         if (!oMotivo.getSelectedKey()) {
           oMotivo.setValueState(ValueState.Error);
@@ -659,21 +674,35 @@ sap.ui.define(
 
         let oValue = false,
           oImportesSuma = 0,
-          oRetenciones = "/Descuentos";
+          oDecuentos = "/Descuentos";
 
-        oldData = this._onGetDataModel(oModel, oRetenciones);
+        let Update = this._onGetDataModel(oModel, "/Paso04PathUpdate");
 
-        let oDatos = {
-          Motivokey: oMotivo.getSelectedKey(),
-          MotivoDesc: oMotivo.getSelectedItem().getText(),
-          NComprobante: parseFloat(oNcomprobante.getValue()),
-          Fecha: oFecha.getDateValue(),
-          Importe: parseFloat(oImporte.getValue()),
-          Codigo: oMotivo.getSelectedKey(),
-          Descripcion: oMotivo.getSelectedItem().getText(),
-          Numero: oNcomprobante.getValue(),
-        };
-        let DataFinal = oldData.concat(oDatos);
+        if (Update === "") {
+          oDatos = {
+            NroCheque: oMotivo.getSelectedKey(),
+            Detalle: oMotivo.getSelectedItem().getText(),
+            // NComprobante: parseFloat(oNcomprobante.getValue()),
+            Fecha: oFecha.getDateValue(),
+            Importe: oImporte.getValue(),
+            // Codigo: oMotivo.getSelectedKey(),
+            Descripcion: oMotivo.getSelectedItem().getText(),
+            Numero: oNcomprobante.getValue(),
+          };
+        } else {
+          oDatos = {
+            NroCheque: oMotivo.getSelectedKey(),
+            Detalle: oMotivo.getSelectedItem().getText(),
+            Fecha: oFecha.getDateValue(),
+            Importe: oImporte.getValue(),
+            Codigo: oMotivo.getSelectedKey(),
+            Descripcion: oMotivo.getSelectedItem().getText(),
+            Numero: oNcomprobante.getValue(),
+          };
+        }
+
+        // let DataFinal = oldData.concat(oDatos);
+        DataFinal.push(oDatos);
 
         this._onshowDescuentoAdd(oValue, []);
 
@@ -683,25 +712,23 @@ sap.ui.define(
           DataFinal.NroLinea = index;
         }
 
-        oModel.setProperty(oRetenciones, DataFinal);
+        oModel.setProperty(oDecuentos, DataFinal);
         let oCantidad = "/Paso04CantidadDescuentos",
           oImporteDec = "/Paso04ImporteDescuentos";
         oModel.setProperty(oCantidad, DataFinal.length);
         oModel.setProperty(oImporteDec, oImportesSuma);
-       
+
         oModel.setProperty("/Paso04Grabado", false);
 
-        if (oPostDataDescuento.UpdPath !== "") {
-          this.onButtonDeleteDescuentoPress(oPostDataDescuento.UpdPath);
-        }
+        this.onGuardarButtonDescSavePress();
       },
       onGuardarButtonDescSavePress: function () {
-
         let oEntidad = "/Descuentos",
           Tipo = "DESC",
-          Step = "idDescuentosWizardStep";
+          entidadPost = "/DescuentosSet";
+        Step = "idDescuentosWizardStep";
 
-        this._onGuardar(oEntidad, Tipo, Step);
+        this._onGuardar(oEntidad, Tipo, Step, entidadPost);
 
         let oModel = this.getView().getModel("mockdata");
         oModel.setProperty("/Paso04Grabado", true);
@@ -709,12 +736,6 @@ sap.ui.define(
         this._wizard.validateStep(
           this.getView().byId("idDescuentosWizardStep")
         );
-        
-       
-
-  
-
-
       },
 
       onVolverButtonCancelarDescPress: function () {
@@ -722,18 +743,15 @@ sap.ui.define(
         this._onshowDescuentoAdd(oValue, []);
         let oModel = this.getView().getModel("mockdata");
         oModel.setProperty("/Paso04Grabado", false);
-
-      
-
       },
 
       onButtonDeleteDescuentoPressMsg: function (oEvent) {
-        let oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+        let oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject(),
           sMessage =
             this._i18n().getText("lblnumcomprobante") +
             ": " +
-            oItem.NComprobante +
+            oItem.Numero +
             " " +
             this._i18n().getText("lblimpor") +
             ": " +
@@ -748,38 +766,46 @@ sap.ui.define(
       },
 
       onButtonEditaDescuentoPress: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
-        oItem.UpdPath = oPath;
+        let oModel = this.getOwnerComponent().getModel(),
+          oMockmodel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject();
+        // oItem.UpdPath = oPath;
 
         this._onshowDescuentoAdd(true, oItem);
+        oMockmodel.setProperty("/Paso04PathUpdate", oPath);
+      },
+
+      onUpdateButtonDescPress: function () {
+        let oMockmodel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oMockmodel.getProperty("/Paso04PathUpdate"),
+          oPayload = oMockmodel.getProperty("/ActiveDescuento"),
+          oView = this.getView(),
+          oModel = this.getOwnerComponent().getModel();
+        let rta = this.onupdateModel(oModel, oView, oPath, oPayload);
+        if (rta.Respuesta !== "OK") {
+          this._onErrorHandle(rta.Datos);
+        }
       },
 
       onUploadDescuento: function () {
         let oFile = this.getView().byId("idDescuentoFileUploader");
       },
 
-      onButtonDeleteDescuentoPress: function (oPath) {
-        let oModel = this.getView().getModel("mockdata"),
+      onButtonDeleteDescuentoPress: async function (oPath) {
+        let oModel = this.getView().getModel(),
           oItem = oModel.getObject(oPath),
+          oView = this.getView(),
           oCertNro = oItem.Codigo,
           oAddedData = this.getView()
             .getModel("mockdata")
             .getProperty("/Descuentos");
 
-        let oRetencionExist = oAddedData.findIndex(function (oRetenciones) {
-          return oRetenciones.Codigo === oCertNro;
-        });
+        let rta = await this.ondeleteModel(oModel, oView, oPath);
 
-        if (oAddedData.length > 1) {
-          let removed = oAddedData.splice(oRetencionExist, 1);
-          oModel.setProperty("/Descuentos", oAddedData);
-        } else {
-          oModel.setProperty("/Descuentos", []);
+        if (rta.Respuesta !== "OK") {
+          this._onErrorHandle(rta.Datos);
         }
-
-        oModel.refresh();
       },
 
       // ********************************************
@@ -826,7 +852,8 @@ sap.ui.define(
           oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
           oFile = this.getView().byId("idRetencionesFileUploader"),
           oImportesSuma = 0,
-          oldData = [];
+          oldData = [],
+          DataFinal = [];
 
         if (!oTipo.getSelectedKey()) {
           oTipo.setValueState(ValueState.Error);
@@ -876,7 +903,7 @@ sap.ui.define(
           Descripcion: oTipo.getSelectedItem().getText(),
           Numero: oNCertificado.getValue(),
         };
-        let DataFinal = oldData.concat(oDatos);
+        DataFinal.push(oDatos);
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
@@ -905,12 +932,15 @@ sap.ui.define(
       },
 
       onButtonEditaRetencionPress: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject();
-        oItem.UpdPath = oPath;
+        let oModel = this.getOwnerComponent().getModel(),
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject();
+
+        // oItem.UpdPath = oPath;
 
         this._onshowRetencionesAdd(true, oItem);
+        oMockModel.setProperty("/Paso05PathUpdate", oPath);
       },
 
       cancelarRetencion: function () {
@@ -919,9 +949,9 @@ sap.ui.define(
       },
 
       onButtonDeleteRetencionPressMsg: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+        let oModel = this.getOwnerComponent().getModel(),
+          oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject(),
           sMessage =
             this._i18n().getText("lblncertificado") +
             ": " +
@@ -1068,8 +1098,6 @@ sap.ui.define(
 
         this._onUpdateModel(oModel, oEntidad, vObject);
       },
-
-
 
       onGuardarButtonDETSavePress: function () {
         let oEntidad = "/Detalle",
@@ -1388,11 +1416,10 @@ sap.ui.define(
         // oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
 
         let oSubTotal =
-          parseFloat(ImporteCBTES) -
-          (parseFloat(ImportePGOCTA) +
-            parseFloat(ImporteDTO) +
-            parseFloat(ImporteRET) +
-            parseFloat(ImporteDET));
+          parseFloat(ImportePGOCTA) +
+          parseFloat(ImporteDTO) +
+          parseFloat(ImporteRET) +
+          parseFloat(ImporteDET);
 
         let oSub =
           parseFloat(ImporteCBTES) -
@@ -1642,8 +1669,6 @@ sap.ui.define(
           Accion: oData.Accion,
           TipoComprobante: oData.TipoComprobante,
           Total: oSubTotal.toString(),
-          Periodo: oData.Periodo || "",
-          Sociedad: oData.Sociedad || ""
         };
 
         let rta2 = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
@@ -1662,7 +1687,6 @@ sap.ui.define(
           });
         }
       },
-
 
       onAnularButtonPress: function () {
         this.discardProgress();

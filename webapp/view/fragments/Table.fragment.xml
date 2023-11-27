@@ -103,7 +103,7 @@
 
 
                     <Label text="{Numero} " design="Bold"/>
-                    <Text text="{path : 'Fecha' , formatter : '.formatFecha'}"/>
+                    <Text text="{path : 'Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}" />
 
                     <Label text="{RazonSocial}" design="Bold" wrapping="true"/>
                     <Label text="{RazonSocial}" design="Bold"/>
@@ -129,7 +129,7 @@
                         formatter: '.formatStateBool'
                     }" inverted="true" />
 
-                    <Text text="{path : 'FechaProceso' , formatter : '.formatFecha'}"/>
+                    <Text text="{path : 'FechaProceso' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
                     <HBox >
 
                         <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />

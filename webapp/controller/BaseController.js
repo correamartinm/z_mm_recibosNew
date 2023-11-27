@@ -160,6 +160,28 @@ sap.ui.define(
 
       //*********************************** */
 
+      _oncreateModelNew: function (oModel, oView, oEntity, oPayload) {
+        return new Promise((resolve, reject) => {
+          oView.setBusy(true);
+          let that = this;
+          oModel.create(oEntity, oPayload, {
+            success: function (oData) {
+              oView.setBusy(false);
+              resolve({ Respuesta: "OK", Datos: oData });
+              oModel.refresh(true);
+            }.bind(this),
+
+            error: function (oError) {
+              oView.setBusy(false);
+              resolve({ Respuesta: "ERROR", Datos: oError });
+              // Reiniciar
+            }.bind(this),
+          });
+        });
+      },
+
+
+
       _onSaveData: async function (oModel, oView, item) {
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           paso1 = oMockModel.getProperty("/Paso01Cliente");
@@ -357,15 +379,15 @@ sap.ui.define(
               if (oData.Tipo === "E") {
                 // Error
               } else {
-                resolve(oData);
-                oModel.refresh;
+                resolve({ Respuesta: "OK", Datos: oData });
+                oModel.refresh(true) ;
                 // Correcto
               }
             }.bind(this),
 
             error: function (oError) {
               oView.setBusy(false);
-
+              resolve({ Respuesta: "ERROR", Datos: oError });
               // Reiniciar
             }.bind(this),
           });
@@ -379,11 +401,12 @@ sap.ui.define(
             method: "DELETE",
             success: function (oData) {
               oView.setBusy(false);
-              resolve(oData);
-              oModel.refresh;
+              resolve({ Respuesta: "OK", Datos: oData });
+              oModel.refresh(true);
             },
             error: function (oError) {
               oView.setBusy(false);
+              resolve({ Respuesta: "ERROR", Datos: oError });
             },
           });
         });
@@ -438,6 +461,46 @@ sap.ui.define(
           });
         });
       },
+
+
+      _onErrorHandle: function (oError) {
+        if (oError.Mensaje === undefined) {
+          var oErrorMsg = JSON.parse(oError.responseText);
+          var oText = oErrorMsg.error.message.value;
+        } else {
+          var oText = oError.Mensaje;
+        }
+
+        var sMessageTitle = this._i18n().getText("msgerror");
+
+        let objectMsg = {
+          titulo: sMessageTitle,
+          mensaje: oText,
+          icono: sap.m.MessageBox.Icon.ERROR,
+          acciones: [sap.m.MessageBox.Action.CLOSE],
+          resaltar: sap.m.MessageBox.Action.CLOSE,
+        };
+
+        this._onShowMsgBox(objectMsg).then((rta) => {
+         
+        });
+      },
+      _onShowMsgBox: function (MsgObj) {
+        return new Promise((resolve, reject) => {
+          MessageBox.show(MsgObj.mensaje, {
+            icon: MsgObj.icono,
+            title: MsgObj.titulo,
+            onClose: function (oAction) {
+              resolve(oAction);
+            }.bind(this),
+            styleClass:
+              "sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiResponsivePadding--footer",
+            actions: MsgObj.acciones,
+            emphasizedAction: MsgObj.resaltar,
+          });
+        });
+      },
+
 
       _onShowMsgBoxError: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {

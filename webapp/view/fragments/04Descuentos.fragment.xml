@@ -3,7 +3,7 @@
     xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core">
 
-    <Table id="idDescuentosTable" items="{path : 'mockdata>/Descuentos' }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" visible="{= ${layout>/descuentosadd} === false }" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idDescuentosTable" items="{path : '/DescuentosSet' }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" visible="{= ${layout>/descuentosadd} === false }" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <ToolbarSpacer/>
@@ -46,11 +46,11 @@
 
 
 
-                    <Label text="{mockdata>MotivoDesc}"/>
-                    <Label text="{mockdata>NComprobante}"/>
-                    <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/>
+                    <Label text="{Descripcion}"/>
+                    <Label text="{Numero}"/>
+                    <Text text="{path : 'Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
                     <!-- <Label text="{Fecha}" design="Bold"/> -->
-                    <Label text="{mockdata>Importe}"/>
+                    <Label text="{Importe}"/>
 
                     <!-- <ObjectStatus title="" state="Error" inverted="true" /> -->
                     <HBox >
@@ -70,12 +70,12 @@
         <form:content>
             <Label text="{i18n>lblmotivo}" required="true" labelFor="idMotivoInput"/>
 
-            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/MotivoDesc}" selectedKey="{mockdata>/ActiveDescuento/Motivokey}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}">
+            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/Detalle}" selectedKey="{mockdata>/ActiveDescuento/NroCheque}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}" enabled="{= ${mockdata>/Paso04PathUpdate} === ''}">
                 <core:Item key="{Codigo}" text="{Descripcion}" />
             </ComboBox>
 
             <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobanteInput" />
-            <Input id="idComprobanteInput" type="Number" value="{mockdata>/ActiveDescuento/NComprobante}" />
+            <Input id="idComprobanteInput" type="Number" value="{mockdata>/ActiveDescuento/Numero}" />
 
             <Label text="{i18n>lblfecha}" required="true" labelFor="idDomicilioInput" />
             <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveDescuento/Fecha}"/>
@@ -85,27 +85,25 @@
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
 
-            <unified:FileUploader id="idDescuentoFileUploader"  change="onAttachmentChange" name="FUDescuento" 
-            uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet"                 
-            useMultipart="false"  sendXHR="true"
-            buttonText="{i18n>btttnselect}" style="Emphasized"/>
+            <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
 
 
             <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" press="onUploadDescuento" /> -->
 
         </form:content>
     </form:SimpleForm>
-    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/descuentosadd} === false }" >
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/descuentosadd} === false }">
 
-    
-            <Button  enabled="{= ${mockdata>/Paso04ImporteDescuentos} > 0 &amp;&amp; ${mockdata>/Paso04Grabado} === false }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDescSavePress" />
+
+        <!-- <Button enabled="{= ${mockdata>/Paso04ImporteDescuentos} > 0 &amp;&amp; ${mockdata>/Paso04Grabado} === false }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDescSavePress" /> -->
     </HBox>
 
 
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/descuentosadd}">
 
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" />
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDescPress" />
+        <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" />
+        <!-- <Button visible="{= ${mockdata>/Paso04PathUpdate} !== '' }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://add" press="onUpdateButtonDescPress" /> -->
+        <Button text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDescPress" />
     </HBox>
 </core:FragmentDefinition>

@@ -33,7 +33,7 @@
 
             <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
-                    <Label text="{i18n>lblimpor}"/>
+                    <Label text="{i18n>lbltotal}"/>
                 </header>
             </Column>
             <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
@@ -66,7 +66,7 @@
                     <Text text="{mockdata>Tipo}" wrapping="false"/>
                    
                     <Label text="{mockdata>Numero}"/>
-                    <Label text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}" design="Bold"/>
+                    <Label text="{path : 'mockdata>Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}" design="Bold"/>
                     
 
                     <Label text="{mockdata>Total}"/>

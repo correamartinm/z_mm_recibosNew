@@ -48,7 +48,7 @@
 
                     <Label text="{mockdata>Tipokey} {mockdata>TipoDesc}" design="Bold"/>
                     <Label text="{mockdata>NCertificado}"/>
-                    <Text text="{path : 'mockdata>Fecha' , formatter : '.formatFecha'}"/>
+                    <Text text="{path : 'mockdata>Fecha', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
                     <Label text="{mockdata>Importe}"/>
 
                     <HBox>
