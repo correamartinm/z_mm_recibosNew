@@ -3,7 +3,8 @@
     xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core">
 
-    <Table id="idDescuentosTable" items="{path : '/DescuentosSet' }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" visible="{= ${layout>/descuentosadd} === false }" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idDescuentosTable" items="{path : '/DescuentosSet' ,events: {
+        dataReceived: '.onCheckStep' } }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" visible="{= ${layout>/descuentosadd} === false }" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <ToolbarSpacer/>
@@ -103,7 +104,7 @@
 
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
         <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" />
-        <!-- <Button visible="{= ${mockdata>/Paso04PathUpdate} !== '' }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://add" press="onUpdateButtonDescPress" /> -->
-        <Button text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDescPress" />
+        <Button visible="{= ${mockdata>/Paso04PathUpdate} !== '' }" text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://refresh" press="onGuardarButtonDescPress" />
+        <Button visible="{= ${mockdata>/Paso04PathUpdate} === '' }" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDescPress" />
     </HBox>
 </core:FragmentDefinition>

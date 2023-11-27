@@ -31,12 +31,13 @@
             <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
 
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" class="sapUiTinyMarginEnd" />
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDetallePress" />
+            <Button visible="{= ${mockdata>/Paso06PathUpdate} !== '' }" enabled="{mockdata>/AddButtonActive}" text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://refresh" press="onGuardarButtonDetallePress" />
+            <Button visible="{= ${mockdata>/Paso06PathUpdate} === '' }" enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="onGuardarButtonDetallePress" />
         </HBox>
 
     </VBox>
 
-    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/detalleadd} === false }" >
-        <Button enabled="{= ${mockdata>/Paso06ImporteDetalle} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDETSavePress" />
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/detalleadd} === false }">
+        <!-- <Button enabled="{= ${mockdata>/Paso06ImporteDetalle} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonDETSavePress" /> -->
     </HBox>
 </core:FragmentDefinition>

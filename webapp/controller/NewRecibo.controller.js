@@ -74,6 +74,8 @@ sap.ui.define(
         oMockModel.setProperty("/ANTICIPO", "");
         oMockModel.setProperty("/SALDO", "");
         oMockModel.setProperty("/Paso04PathUpdate", "");
+        oMockModel.setProperty("/Paso05PathUpdate", "");
+        oMockModel.setProperty("/Paso06PathUpdate", "");
 
         this._onClearTable(this.getView().byId("idPagoCtaTable"), 5);
         this._onClearTable(this.getView().byId("idComprobanteTable"), 6);
@@ -637,13 +639,6 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {};
 
-        if (!oMotivo.getSelectedKey()) {
-          oMotivo.setValueState(ValueState.Error);
-          return;
-        } else {
-          oMotivo.setValueState(ValueState.None);
-        }
-
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
           return;
@@ -679,6 +674,13 @@ sap.ui.define(
         let Update = this._onGetDataModel(oModel, "/Paso04PathUpdate");
 
         if (Update === "") {
+          if (!oMotivo.getSelectedKey()) {
+            oMotivo.setValueState(ValueState.Error);
+            return;
+          } else {
+            oMotivo.setValueState(ValueState.None);
+          }
+
           oDatos = {
             NroCheque: oMotivo.getSelectedKey(),
             Detalle: oMotivo.getSelectedItem().getText(),
@@ -692,11 +694,11 @@ sap.ui.define(
         } else {
           oDatos = {
             NroCheque: oMotivo.getSelectedKey(),
-            Detalle: oMotivo.getSelectedItem().getText(),
+            Detalle: oMotivo.getValue(),
             Fecha: oFecha.getDateValue(),
             Importe: oImporte.getValue(),
-            Codigo: oMotivo.getSelectedKey(),
-            Descripcion: oMotivo.getSelectedItem().getText(),
+            Codigo: oPostDataDescuento.Codigo,
+            Descripcion: oMotivo.getValue(),
             Numero: oNcomprobante.getValue(),
           };
         }
@@ -853,14 +855,9 @@ sap.ui.define(
           oFile = this.getView().byId("idRetencionesFileUploader"),
           oImportesSuma = 0,
           oldData = [],
-          DataFinal = [];
+          DataFinal = [], oDatos = {};
 
-        if (!oTipo.getSelectedKey()) {
-          oTipo.setValueState(ValueState.Error);
-          return;
-        } else {
-          oTipo.setValueState(ValueState.None);
-        }
+
 
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
@@ -890,19 +887,42 @@ sap.ui.define(
           oFile.setValueState(ValueState.None);
         }
 
-        oldData = oModel.getProperty("/Retenciones");
+        Update = oModel.getProperty("/Paso05PathUpdate");
 
         let oActiveRetencion = oModel.getProperty("/ActiveRetencion");
-        let oDatos = {
-          Tipokey: oTipo.getSelectedKey(),
-          TipoDesc: oTipo.getSelectedItem().getText(),
-          NCertificado: parseFloat(oNCertificado.getValue()),
-          Fecha: oFecha.getDateValue(),
-          Importe: parseFloat(oImporte.getValue()),
-          Codigo: oTipo.getSelectedKey(),
-          Descripcion: oTipo.getSelectedItem().getText(),
-          Numero: oNCertificado.getValue(),
-        };
+
+        if (Update === "") {
+
+          if (!oTipo.getSelectedKey()) {
+            oTipo.setValueState(ValueState.Error);
+            return;
+          } else {
+            oTipo.setValueState(ValueState.None);
+          }
+
+          oDatos = {
+            NroCheque: oTipo.getSelectedKey(),
+            TipoComprobante: oTipo.getSelectedItem().getText(),
+            // NCertificado: parseFloat(oNCertificado.getValue()),
+            Fecha: oFecha.getDateValue(),
+            Importe: oImporte.getValue(),
+            // Codigo: oTipo.getSelectedKey(),
+            Descripcion: oTipo.getSelectedItem().getText(),
+            Numero: oNCertificado.getValue(),
+          };
+        } else {
+          oDatos = {
+            NroCheque: oTipo.getSelectedKey(),
+            TipoComprobante: oTipo.getSelectedItem().getText(),
+            // Numero: parseFloat(oNCertificado.getValue()),
+            Fecha: oFecha.getDateValue(),
+            Importe: oImporte.getValue(),
+            Codigo: oActiveRetencion.Codigo,
+            Descripcion: oTipo.getSelectedItem().getText(),
+            Numero: oNCertificado.getValue(),
+          };
+        }
+
         DataFinal.push(oDatos);
 
         for (var index = 0; index < DataFinal.length; index++) {
@@ -918,17 +938,16 @@ sap.ui.define(
         let oValue = false;
         this._onshowRetencionesAdd(oValue);
 
-        if (oActiveRetencion.UpdPath !== "") {
-          this.onButtonDeleteRetencionPress(oActiveRetencion.UpdPath);
-        }
+        this.onGuardarButtonRETSavePress();
       },
 
       onGuardarButtonRETSavePress: function () {
         let oEntidad = "/Retenciones",
-          Tipo = "RETE",
-          Step = "idRetencionesWizardStep";
+          step = "idRetencionesWizardStep",
+          EntidadPost = "/RetencionesSet",
+          Tipo = "RETE";
 
-        this._onGuardar(oEntidad, Tipo, Step);
+        this._onGuardar(oEntidad, Tipo, step, EntidadPost);
       },
 
       onButtonEditaRetencionPress: function (oEvent) {
@@ -969,26 +988,15 @@ sap.ui.define(
         });
       },
 
-      onButtonDeleteRetencionPress: function (oPath) {
-        let oModel = this.getView().getModel("mockdata"),
-          oItem = oModel.getObject(oPath),
-          oCertNro = oItem.NCertificado,
-          oAddedData = this.getView()
-            .getModel("mockdata")
-            .getProperty("/Retenciones");
+      onButtonDeleteRetencionPress: async function (oPath) {
+        let oModel = this.getView().getModel(),
+          oView = this.getView();
 
-        let oRetencionExist = oAddedData.findIndex(function (oRetenciones) {
-          return oRetenciones.NCertificado === oCertNro;
-        });
+        let rta = await this.ondeleteModel(oModel, oView, oPath);
 
-        if (oAddedData.length > 1) {
-          let removed = oAddedData.splice(oRetencionExist, 1);
-          oModel.setProperty("/Retenciones", oAddedData);
-        } else {
-          oModel.setProperty("/Retenciones", []);
+        if (rta.Respuesta !== "OK") {
+          this._onErrorHandle(rta.Datos);
         }
-
-        oModel.refresh();
       },
 
       onWizardStepRetencionComplete: function () {
@@ -1099,14 +1107,6 @@ sap.ui.define(
         this._onUpdateModel(oModel, oEntidad, vObject);
       },
 
-      onGuardarButtonDETSavePress: function () {
-        let oEntidad = "/Detalle",
-          Tipo = "DETA",
-          Step = "idDetalleWizardStep";
-
-        this._onGuardar(oEntidad, Tipo, Step);
-      },
-
       onGuardarButtonDetallePress: function () {
         let oModel = this.getView().getModel("mockdata"),
           oLayoutModel = this.getView().getModel("layout");
@@ -1120,6 +1120,7 @@ sap.ui.define(
           oFechaDeposito = this.getView().byId("idDetFecDeposito"),
           oFechaEmision = this.getView().byId("idDetFechaEmision"),
           oFechaVencimiento = this.getView().byId("idDetFecVto"),
+          DataFinal =[], oDatos ={},
           oImportePago = this.getView().byId("idImportePagoInput");
         // oFile = this.getView().byId("idChequeFileUploader"),
         // oFileCheque = this.getView().byId("");
@@ -1128,12 +1129,7 @@ sap.ui.define(
         let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
 
         // ********* Fijos
-        if (!oMP.getSelectedKey()) {
-          oMP.setValueState(ValueState.Error);
-          return;
-        } else {
-          oMP.setValueState(ValueState.None);
-        }
+      
 
         if (!oImportePago.getValue()) {
           oImportePago.setValueState(ValueState.Error);
@@ -1223,33 +1219,49 @@ sap.ui.define(
           }
         }
 
-        let oldData = oModel.getProperty("/Detalle"),
+        let Update = oModel.getProperty("/Paso06PathUpdate"),
           oImportesSuma = 0;
 
-        let oDatos = {
-          Tipo: oMP.getSelectedKey(),
-          TipoDesc: oMP.getSelectedItem().getText(),
-          NroCbte: oCbte.getValue(),
-          NroCheque: oCheque.getValue(),
-          FechaVto: oFechaVencimiento.getDateValue(),
-          FechaDto: oFechaDeposito.getDateValue(),
-          FechaEmi: oFechaEmision.getDateValue(),
-          BcoDestino: oBcoDestino.getValue(),
-          BcoEmisor: oBcoEmisor.getValue(),
-          Importe: parseFloat(oImportePago.getValue()),
-          Codigo: oMP.getSelectedKey(),
-          Descripcion: oMP.getSelectedItem().getText(),
-          Numero: oCbte.getValue(),
+          if (Update === "") {
 
-          Fecha: oFechaDeposito.getDateValue(),
+            if (!oMP.getSelectedKey()) {
+              oMP.setValueState(ValueState.Error);
+              return;
+            } else {
+              oMP.setValueState(ValueState.None);
+            }
 
-          Detalle: oMP.getSelectedItem().getText(),
-          FechaEmision: oFechaEmision.getDateValue(),
-          FechaVencimiento: oFechaVencimiento.getDateValue(),
-          BancoEmisor: oBcoEmisor.getValue(),
-          BancoDestino: oBcoDestino.getValue(),
-        };
-        let DataFinal = oldData.concat(oDatos);
+
+            oDatos = {
+
+              // Tipo: oMP.getSelectedKey(),
+              // NroCbte: oCbte.getValue(),
+              // FechaVto: oFechaVencimiento.getDateValue(),
+              // FechaDto: oFechaDeposito.getDateValue(),
+              // FechaEmi: oFechaEmision.getDateValue(),
+              // BcoDestino: oBcoDestino.getValue(),
+              // BcoEmisor: oBcoEmisor.getValue(),
+              // Codigo: oMP.getSelectedKey(),
+
+              TipoComprobante: oMP.getSelectedItem().getText(),
+              Descripcion: oMP.getSelectedItem().getText(),
+              Numero: oCbte.getValue(),
+              NroCheque: oCheque.getValue(),
+              FechaEmision: oFechaEmision.getDateValue(),
+              Importe: oImportePago.getValue(),
+              Fecha: oFechaDeposito.getDateValue(),
+              Detalle: oMP.getSelectedItem().getText(),
+              FechaVencimiento: oFechaVencimiento.getDateValue(),
+              BancoEmisor: oBcoEmisor.getValue(),
+              BancoDestino: oBcoDestino.getValue(),
+            };
+
+          } 
+        
+
+
+
+        DataFinal.push(oDatos);
 
         let ActiveDetalle = {
           MPkey: "0000000001",
@@ -1281,7 +1293,19 @@ sap.ui.define(
         oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
 
         this._onUpdateValues();
+
+        this.onGuardarButtonDETSavePress();
       },
+
+      onGuardarButtonDETSavePress: function () {
+        let oEntidad = "/Detalle",
+          Tipo = "DETA",
+          oEntidadPost = "/PagosSet"
+          Step = "idDetalleWizardStep";
+
+        this._onGuardar(oEntidad, Tipo, Step, oEntidadPost);
+      },
+
 
       _onResetDetalleValues: function name() {
         let oModel = this.getView().getModel("mockdata"),
@@ -1313,13 +1337,13 @@ sap.ui.define(
         this.onCheckDetalles();
       },
       onButtonDeletePagoPressMsg: function (oEvent) {
-        let oModel = this.getOwnerComponent().getModel("mockdata"),
-          oPath = oEvent.getSource().getBindingContext("mockdata").getPath(),
-          oItem = oEvent.getSource().getBindingContext("mockdata").getObject(),
+        let oModel = this.getOwnerComponent().getModel(),
+          oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject(),
           sMessage =
             this._i18n().getText("lbldescripcion") +
             ": " +
-            oItem.TipoDesc +
+            oItem.Descripcion +
             " " +
             this._i18n().getText("lblimpor") +
             ": " +
@@ -1333,28 +1357,32 @@ sap.ui.define(
         });
       },
 
-      onButtonDeletePagoPress: function (oPath) {
-        let oModel = this.getView().getModel("mockdata"),
-          oItem = oModel.getObject(oPath),
-          oCertNro = oItem.TipoDesc,
-          oAddedData = this.getView()
-            .getModel("mockdata")
-            .getProperty("/Detalle");
+      onButtonDeletePagoPress: async function (oPath) {
+        
+            let oModel = this.getView().getModel(),
+            oItem = oModel.getObject(oPath),
+            oView = this.getView(),
+        
+            oAddedData = this.getView()
+              .getModel("mockdata")
+              .getProperty("/Descuentos");
+  
+          let rta = await this.ondeleteModel(oModel, oView, oPath);
+  
+          if (rta.Respuesta !== "OK") {
+            this._onErrorHandle(rta.Datos);
+          }
 
-        let oDetalleExist = oAddedData.findIndex(function (oRetenciones) {
-          return oRetenciones.TipoDesc === oCertNro;
-        });
-
-        if (oAddedData.length > 1) {
-          let removed = oAddedData.splice(oDetalleExist, 1);
-          oModel.setProperty("/Detalle", oAddedData);
-        } else {
-          oModel.setProperty("/Detalle", []);
-          oModel.setProperty("/Paso06Detalles", 0);
-          oModel.setProperty("/Paso06ImporteDetalle", 0);
-          oModel.getProperty("/RESTANTE", 0);
-          this.onCheckDetalles();
-        }
+        // if (oAddedData.length > 1) {
+        //   let removed = oAddedData.splice(oDetalleExist, 1);
+        //   oModel.setProperty("/Detalle", oAddedData);
+        // } else {
+        //   oModel.setProperty("/Detalle", []);
+        //   oModel.setProperty("/Paso06Detalles", 0);
+        //   oModel.setProperty("/Paso06ImporteDetalle", 0);
+        //   oModel.getProperty("/RESTANTE", 0);
+        //   this.onCheckDetalles();
+        // }
 
         oModel.refresh();
       },

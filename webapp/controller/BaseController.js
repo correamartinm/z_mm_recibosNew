@@ -40,36 +40,29 @@ sap.ui.define(
       },
 
       formatNumber: function (value) {
-       
         if (!value) return 0;
-         
+
         let ovalue = parseFloat(value);
-          return ovalue;
+        return ovalue;
       },
       formatState: function (value) {
-       
         if (!value) return "Error";
 
         let ovalue = parseFloat(value);
-        if (ovalue > 0 ){
-
+        if (ovalue > 0) {
           return "Warning";
         } else {
-
           return "Success";
         }
       },
 
       formatStatus: function (value) {
-       
         if (!value) return false;
 
         let ovalue = parseFloat(value);
-        if (ovalue > 0 ){
-
+        if (ovalue > 0) {
           return false;
         } else {
-
           return true;
         }
       },
@@ -180,7 +173,31 @@ sap.ui.define(
         });
       },
 
+      onCheckStep: function (oEvent) {
+        let Entidad = oEvent.oSource.sPath,
+          step,
+          registros = oEvent.mParameters.data.results.length;
 
+        switch (Entidad) {
+          // case "/DescuentosSet":
+          //   step = "idDescuentosWizardStep";
+          //   break;
+          // case "/RetencionesSet":
+          //   step = "idRetencionesWizardStep";
+          //   break;
+          case "/PagosSet":
+            step = "idDetalleWizardStep";
+            break;
+        }
+
+        if (registros === 0) {
+          this._wizard.invalidateStep(this.getView().byId(step));
+        } else {
+          this._wizard.validateStep(this.getView().byId(step));
+        }
+
+     
+      },
 
       _onSaveData: async function (oModel, oView, item) {
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
@@ -380,7 +397,7 @@ sap.ui.define(
                 // Error
               } else {
                 resolve({ Respuesta: "OK", Datos: oData });
-                oModel.refresh(true) ;
+                oModel.refresh(true);
                 // Correcto
               }
             }.bind(this),
@@ -462,7 +479,6 @@ sap.ui.define(
         });
       },
 
-
       _onErrorHandle: function (oError) {
         if (oError.Mensaje === undefined) {
           var oErrorMsg = JSON.parse(oError.responseText);
@@ -481,9 +497,7 @@ sap.ui.define(
           resaltar: sap.m.MessageBox.Action.CLOSE,
         };
 
-        this._onShowMsgBox(objectMsg).then((rta) => {
-         
-        });
+        this._onShowMsgBox(objectMsg).then((rta) => {});
       },
       _onShowMsgBox: function (MsgObj) {
         return new Promise((resolve, reject) => {
@@ -500,7 +514,6 @@ sap.ui.define(
           });
         });
       },
-
 
       _onShowMsgBoxError: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {

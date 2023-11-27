@@ -3,7 +3,8 @@
     xmlns:unified="sap.ui.unified"
     xmlns:core="sap.ui.core">
 
-    <Table id="idRetencionesTable" items="{path : 'mockdata>/Retenciones' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/retencionesadd} === false }">
+    <Table id="idRetencionesTable" items="{path : '/RetencionesSet' ,events: {
+        dataReceived: '.onCheckStep' } }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/retencionesadd} === false }">
         <headerToolbar>
             <OverflowToolbar>
                 <ToolbarSpacer/>
@@ -46,10 +47,10 @@
                 <cells>
 
 
-                    <Label text="{mockdata>Tipokey} {mockdata>TipoDesc}" design="Bold"/>
-                    <Label text="{mockdata>NCertificado}"/>
-                    <Text text="{path : 'mockdata>Fecha', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
-                    <Label text="{mockdata>Importe}"/>
+                    <Label text="{Descripcion}" design="Bold"/>
+                    <Label text="{Numero}"/>
+                    <Text text="{path : 'Fecha', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
+                    <Label text="{Importe}"/>
 
                     <HBox>
                         <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPressMsg" />
@@ -65,13 +66,13 @@
     <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/retencionesadd}">
         <form:content>
             <Label text="{i18n>lbltipo}" required="true" labelFor="idTipoRetencionInput"/>
-            <ComboBox id="idTipoRetencionInput" items="{/MotivoRetSet}" selectedKey="{mockdata>/ActiveRetencion/Tipokey}" value="{mockdata>/ActiveRetencion/TipoDesc}">
+            <ComboBox enabled="{= ${mockdata>/Paso05PathUpdate} === '' }" id="idTipoRetencionInput" items="{/MotivoRetSet}" selectedKey="{mockdata>/ActiveRetencion/Tipokey}" value="{mockdata>/ActiveRetencion/Descripcion}">
                 <core:Item key="{Codigo}" text="{Descripcion}" />
             </ComboBox>
 
 
             <Label text="{i18n>lblncertificado}" required="true" labelFor="idCertificadoRetencionInput" />
-            <Input id="idCertificadoRetencionInput" type="Number" value="{mockdata>/ActiveRetencion/NCertificado}"/>
+            <Input id="idCertificadoRetencionInput" type="Number" value="{mockdata>/ActiveRetencion/Numero}"/>
 
 
             <Label text="{i18n>lblfecha}" required="true" labelFor="idFechaRetencionInput" />
@@ -88,15 +89,16 @@
         </form:content>
     </form:SimpleForm>
 
-    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/retencionesadd} === false }" >
-            <Button enabled="{= ${mockdata>/Paso05ImporteRetenciones} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonRETSavePress" />
-    </HBox>
+    <!-- <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/retencionesadd} === false }">
+        <Button enabled="{= ${mockdata>/Paso05ImporteRetenciones} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonRETSavePress" />
+    </HBox> -->
 
 
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/retencionesadd}">
         <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarRetencion" class="sapUiTinyMarginEnd"/>
-            <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="guardarRetencion" />
+        <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarRetencion" class="sapUiTinyMarginEnd"/>
+        <Button visible="{= ${mockdata>/Paso05PathUpdate} !== '' }" text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://refresh" press="guardarRetencion" />
+        <Button visible="{= ${mockdata>/Paso05PathUpdate} === '' }" enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="guardarRetencion" />
     </HBox>
 
 </core:FragmentDefinition>
