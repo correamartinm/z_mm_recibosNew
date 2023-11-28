@@ -1046,6 +1046,32 @@ sap.ui.define(
         // }
       },
 
+      onInputTipoPagoChange: function (oEvent) {
+        let vObject,
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
+          oSource = oEvent.getSource(),
+          oPath = oSource.getSelectedItem().getBindingContext().getPath();
+
+        vObject = oModel.getObject(oPath);
+
+        let oPayload = {
+          key: vObject.Codigo,
+          Desc: vObject.Descripcion,
+          DetCbte: this.onCheckValue(vObject.Detalle),
+          FecCbte: this.onCheckValue(vObject.Fecha),
+          NroCheq: this.onCheckValue(vObject.NroCheque),
+          Adjunto: this.onCheckValue(vObject.Adjuntos),
+          FecEmis: this.onCheckValue(vObject.FechaEmision),
+          FecVto: this.onCheckValue(vObject.FechaVencimiento),
+          BcoEmi: this.onCheckValue(vObject.BancoEmisor),
+          BcoDes: this.onCheckValue(vObject.BancoDestino),
+          BcoDesReq: this.onCheckValueReq(vObject.BancoDestino),
+        };
+
+        oMockModel.setProperty("/ActiveMP", oPayload);
+      },
+
       onAgregarDetalleButtonPress: function () {
         let oValue = true;
         this.onshowDetalleAdd(oValue);
@@ -1076,22 +1102,7 @@ sap.ui.define(
         // }
       },
 
-      onCheckDetalles: function () {
-        let oModel = this.getView().getModel("mockdata"),
-          oAddedData = this.getView()
-            .getModel("mockdata")
-            .getProperty("/Detalle");
-
-        if (oAddedData.length > 0) {
-          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
-        } else {
-          this._wizard.invalidateStep(
-            this.getView().byId("idDetalleWizardStep")
-          );
-        }
-      },
-
-      onInputTipoPagoChange: function (oEvent) {
+      XonInputTipoPagoChange: function (oEvent) {
         let vObject,
           oEntidad = "/ActiveMP",
           oModel = this.getView().getModel("mockdata"),
@@ -1243,7 +1254,7 @@ sap.ui.define(
               // BcoEmisor: oBcoEmisor.getValue(),
               // Codigo: oMP.getSelectedKey(),
 
-              TipoComprobante: oMP.getSelectedItem().getText(),
+              TipoComprobante: oMP.getSelectedKey(),
               Descripcion: oMP.getSelectedItem().getText(),
               Numero: oCbte.getValue(),
               NroCheque: oCheque.getValue(),
@@ -1258,9 +1269,6 @@ sap.ui.define(
 
           } 
         
-
-
-
         DataFinal.push(oDatos);
 
         let ActiveDetalle = {
@@ -1285,6 +1293,7 @@ sap.ui.define(
             parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
           DataFinal.NroLinea = index;
         }
+
         oModel.setProperty("/Detalle", DataFinal);
         let oValue = false;
         this.onshowDetalleAdd(oValue);
@@ -1334,7 +1343,7 @@ sap.ui.define(
         this._onResetDetalleValues();
         let oValue = false;
         this.onshowDetalleAdd(oValue);
-        this.onCheckDetalles();
+       
       },
       onButtonDeletePagoPressMsg: function (oEvent) {
         let oModel = this.getOwnerComponent().getModel(),
@@ -1387,31 +1396,7 @@ sap.ui.define(
         oModel.refresh();
       },
 
-      onInputTipoPagoChange: function (oEvent) {
-        let vObject,
-          oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          oModel = this.getOwnerComponent().getModel(),
-          oSource = oEvent.getSource(),
-          oPath = oSource.getSelectedItem().getBindingContext().getPath();
 
-        vObject = oModel.getObject(oPath);
-
-        let oPayload = {
-          key: vObject.Codigo,
-          Desc: vObject.Descripcion,
-          DetCbte: this.onCheckValue(vObject.Detalle),
-          FecCbte: this.onCheckValue(vObject.Fecha),
-          NroCheq: this.onCheckValue(vObject.NroCheque),
-          Adjunto: this.onCheckValue(vObject.Adjuntos),
-          FecEmis: this.onCheckValue(vObject.FechaEmision),
-          FecVto: this.onCheckValue(vObject.FechaVencimiento),
-          BcoEmi: this.onCheckValue(vObject.BancoEmisor),
-          BcoDes: this.onCheckValue(vObject.BancoDestino),
-          BcoDesReq: this.onCheckValueReq(vObject.BancoDestino),
-        };
-
-        oMockModel.setProperty("/ActiveMP", oPayload);
-      },
 
       onCheckValue: function (oValue) {
         if (oValue === "X") {
@@ -1432,6 +1417,11 @@ sap.ui.define(
           return false;
         }
       },
+
+
+      // ********************************************
+      // Calculos ----------------------------
+      // ********************************************
 
       _onUpdateValues: function () {
         let oModel = this.getView().getModel("mockdata"),
@@ -1465,6 +1455,8 @@ sap.ui.define(
 
         oModel.setProperty("/ANTICIPO", oAnticipo);
       },
+
+
 
       // ********************************************
       // Photo ----------------------------

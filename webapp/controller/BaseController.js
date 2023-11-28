@@ -68,24 +68,6 @@ sap.ui.define(
       },
       //  Detalle
 
-      onAddCliente: function () {
-        let Payload = {
-            Codigo: "1",
-            RazonSocial: "Empresa Test 01",
-            Cuit: "30260778721",
-            Domicilio: "Independencia 711",
-            Localidad: "Claromeco",
-            TipoIVA: "Resposable Inscripto",
-            Observaciones: "Observaciones TEST",
-          },
-          oModel = this.getOwnerComponent().getModel(),
-          oView = this.getView(),
-          Entidad = "/CLIENTESSet";
-
-        let rta = this._oncreateModel(oModel, oView, Entidad, Payload);
-        console.log(rta);
-      },
-
       formatFecha: function (sFec) {
         var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
             pattern: "dd/MM/yyyy",
@@ -369,12 +351,7 @@ sap.ui.define(
               oView.setBusy(false);
 
               resolve(oData);
-              // if (oData.Tipo === "E") {
-              //   // Error
-              // } else {
-              //   oModel.refresh;
-              //   // Correcto
-              // }
+
             }.bind(this),
 
             error: function (oError) {
