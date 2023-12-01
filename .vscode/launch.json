@@ -1,8 +1,9 @@
 {
   "version": "0.2.0",
   "configurations": [
+    
     {
-      "name": "Start z_mm_recibos",
+      "name": "Start NO FLP",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npx",
@@ -11,7 +12,7 @@
         "runtimeExecutable": "npx.cmd"
       },
       "runtimeArgs": ["fiori", "run"],
-      "args": ["--open", "test/flpSandbox.html#morixezfirecibos-display"],
+      "args": ["--open", "index.html?sap-ui-xx-viewCache=false"],
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
       "outputCapture": "std",

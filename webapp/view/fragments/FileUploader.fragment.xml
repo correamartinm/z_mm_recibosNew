@@ -2,7 +2,7 @@
 	xmlns:c="sap.ui.core"
 	xmlns:upload="sap.m.upload">>
 	<Dialog id="iduploader" title="Carga de Ficheros" class="sapUiSizeCompact">
-		<Panel width="400px" height="370px">
+		<Panel width="80%" height="60%">
 			<content>
 				<!-- <upload:UploadSet id="UploadSet" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" beforeUploadStarts="onBeforeUploadStarts" uploadCompleted="onUploadComplete" fileTypes="txt,doc,png" maxFileNameLength="30" maxFileSize="200" mediaTypes="text/plain,application/msword,image/jpeg" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadButtonInvisible="false" fileRenamed="onFileRenamed" sameFilenameAllowed="false" items="{path: '/AttachDocSet', templateShareable: false}">
 					<upload:items>
@@ -13,15 +13,21 @@
 				</upload:UploadSet> -->
 
 
-				<upload:UploadSet id="attachmentUpl" instantUpload="false" maxFileSize="2" noDataDescription="" noDataText="" selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" visible="true">
+				<upload:UploadSet id="attachmentUpl" instantUpload="true" maxFileSize="2" beforeUploadStarts="onStartUpload"  selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
 					<upload:toolbar>
 						<OverflowToolbar>
 							<CheckBox id="checkbox" select="onSelectAllAttachments" visible="false" />
 							<ToolbarSpacer/>
-							<Button id="remove" enabled="false" icon="sap-icon://delete" press="onRemove" type="Transparent" visible="true" />
-							<Button id="download" enabled="false" icon="sap-icon://download" press="onDownload" type="Transparent" visible="true" />
+							<Button id="remove" enabled="false" icon="sap-icon://delete" press="onRemove" type="Transparent"  />
+							<Button id="download" enabled="false" icon="sap-icon://download" press="onDownload" type="Transparent" />
 						</OverflowToolbar>
 					</upload:toolbar>
+					<upload:items>
+						<upload:UploadSetItem fileName="{Filename}"   mediaType="{MimeType}" visibleEdit="false" visibleRemove="false"  selected="true"
+						 url="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet/$value">
+
+						</upload:UploadSetItem>
+					</upload:items>
 				</upload:UploadSet>
 
 				<List id="progressList"/>
@@ -32,7 +38,7 @@
 				
 			</beginButton>
 			<endButton>
-			<Button id="upload" enabled="true" text="{i18n>btnguardar}" press="onStartUpload" type="Emphasized" visible="true" />
+			<!-- <Button id="upload" enabled="true" text="{i18n>btnguardar}" press="onStartUpload" type="Emphasized" visible="true" /> -->
 		</endButton>
 	</Dialog>
 </c:FragmentDefinition>

@@ -65,28 +65,6 @@ sap.ui.define(
         }
       },
 
-      formatStatus: function (value) {
-        if (!value) return false;
-
-        let ovalue = parseFloat(value);
-        if (ovalue > 0) {
-          return false;
-        } else {
-          return true;
-        }
-      },
-      //  Detalle
-
-      formatFecha: function (sFec) {
-        var oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
-            pattern: "dd/MM/yyyy",
-            strictParsing: true,
-            UTC: true,
-          }),
-          oFecha = oDateFormat.format(sFec);
-        return oFecha;
-      },
-
       formatIconBool: function (param) {
         if (param === "X") {
           return "accept";
@@ -109,57 +87,7 @@ sap.ui.define(
         FileControl.setValueState("None");
       },
 
-      _addHeaderParameters: function (FileControl) {
-        var that = this;
-        FileControl.addHeaderParameter(
-          new sap.ui.unified.FileUploaderParameter({
-            name: "slug",
-            value: FileControl.getValue(),
-          })
-        );
-
-        FileControl.addHeaderParameter(
-          new sap.ui.unified.FileUploaderParameter({
-            name: "x-csrf-token",
-            value: that.getOwnerComponent().getModel().getSecurityToken(),
-          })
-        );
-      },
-
-      _onPostFile: function (Data) {
-        let FileStep;
-        switch (Data.Control) {
-          case "idDescuentosWizardStep":
-            FileStep = "idDescuentoFileUploader";
-            break;
-
-          case "idRetencionesWizardStep":
-            FileStep = "idRetencionesFileUploader";
-            break;
-
-          case "idDetalleWizardStep":
-            FileStep = "idChequeFileUploader";
-            break;
-
-          default:
-            break;
-        }
-        let FileControl = this.getView().byId(FileStep);
-        var sAttachmentURL =
-          oModel.sServiceUrl +
-          oModel.createKey("/AttachDocSet", {
-            Codigo: "",
-            NroLinea: Data.NroLinea,
-            Tipo: NroLinea.Tipo,
-          }) +
-          "/attachments";
-        this._addHeaderParameters(FileControl);
-        FileControl.setSendXHR(true);
-        FileControl.setUploadUrl(sAttachmentURL);
-        FileControl.upload();
-        FileControl.setValue("");
-        FileControl.removeAllHeaderParameters();
-      },
+ 
 
       //*********************************** */
 
@@ -207,63 +135,24 @@ sap.ui.define(
         }
       },
 
-      _onSaveData: async function (oModel, oView, item) {
-        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          paso1 = oMockModel.getProperty("/Paso01Cliente");
-
-        if (item.Aplicado) {
-          item.Importe = item.Aplicado;
-        }
-
-        // TipoComprobante
-
-        let oPayload = {
-          Codigo: item.Codigo || "",
-          Cliente: paso1.Codigo || "",
-          TipoLinea: item.TipoLinea || "",
-          Descripcion: item.Descripcion || "",
-          NroLinea: item.NroLinea.toString() || "",
-          Importe: item.Importe.toString() || "",
-          Numero: item.Numero.toString() || "",
-          Fecha: item.Fecha || new Date(),
-          Documentacion: item.Documentacion || "",
-          Mensaje: item.Mensaje || "",
-          Resultado: item.Resultado || "",
-          Detalle: item.Detalle || "",
-          NroCheque: item.NroCheque || "",
-          FechaEmision: item.FechaEmision || null,
-          FechaVencimiento: item.FechaVencimiento || null,
-          BancoEmisor: item.BancoEmisor || "",
-          BancoDestino: item.BancoDestino || "",
-          TipoComprobante: item.Tipo || paso1.TipoComprobante,
-          Periodo: item.Periodo || "",
-          Sociedad: item.Sociedad || "",
-        };
-
-        let oEntidad = "/DocumenPosSet";
-        console.log(oPayload);
-        let rta = await this._oncreateModel(oModel, oView, oEntidad, oPayload);
-
-        return rta;
-      },
-
       _i18n: function () {
         return this.getOwnerComponent().getModel("i18n").getResourceBundle();
       },
 
-      // *************************
-      // Ficheros
+      // ********************************************
+      // Ficheros *******************
+      // ********************************************
 
       onFileDialog: function (oEvent) {
         let oItem = [];
         let oMockModel = this.getOwnerComponent().getModel("mockdata");
-        if (oEvent.getSource().getBindingContext() !== undefined ) {
+        if (oEvent.getSource().getBindingContext() !== undefined) {
           oItem = oEvent.getSource().getBindingContext().getObject();
           oMockModel.setProperty("/Paso01Cliente", oItem);
         } else {
           let paso1 = oMockModel.getProperty("/Paso01Cliente");
-          oItem.Cliente  = paso1.Cliente;
-          oItem.Numero  = paso1.Numero;
+          oItem.Cliente = paso1.Cliente;
+          oItem.Numero = paso1.Numero;
         }
 
         if (!this._oDialogUploadSet) {
@@ -284,11 +173,13 @@ sap.ui.define(
         var oFilter1 = new Filter("Cliente", FilterOperator.EQ, oItem.Cliente);
         var oFilter2 = new Filter("NroLinea", FilterOperator.EQ, oItem.Numero);
 
-        // oUploadCollection.getBinding("items").filter([oFilter2]);
+        // if (oUploadCollection.getItems().length.length > 0) oUploadCollection.getBinding("items").filter([oFilter1 ,oFilter2]);
 
         // Muestro Dialogo
 
-        // this._oDialogUploadSet.setTitle("Ficheros Ficha: " + gOrder + " Intervencion: " + gNumIntervencion);
+        this._oDialogUploadSet.setTitle(
+          "Cliente: " + oItem.Cliente + " Numero: " + oItem.Numero
+        );
         this._oDialogUploadSet.open();
       },
 
@@ -325,8 +216,7 @@ sap.ui.define(
             .getSelectedItems().length > 0
         ) {
           //if user selects 1 or more uploaded item
-          
-          
+
           sap.ui.core.Fragment.byId("UploadFile", "remove").setEnabled(true);
           sap.ui.core.Fragment.byId("UploadFile", "download").setEnabled(true);
         } else {
@@ -340,6 +230,7 @@ sap.ui.define(
           "attachmentUpl"
         );
         oAttachmentUpl.setBusy(true);
+        let that = this;
         oAttachmentUpl.getItems().forEach((oItem) => {
           if (oItem.getListItem().getSelected()) {
             var sPath = oItem.getProperty("url").split("SRV")[1]; //eg /Z9NRS_REQ_ATTACHSet
@@ -359,7 +250,6 @@ sap.ui.define(
         sap.ui.core.Fragment.byId("UploadFile", "download").setEnabled(false);
 
         if (oAttachmentUpl.getItems().length > 0) {
-          
           sap.ui.core.Fragment.byId("UploadFile", "checkbox").setVisible(true);
         } else {
           sap.ui.core.Fragment.byId("UploadFile", "checkbox").setVisible(false);
@@ -388,8 +278,7 @@ sap.ui.define(
         );
 
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
-        paso1 = oMockModel.getProperty("/Paso01Cliente");
-
+          paso1 = oMockModel.getProperty("/Paso01Cliente");
 
         var aIncompleteItems = oAttachmentUpl.getIncompleteItems();
         this.iIncompleteItems = aIncompleteItems.length;
@@ -398,23 +287,19 @@ sap.ui.define(
           this.i = 0; //used to turn off busy indicator when all uploads complete
           for (var i = 0; i < this.iIncompleteItems; i++) {
             var sFileName = aIncompleteItems[i].getProperty("fileName");
-            var oXCSRFToken = new sap.ui.core.Item({ 
+            var oXCSRFToken = new sap.ui.core.Item({
               key: "X-CSRF-Token",
               text: this.getOwnerComponent().getModel().getSecurityToken(),
             });
             var oSlug = new sap.ui.core.Item({
-              key: "SLUG",              
-              text: paso1.Cliente + "/" + paso1.Tipo || ""+ "/" + sFileName ,
+              key: "SLUG",
+              text: paso1.Cliente + "/" + paso1.Tipo || "" + "/" + sFileName,
             });
-            oAttachmentUpl
-              .addHeaderField(oXCSRFToken)
-              .addHeaderField(oSlug)
-              .uploadItem(aIncompleteItems[i]);
-            oAttachmentUpl.removeAllHeaderFields();
+            oAttachmentUpl.addHeaderField(oXCSRFToken).addHeaderField(oSlug);
+            // .uploadItem(aIncompleteItems[i]);
+            // oAttachmentUpl.removeAllHeaderFields();
           }
         }
-        
-
       },
       onUploadCompleted: function () {
         this.i += 1;
@@ -424,6 +309,7 @@ sap.ui.define(
             false
           );
         }
+        console.log("Fichero Cargado");
       },
       parseErrorMsg: function (oError) {
         //parses oData error messages dependent on different return values
@@ -454,34 +340,59 @@ sap.ui.define(
           return MessageToast.show("Error message is undefined");
         MessageBox.error(oMessage);
       },
-      // Files Individual ------------------------
 
-      OnFileUploadMethod: function (FileUploader, oValue) {
-        var that = this;
-        FileUploader.addHeaderParameter(
-          new sap.ui.unified.FileUploaderParameter({
-            name: "slug",
-            value: oValue,
-          })
-        );
 
-        // var sAttachmentURL = oModel.sServiceUrl + oModel.createKey("/AttachDocSet", {
-        //   ticketNumber: oData.ticketNumber
-        //   }) + "/attachments";
+      // ********************************************
+      // Actualizacion de Modelos *******************
+      // ********************************************
 
-        FileUploader.setSendXHR(true);
-        // FileUploader.setUploadUrl(sAttachmentURL);
-        FileUploader.upload();
-        FileUploader.setValue("");
-        FileUploader.removeAllHeaderParameters();
+      _onGuardar: async function (oEntidad, Tipo, Step, PostEntidad) {
+        let oMockModel = this.getView().getModel("mockdata"),
+          oView = this.getView(),
+          oModel = this.getOwnerComponent().getModel(),
+          oItems = oMockModel.getProperty(oEntidad);
 
-        // FileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
-        //   name: "x-csrf-token",
-        //   value: that.getOwnerComponent().getModel("oVendorChangeRequest").getSecurityToken()
-        // }));
+        let DataCte = oMockModel.getProperty("/Paso01Cliente");
+
+        for (var index = 0; index < oItems.length; index++) {
+          // oItems[index].TipoLinea = Tipo;
+          // oItems[index].NroLinea = index;
+          // rtaP2 = await this._onSaveData(oModel, oView, oItems[index]);
+          rtaP2 = await this._oncreateModelNew(
+            oModel,
+            oView,
+            PostEntidad,
+            oItems[index]
+          );
+          let FilePayload = {
+            Codigo: DataCte.Codigo,
+            Cliente: DataCte.Cliente,
+            NroLinea: index,
+            Tipo: oItems[index].Tipo,
+            Control: Step
+          };
+
+          if (Step !== "END") {
+            if (rtaP2.Respuesta === "OK") {
+              this._wizard.validateStep(this.getView().byId(Step));
+            } else {
+              this._wizard.invalidateStep(this.getView().byId(Step));
+            }
+          } else {
+            if (rtaP2.Respuesta === "OK") {
+              let sMessage = rtaP2.Datos.Mensaje,
+                oMockModel = this.getView().getModel("mockdata"),
+                sMessageTitle = this._i18n().getText("msgmsgokvolver");
+
+              this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {
+                if (rta === "OK") this.discardProgress();
+                oMockModel.setProperty("/NoComprobantes", false);
+                this.getOwnerComponent().getTargets().display("TargetMainView");
+              });
+            }
+          }
+        }
       },
-
-      // Actualizacion Modelos -------------------
 
       _oncreateModel: function (oModel, oView, oEntity, oPayload) {
         return new Promise((resolve, reject) => {
@@ -578,7 +489,32 @@ sap.ui.define(
         });
       },
 
-      // Mensajeria -----------------------
+      // ********************************************
+      // Impresion *****************************
+      // ********************************************
+
+      onPrint: function (oTk, oStd) {
+        var oModel = this.getView().getModel(),
+          oKey = oModel.createKey("/ImpresionSet", {
+            Numero: oTk,
+            Estado: oStd,
+          });
+
+        oModel.read(oKey, {
+          success: function (oData) {
+            if (oData2.Tipo !== "E") {
+              window.open(oData.Url);
+            }
+          }.bind(this),
+          error: function (oError) {
+            MessageBox.information("ERROR EN IMPRESION");
+          },
+        });
+      },
+
+      // ********************************************
+      // Mensajes *****************************
+      // ********************************************
 
       _onShowMsgBoxConfirm: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
