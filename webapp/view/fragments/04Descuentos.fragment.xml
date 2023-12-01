@@ -86,10 +86,10 @@
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
 
-            <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
+            <!-- <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet"  useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/> -->
 
 
-            <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" press="onUploadDescuento" /> -->
+            <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" press="onFileDialog" />
 
         </form:content>
     </form:SimpleForm>

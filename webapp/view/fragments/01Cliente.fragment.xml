@@ -40,7 +40,7 @@ xmlns:form="sap.ui.layout.form"
 
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{= ${mockdata>/Paso01Cliente/Mensaje} === undefined }">
 
-        <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
+      
         <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onNavBack" class="sapUiTinyMarginEnd" />
         <Button visible="{= ${mockdata>/Paso01Cliente/Codigo} !== '' }" enabled="{mockdata>/Paso01Cliente/Completo}" text="{i18n>btnconfirmar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonClientePress" />
     </HBox>

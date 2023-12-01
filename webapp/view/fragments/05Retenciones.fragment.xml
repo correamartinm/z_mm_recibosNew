@@ -83,8 +83,8 @@
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 
-            <unified:FileUploader id="idRetencionesFileUploader" change="onAttachmentChange" name="FURetencion" uploadUrl="upload/" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/>
-            <!-- <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" /> -->
+            <!-- <unified:FileUploader id="idRetencionesFileUploader" change="onAttachmentChange" name="FURetencion" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/> -->
+            <Button icon="sap-icon://attachment" text="{i18n>btnadjunto}" press="onFileDialog" />
 
         </form:content>
     </form:SimpleForm>
