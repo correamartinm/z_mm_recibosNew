@@ -143,7 +143,8 @@ sap.ui.define(
 
       onCallFileDialog: function (oEvent) {
         let oSource = oEvent.getSource().getId(),
-          oItem = {}, oFilter = [],
+          oItem = {},
+          oFilter = [],
           oMockModel = this.getOwnerComponent().getModel("mockdata");
 
         if (oEvent.getSource().getBindingContext() !== undefined) {
@@ -157,7 +158,6 @@ sap.ui.define(
         }
 
         switch (oSource) {
-      
           case "container-morixe.zfirecibos---idRecibosPage--idAdjuntarComprobanteDescuentoButton":
             oItem.Tipo = "DESC";
             break;
@@ -166,7 +166,7 @@ sap.ui.define(
             oItem.Tipo = "RETE";
             break;
 
-          case "container-morixe.zfirecibos---idRecibosPage--idAdjuntarComprobantePagosButton" :
+          case "container-morixe.zfirecibos---idRecibosPage--idAdjuntarComprobantePagosButton":
             oItem.Tipo = "DETA";
             break;
 
@@ -177,13 +177,12 @@ sap.ui.define(
 
         if (oItem.Recibo !== undefined) {
           oFilter.push(new Filter("Recibo", FilterOperator.EQ, oItem.Recibo));
-        } 
+        }
 
         oFilter.push(new Filter("Codigo", FilterOperator.EQ, oItem.Cliente));
         oFilter.push(new Filter("Tipo", FilterOperator.EQ, oItem.Tipo));
 
         this.onFileDialog(oItem, oFilter);
-        
       },
 
       onFileDialog: function (oItem, oFilters) {
@@ -202,9 +201,6 @@ sap.ui.define(
           "UploadFile",
           "attachmentUpl"
         );
-      
-
-         if (oUploadCollection.getItems().length.length > 0) oUploadCollection.getBinding("items").filter(oFilters);
 
         // Muestro Dialogo
         if (oItem.Recibo !== undefined) {
@@ -214,6 +210,10 @@ sap.ui.define(
         } else {
           this._oDialogUploadSet.setTitle("Cliente: " + oItem.Cliente);
         }
+
+        let Item = oUploadCollection.getBinding("items");
+
+        Item.filter(oFilters);
 
         this._oDialogUploadSet.open();
       },
@@ -313,7 +313,7 @@ sap.ui.define(
         );
 
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
-       
+          oSlug,
           paso1 = oMockModel.getProperty("/FileParameters");
 
         var aIncompleteItems = oAttachmentUpl.getIncompleteItems();
@@ -328,10 +328,32 @@ sap.ui.define(
               text: this.getOwnerComponent().getModel().getSecurityToken(),
             });
 
-            var oSlug = new sap.ui.core.Item({
-              key: "SLUG",
-              text: "Clientes="+ paso1.Cliente + ",Tipo=" + paso1.Tipo+ ",Recibo=" + paso1.Recibo  + ",Filename =" + sFileName,
-            });
+            if (paso1.Recibo !== undefined) {
+              oSlug = new sap.ui.core.Item({
+                key: "SLUG",
+                text:
+                  "Clientes=" +
+                  paso1.Cliente +
+                  ",Tipo=" +
+                  paso1.Tipo +
+                  ",Recibo=" +
+                  paso1.Recibo +
+                  ",Nombre=" +
+                  sFileName,
+              });
+            } else {
+              oSlug = new sap.ui.core.Item({
+                key: "SLUG",
+                text:
+                  "Clientes=" +
+                  paso1.Cliente +
+                  ",Tipo=" +
+                  paso1.Tipo +
+                  ",Nombre=" +
+                  sFileName,
+              });
+            }
+
             oAttachmentUpl.addHeaderField(oXCSRFToken).addHeaderField(oSlug);
             // .uploadItem(aIncompleteItems[i]);
             // oAttachmentUpl.removeAllHeaderFields();

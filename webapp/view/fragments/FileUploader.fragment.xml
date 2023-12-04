@@ -13,7 +13,7 @@
 				</upload:UploadSet> -->
 
 
-				<upload:UploadSet id="attachmentUpl" instantUpload="true" maxFileSize="2" beforeUploadStarts="onStartUpload"  selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
+				<upload:UploadSet items="{path: '/AttachDocSet'}" id="attachmentUpl" instantUpload="true" maxFileSize="2" beforeUploadStarts="onStartUpload"  selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
 					<upload:toolbar>
 						<OverflowToolbar>
 							<CheckBox id="checkbox" select="onSelectAllAttachments" visible="false" />

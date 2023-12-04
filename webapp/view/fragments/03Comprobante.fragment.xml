@@ -67,7 +67,7 @@
 
                     <Label text="{mockdata>Total}"/>
                     <Label text="{mockdata>Saldo}"/>
-                    <Input enabled="false" value="{mockdata>Aplicado}" textAlign="End" change="onInputImporteChange"/>
+                    <Input enabled="false" value="{mockdata>Importe}" textAlign="End" change="onInputImporteChange"/>
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonPrintPress" class="sapUiTinyMarginBeginEnd" />
                         <Button icon="sap-icon://edit" press="onButtonPrintPress" />

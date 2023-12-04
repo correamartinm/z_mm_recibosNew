@@ -369,7 +369,7 @@ sap.ui.define(
               Data.push(vObject);
               Data.NroLinea = index;
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
+                parseFloat(oImportesSuma) + parseFloat(vObject.Importe);
             }
           }
 
@@ -522,7 +522,7 @@ sap.ui.define(
               Data.push(vObject);
               Data.NroLinea = index;
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
+                parseFloat(oImportesSuma) + parseFloat(vObject.Importe);
             }
           }
         }
