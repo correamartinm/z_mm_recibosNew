@@ -87,8 +87,6 @@ sap.ui.define(
         FileControl.setValueState("None");
       },
 
- 
-
       //*********************************** */
 
       _oncreateModelNew: function (oModel, oView, oEntity, oPayload) {
@@ -127,7 +125,7 @@ sap.ui.define(
             step = "idDetalleWizardStep";
             break;
         }
-
+        if (step === undefined) return;
         if (registros === 0) {
           this._wizard.invalidateStep(this.getView().byId(step));
         } else {
@@ -143,18 +141,52 @@ sap.ui.define(
       // Ficheros *******************
       // ********************************************
 
-      onFileDialog: function (oEvent) {
-        let oItem = [];
-        let oMockModel = this.getOwnerComponent().getModel("mockdata");
+      onCallFileDialog: function (oEvent) {
+        let oSource = oEvent.getSource().getId(),
+          oItem = {}, oFilter = [],
+          oMockModel = this.getOwnerComponent().getModel("mockdata");
+
         if (oEvent.getSource().getBindingContext() !== undefined) {
-          oItem = oEvent.getSource().getBindingContext().getObject();
-          oMockModel.setProperty("/Paso01Cliente", oItem);
+          let oData = oEvent.getSource().getBindingContext().getObject();
+          oItem.Cliente = oData.Cliente;
+          oItem.Recibo = oData.Numero;
+          oItem.Tipo = "RECIB";
         } else {
           let paso1 = oMockModel.getProperty("/Paso01Cliente");
           oItem.Cliente = paso1.Cliente;
-          oItem.Numero = paso1.Numero;
         }
 
+        switch (oSource) {
+      
+          case "container-morixe.zfirecibos---idRecibosPage--idAdjuntarComprobanteDescuentoButton":
+            oItem.Tipo = "DESC";
+            break;
+
+          case "container-morixe.zfirecibos---idRecibosPage--idAdjuntarComprobanteRetencionButton":
+            oItem.Tipo = "RETE";
+            break;
+
+          case "container-morixe.zfirecibos---idRecibosPage--idAdjuntarComprobantePagosButton" :
+            oItem.Tipo = "DETA";
+            break;
+
+          default:
+            break;
+        }
+        oMockModel.setProperty("/FileParameters", oItem);
+
+        if (oItem.Recibo !== undefined) {
+          oFilter.push(new Filter("Recibo", FilterOperator.EQ, oItem.Recibo));
+        } 
+
+        oFilter.push(new Filter("Codigo", FilterOperator.EQ, oItem.Cliente));
+        oFilter.push(new Filter("Tipo", FilterOperator.EQ, oItem.Tipo));
+
+        this.onFileDialog(oItem, oFilter);
+        
+      },
+
+      onFileDialog: function (oItem, oFilters) {
         if (!this._oDialogUploadSet) {
           this._oDialogUploadSet = sap.ui.xmlfragment(
             "UploadFile",
@@ -170,16 +202,19 @@ sap.ui.define(
           "UploadFile",
           "attachmentUpl"
         );
-        var oFilter1 = new Filter("Cliente", FilterOperator.EQ, oItem.Cliente);
-        var oFilter2 = new Filter("NroLinea", FilterOperator.EQ, oItem.Numero);
+      
 
-        // if (oUploadCollection.getItems().length.length > 0) oUploadCollection.getBinding("items").filter([oFilter1 ,oFilter2]);
+         if (oUploadCollection.getItems().length.length > 0) oUploadCollection.getBinding("items").filter(oFilters);
 
         // Muestro Dialogo
+        if (oItem.Recibo !== undefined) {
+          this._oDialogUploadSet.setTitle(
+            "Cliente: " + oItem.Cliente + " Numero: " + oItem.Recibo
+          );
+        } else {
+          this._oDialogUploadSet.setTitle("Cliente: " + oItem.Cliente);
+        }
 
-        this._oDialogUploadSet.setTitle(
-          "Cliente: " + oItem.Cliente + " Numero: " + oItem.Numero
-        );
         this._oDialogUploadSet.open();
       },
 
@@ -278,7 +313,8 @@ sap.ui.define(
         );
 
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          paso1 = oMockModel.getProperty("/Paso01Cliente");
+       
+          paso1 = oMockModel.getProperty("/FileParameters");
 
         var aIncompleteItems = oAttachmentUpl.getIncompleteItems();
         this.iIncompleteItems = aIncompleteItems.length;
@@ -291,9 +327,10 @@ sap.ui.define(
               key: "X-CSRF-Token",
               text: this.getOwnerComponent().getModel().getSecurityToken(),
             });
+
             var oSlug = new sap.ui.core.Item({
               key: "SLUG",
-              text: paso1.Cliente + "/" + paso1.Tipo || "" + "/" + sFileName,
+              text: "Clientes ="+ paso1.Cliente + ", Tipo =" + paso1.Tipo  + ", Nombre =" + sFileName,
             });
             oAttachmentUpl.addHeaderField(oXCSRFToken).addHeaderField(oSlug);
             // .uploadItem(aIncompleteItems[i]);
@@ -341,7 +378,6 @@ sap.ui.define(
         MessageBox.error(oMessage);
       },
 
-
       // ********************************************
       // Actualizacion de Modelos *******************
       // ********************************************
@@ -349,6 +385,7 @@ sap.ui.define(
       _onGuardar: async function (oEntidad, Tipo, Step, PostEntidad) {
         let oMockModel = this.getView().getModel("mockdata"),
           oView = this.getView(),
+          rtaP2 = [],
           oModel = this.getOwnerComponent().getModel(),
           oItems = oMockModel.getProperty(oEntidad);
 
@@ -369,7 +406,7 @@ sap.ui.define(
             Cliente: DataCte.Cliente,
             NroLinea: index,
             Tipo: oItems[index].Tipo,
-            Control: Step
+            Control: Step,
           };
 
           if (Step !== "END") {

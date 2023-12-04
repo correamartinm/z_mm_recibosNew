@@ -90,8 +90,6 @@ sap.ui.define(
       // Paso Datos del Cliente *********************
       // ********************************************
 
-
-
       _onValidateStep: function () {
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           Step = this.getView().byId("idClienteWizardStep"),
@@ -1021,8 +1019,7 @@ sap.ui.define(
           data = [];
         this._onUpdateModel(oModel, oDescuento, oValue);
 
-        let oFile = this.getView().byId("idChequeFileUploader");
-        oFile.setValue();
+       
 
         let EditRecibo = oModel.getProperty("/EdicionRecibo");
 

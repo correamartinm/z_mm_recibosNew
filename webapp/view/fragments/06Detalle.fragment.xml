@@ -97,6 +97,7 @@
 
 
             </form:content>
+            <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton"  press="onCallFileDialog" class="sapUiTinyMarginEnd" />
 
         </form:SimpleForm>
 

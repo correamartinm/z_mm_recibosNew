@@ -28,7 +28,7 @@
 
         <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd">
             <VBox id="vBox1"/>
-            <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" press="onFileDialog" class="sapUiTinyMarginEnd" />
+        
 
             <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarDetlles" class="sapUiTinyMarginEnd" />
             <Button visible="{= ${mockdata>/Paso06PathUpdate} !== '' }" enabled="{mockdata>/AddButtonActive}" text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://refresh" press="onGuardarButtonDetallePress" />
