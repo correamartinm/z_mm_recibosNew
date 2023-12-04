@@ -330,7 +330,7 @@ sap.ui.define(
 
             var oSlug = new sap.ui.core.Item({
               key: "SLUG",
-              text: "Clientes="+ paso1.Cliente + ",Tipo=" + paso1.Tipo  + ",Nombre=" + sFileName,
+              text: "Clientes="+ paso1.Cliente + ",Tipo=" + paso1.Tipo+ ",Recibo=" + paso1.Recibo  + ",Filename =" + sFileName,
             });
             oAttachmentUpl.addHeaderField(oXCSRFToken).addHeaderField(oSlug);
             // .uploadItem(aIncompleteItems[i]);
