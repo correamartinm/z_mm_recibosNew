@@ -586,7 +586,6 @@ sap.ui.define(
           oFecha = this.getView().byId("idFechaDatePickerFDescuento"),
           oImporte = this.getView().byId("idImporteInput"),
           oMotivo = this.getView().byId("idMotivoInput"),
-          oFile = this.getView().byId("idDescuentoFileUploader"),
           oldData = [],
           DataFinal = [],
           oDatos = {};
@@ -612,12 +611,6 @@ sap.ui.define(
           oFecha.setValueState(ValueState.None);
         }
 
-        // if (!oFile.getValue()) {
-        //   oFile.setValueState(ValueState.Error);
-        //   return;
-        // } else {
-        //   oFile.setValueState(ValueState.None);
-        // }
 
         let oValue = false,
           oImportesSuma = 0,
@@ -634,18 +627,18 @@ sap.ui.define(
           }
 
           oDatos = {
-            NroCheque: oMotivo.getSelectedKey(),
             Detalle: oMotivo.getSelectedItem().getText(),
-            // NComprobante: parseFloat(oNcomprobante.getValue()),
             Fecha: oFecha.getDateValue(),
             Importe: oImporte.getValue(),
-            // Codigo: oMotivo.getSelectedKey(),
             Descripcion: oMotivo.getSelectedItem().getText(),
             Numero: oNcomprobante.getValue(),
+            NroLinea: oMotivo.getSelectedKey(),
+            // NroCheque: oMotivo.getSelectedKey(),
+            // NComprobante: parseFloat(oNcomprobante.getValue()),
+            // Codigo: oMotivo.getSelectedKey(),
           };
         } else {
           oDatos = {
-            NroCheque: oMotivo.getSelectedKey(),
             Detalle: oMotivo.getValue(),
             Fecha: oFecha.getDateValue(),
             Importe: oImporte.getValue(),
@@ -788,8 +781,7 @@ sap.ui.define(
           oTipo = this.getView().byId("idTipoRetencionInput"),
           oFecha = this.getView().byId("idFechaDatePickerFRetencion"),
           oImporte = this.getView().byId("idImporteRetencionInput"),
-          oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
-          oFile = this.getView().byId("idRetencionesFileUploader"),
+          oNCertificado = this.getView().byId("idCertificadoRetencionInput"),          
           oImportesSuma = 0,
           oldData = [],
           DataFinal = [],
@@ -816,12 +808,7 @@ sap.ui.define(
           oFecha.setValueState(ValueState.None);
         }
 
-        if (!oFile.getValue()) {
-          // oFile.setValueState(ValueState.Error);
-          // return;
-        } else {
-          oFile.setValueState(ValueState.None);
-        }
+
 
         Update = oModel.getProperty("/Paso05PathUpdate");
 
@@ -836,25 +823,26 @@ sap.ui.define(
           }
 
           oDatos = {
-            NroCheque: oTipo.getSelectedKey(),
             TipoComprobante: oTipo.getSelectedItem().getText(),
-            // NCertificado: parseFloat(oNCertificado.getValue()),
             Fecha: oFecha.getDateValue(),
             Importe: oImporte.getValue(),
-            // Codigo: oTipo.getSelectedKey(),
             Descripcion: oTipo.getSelectedItem().getText(),
             Numero: oNCertificado.getValue(),
+            NroLinea: oTipo.getSelectedKey(),
+            // NroCheque: oTipo.getSelectedKey(),
+            // Codigo: oTipo.getSelectedKey(),
+            // NCertificado: parseFloat(oNCertificado.getValue()),
           };
         } else {
           oDatos = {
-            NroCheque: oTipo.getSelectedKey(),
             TipoComprobante: oTipo.getSelectedItem().getText(),
-            // Numero: parseFloat(oNCertificado.getValue()),
             Fecha: oFecha.getDateValue(),
             Importe: oImporte.getValue(),
             Codigo: oActiveRetencion.Codigo,
             Descripcion: oTipo.getSelectedItem().getText(),
             Numero: oNCertificado.getValue(),
+            // NroLinea: oTipo.getSelectedKey(),
+            // Numero: parseFloat(oNCertificado.getValue()),
           };
         }
 
@@ -863,10 +851,9 @@ sap.ui.define(
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
             parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
-          DataFinal.NroLinea = index;
+          // DataFinal.NroLinea = index;
         }
         oModel.setProperty("/Retenciones", DataFinal);
-
         oModel.setProperty("/Paso05CantidadRetenciones", DataFinal.length);
         oModel.setProperty("/Paso05ImporteRetenciones", oImportesSuma);
 
@@ -1052,8 +1039,7 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {},
           oImportePago = this.getView().byId("idImportePagoInput");
-        // oFile = this.getView().byId("idChequeFileUploader"),
-        // oFileCheque = this.getView().byId("");
+
 
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
         let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
@@ -1105,22 +1091,6 @@ sap.ui.define(
           }
         }
 
-        // if (MpKValidate.Adjunto === true) {
-        //   if (!oFile.getValue()) {
-        //     oFile.setValueState(ValueState.Error);
-        //     return;
-        //   } else {
-        //     oFile.setValueState(ValueState.None);
-        //   }
-
-        //   if (!oFileCheque.getValue()) {
-        //     oFileCheque.setValueState(ValueState.Error);
-        //     return;
-        //   } else {
-        //     oFoFileChequeile.setValueState(ValueState.None);
-        //   }
-        // }
-
         if (MpKValidate.FecEmis === true) {
           if (!oFechaEmision.getDateValue()) {
             oFechaEmision.setValueState(ValueState.Error);
@@ -1169,7 +1139,7 @@ sap.ui.define(
             // BcoEmisor: oBcoEmisor.getValue(),
             // Codigo: oMP.getSelectedKey(),
 
-            TipoComprobante: oMP.getSelectedKey(),
+            NroLinea: oMP.getSelectedKey(),
             Descripcion: oMP.getSelectedItem().getText(),
             Numero: oCbte.getValue(),
             NroCheque: oCheque.getValue(),
@@ -1380,10 +1350,10 @@ sap.ui.define(
         // oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
 
         let oSubTotal =
-          parseFloat(ImportePGOCTA) +
+          (parseFloat(ImportePGOCTA) +
           parseFloat(ImporteDTO) +
-          parseFloat(ImporteRET) +
-          parseFloat(ImporteDET);
+          parseFloat(ImporteDET))-
+          parseFloat(ImporteRET) ;
 
         let oSub =
           parseFloat(ImporteCBTES) -

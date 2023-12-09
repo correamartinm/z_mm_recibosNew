@@ -71,7 +71,7 @@
         <form:content>
             <Label text="{i18n>lblmotivo}" required="true" labelFor="idMotivoInput"/>
 
-            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/Detalle}" selectedKey="{mockdata>/ActiveDescuento/NroCheque}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}" enabled="{= ${mockdata>/Paso04PathUpdate} === ''}">
+            <ComboBox id="idMotivoInput" value="{mockdata>/ActiveDescuento/Detalle}" selectedKey="{mockdata>/ActiveDescuento/NroLinea}" selectionChange="onInputDescuentoChange" items="{/MotivoDescSet}" enabled="{= ${mockdata>/Paso04PathUpdate} === ''}">
                 <core:Item key="{Codigo}" text="{Descripcion}" />
             </ComboBox>
 
@@ -89,7 +89,7 @@
             <!-- <unified:FileUploader id="idDescuentoFileUploader" change="onAttachmentChange" name="FUDescuento" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet"  useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/> -->
 
 
-            <Button icon="sap-icon://attachment" id="idAdjuntarComprobanteDescuentoButton" text="{i18n>btnadjunto}" press="onCallFileDialog" />
+            <Button icon="sap-icon://attachment" id="idAdjuntarComprobanteDescuentoButton" text="{i18n>btnadjunto}" press="onCallFileDialogDESC" />
 
         </form:content>
     </form:SimpleForm>

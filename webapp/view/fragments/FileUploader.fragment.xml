@@ -4,14 +4,6 @@
 	<Dialog id="iduploader" title="Carga de Ficheros" class="sapUiSizeCompact">
 		<Panel width="80%" height="60%">
 			<content>
-				<!-- <upload:UploadSet id="UploadSet" instantUpload="true" showIcons="true" uploadEnabled="true" terminationEnabled="true" beforeUploadStarts="onBeforeUploadStarts" uploadCompleted="onUploadComplete" fileTypes="txt,doc,png" maxFileNameLength="30" maxFileSize="200" mediaTypes="text/plain,application/msword,image/jpeg" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadButtonInvisible="false" fileRenamed="onFileRenamed" sameFilenameAllowed="false" items="{path: '/AttachDocSet', templateShareable: false}">
-					<upload:items>
-						<upload:UploadSetItem Filename="{Filename}" mediaType="{MimeType}" url="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet/$value">
-
-						</upload:UploadSetItem>
-					</upload:items>
-				</upload:UploadSet> -->
-
 
 				<upload:UploadSet items="{path: '/AttachDocSet'}" id="attachmentUpl" instantUpload="true" maxFileSize="2" beforeUploadStarts="onStartUpload"  selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
 					<upload:toolbar>

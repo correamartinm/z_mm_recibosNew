@@ -64,7 +64,7 @@
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
             <form:content>
                 <Label text="{i18n>lblmedios}" required="true" labelFor="idRSInput"/>
-                <Select id="idselectMP" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/Descripcion}">
+                <Select id="idselectMP" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
                     <core:Item key="{Codigo}" text="{Descripcion}" />
                 </Select>
 
@@ -92,12 +92,12 @@
                 <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
                 <DatePicker id="idDetFecVto" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
 
-
+                    <Label text="{i18n>lbldocumentacion}" required="true" />
+                <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />
 
 
 
             </form:content>
-            <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton"  press="onCallFileDialog" class="sapUiTinyMarginEnd" />
 
         </form:SimpleForm>
 

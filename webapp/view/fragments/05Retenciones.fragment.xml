@@ -66,7 +66,7 @@
     <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/retencionesadd}">
         <form:content>
             <Label text="{i18n>lbltipo}" required="true" labelFor="idTipoRetencionInput"/>
-            <ComboBox enabled="{= ${mockdata>/Paso05PathUpdate} === '' }" id="idTipoRetencionInput" items="{/MotivoRetSet}" selectedKey="{mockdata>/ActiveRetencion/Tipokey}" value="{mockdata>/ActiveRetencion/Descripcion}">
+            <ComboBox enabled="{= ${mockdata>/Paso05PathUpdate} === '' }" id="idTipoRetencionInput" items="{/MotivoRetSet}" selectedKey="{mockdata>/ActiveRetencion/Tipokey}" value="{mockdata>/ActiveRetencion/NroLinea}">
                 <core:Item key="{Codigo}" text="{Descripcion}" />
             </ComboBox>
 
@@ -84,7 +84,7 @@
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 
             <!-- <unified:FileUploader id="idRetencionesFileUploader" change="onAttachmentChange" name="FURetencion" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/> -->
-            <Button icon="sap-icon://attachment" id="idAdjuntarComprobanteRetencionButton" text="{i18n>btnadjunto}" press="onCallFileDialog" />
+            <Button icon="sap-icon://attachment" id="idAdjuntarComprobanteRetencionButton" text="{i18n>btnadjunto}" press="onCallFileDialogRETE" />
 
         </form:content>
     </form:SimpleForm>
