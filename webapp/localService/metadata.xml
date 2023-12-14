@@ -162,6 +162,7 @@
                 <Property Name="Codigo" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="TipoLinea" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="Importe" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="TotalRecibo" Type="Edm.Decimal" Nullable="false" Precision="15" Scale="2" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </EntityType>
             <EntityType Name="Descuentos" sap:content-version="1">
                 <Key>
@@ -263,8 +264,8 @@
                 <EntitySet Name="RetencionesSet" EntityType="ZGWFI_COBRANZAS_SRV.Retenciones" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="PagosSet" EntityType="ZGWFI_COBRANZAS_SRV.Pagos" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
             </EntityContainer>
-            <atom:link rel="self" href="https://mxecid.morixe.com.ar:44300/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
-            <atom:link rel="latest-version" href="https://mxecid.morixe.com.ar:44300/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="self" href="http://mxecid.morixe.com.ar:8000/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://mxecid.morixe.com.ar:8000/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

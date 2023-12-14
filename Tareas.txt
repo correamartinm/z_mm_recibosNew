@@ -12,3 +12,5 @@ RETE	Retenciones
 Tareas a Realizar
 
 Edicion Recibo
+
+http://mxecid.morixe.com.ar:8000/

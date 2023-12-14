@@ -33,54 +33,7 @@ sap.ui.define(
         this._onRefreshTable([]);
       },
 
-      _createUserModel: function () {
-        let oMockModel = this.getView().getModel("mockdata");
 
-        return new Promise(
-          function (e) {
-            var t = { userMail: "", userCode: "" };
-            try {
-              if (sap.ushell) {
-                var a = sap.ushell.Container.getUser();
-                t.userMail = a.getEmail();
-                t.userCode = a.getId();
-                if (t.userCode.length > 7) {
-                  VgUser = t.userCode;
-                  VgMail = t.userMail;
-
-                  oMockModel.setProperty("/email", t.userMail);
-                  oMockModel.setProperty("/user", t.userCode);
-                } else {
-                  VgUser = t.userCode;
-                }
-              }
-            } catch (e) {
-              t.userMail = "USER DEFAULT";
-              t.userCode = "USER_DEFAULT";
-              this._IniTUser();
-            }
-            e(t);
-          }.bind(this)
-        );
-      },
-
-      _IniTUser: function () {
-        const url = this._getBaseURL() + "/user-api/currentUser";
-        var oJsonModel = new JSONModel();
-        let oMockModel = this.getView().getModel("mockdata");
-
-        oJsonModel.loadData(url);
-        oJsonModel
-          .dataLoaded()
-          .then(() => {
-            if (!oJsonModel.getData().email) {
-            } else {
-              oMockModel.setProperty("/email", oJsonModel.getData().email);
-              sap.ui.getCore().setModel(oJsonModel, "userapi");
-            }
-          })
-          .catch(() => {});
-      },
 
       onButtonPrintPress: function (params) {},
       // Filtros **************************
@@ -98,9 +51,9 @@ sap.ui.define(
           oProcesado = oView.byId("idProcesadoFilter"),
           oFecha = oView.byId("idFechaDateRangeSelection");
 
-        oRazonsocial.setValue(null);
+        oRazonsocial.removeAllTokens;
         oProcesado.setSelectedKey(null);
-        oCuit.setValue(null);
+        oCuit.removeAllTokens;
         oFecha.setValue(null);
         let oFilter = [];
         this._onRefreshTable(oFilter);
@@ -146,11 +99,10 @@ sap.ui.define(
         }
 
         if (oRangoFecha.getValue().length !== 0) {
-          var oFInicio = oDateFormat.format(oRangoFecha.getFrom());
-          var oFFin = oDateFormat.format(oRangoFecha.getTo());
-
+          // var oFInicio = oDateFormat.formatoRangoFecha.getDateValue());
+          // var oFFin = oDateFormat.format(oRangoFecha.getSecondDateValue());
           oFilter.push(
-            new Filter("Fecha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin)
+            new sap.ui.model.Filter("Fecha", sap.ui.model.FilterOperator.BT, oRangoFecha.getDateValue(), oRangoFecha.getSecondDateValue())
           );
         }
 
