@@ -22,13 +22,7 @@ sap.ui.define(
 
       // ****************** Usuario
 
-      _getBaseURL: function () {
-        var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
-        var appPath = appId.replaceAll(".", "/");
-        var appModulePath = jQuery.sap.getModulePath(appPath);
-        return appModulePath;
-      },
-
+  
       _onObjectMatched: function () {
         this._onRefreshTable([]);
       },
