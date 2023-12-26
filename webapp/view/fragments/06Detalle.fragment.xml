@@ -74,10 +74,10 @@
                 <Label text="{i18n>lblimpor}" required="true" labelFor="idImportePagoInput"/>
                 <Input id="idImportePagoInput" type="Number" value="{mockdata>/ActiveDetalle/Importe}" placeholder=" {i18n>lblrestante}: {mockdata>/RESTANTE}"/>
                 <Label text="{i18n>lblfechaemision}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecEmis}"/>
-                <DatePicker id="idDetFechaEmision" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecEmis}" dateValue="{mockdata>/ActiveDetalle/FechaEmision}"/>
+                <DatePicker id="idDetFechaEmision" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecEmis}" dateValue="{mockdata>/ActiveDetalle/FechaEmision}"/>
 
                 <Label text="{i18n>lblfechadeposito}" required="true" labelFor="idFechaDatePickerFDeposito" visible="{mockdata>/ActiveMP/FecVto}" />
-                <DatePicker id="idDetFecDeposito" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
+                <DatePicker id="idDetFecDeposito" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
 
 
                 <Label text="{i18n>lblncheque}" required="true" labelFor="idCodigoClienteInput" visible="{mockdata>/ActiveMP/NroCheq}"/>
@@ -90,7 +90,7 @@
                 <Input id="idDetBcoEmisor" visible="{mockdata>/ActiveMP/BcoEmi}" value="{mockdata>/ActiveDetalle/BancoEmisor}"/>
 
                 <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
-                <DatePicker id="idDetFecVto" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
+                <DatePicker id="idDetFecVto" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
 
                     <Label text="{i18n>lbldocumentacion}" required="true" />
                 <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />

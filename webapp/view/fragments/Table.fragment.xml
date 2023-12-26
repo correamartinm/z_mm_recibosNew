@@ -119,7 +119,7 @@
                         }" state="{
                             path: 'Procesado',
                             formatter: '.formatStateBool'
-                        }" inverted="true" title="{FechaProceso}" />
+                        }" inverted="true" title="{FechaProcesado}" />
 
                     <ObjectStatus icon="sap-icon://{
                         path: 'Procesado',
@@ -129,7 +129,7 @@
                         formatter: '.formatStateBool'
                     }" inverted="true" />
 
-                    <Text text="{path : 'FechaProceso' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
+                    <Text text="{path : 'FechaProcesado' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
                     <HBox >
 
                         <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />

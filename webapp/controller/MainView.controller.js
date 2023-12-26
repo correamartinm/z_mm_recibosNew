@@ -93,12 +93,19 @@ sap.ui.define(
         }
 
         if (oRangoFecha.getValue().length !== 0) {
-          // var oFInicio = oDateFormat.formatoRangoFecha.getDateValue());
-          // var oFFin = oDateFormat.format(oRangoFecha.getSecondDateValue());
+
+          var oFInicio = oRangoFecha.getDateValue();
+          var oFFin = oRangoFecha.getSecondDateValue();
+
+          // var oFInicio = oDateFormat.format(oRangoFecha.getFrom());
+          // var oFFin = oDateFormat.format(oRangoFecha.getTo());
+
           oFilter.push(
-            new sap.ui.model.Filter("Fecha", sap.ui.model.FilterOperator.BT, oRangoFecha.getDateValue(), oRangoFecha.getSecondDateValue())
+            new Filter("Fecha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin)
           );
-        }
+
+
+          }
 
         if (oProcesado) {
           if (oProcesado === "X") {
