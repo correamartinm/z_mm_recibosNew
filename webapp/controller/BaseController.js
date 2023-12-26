@@ -48,6 +48,15 @@ sap.ui.define(
         return text;
       },
 
+      formatUrl: function (ID, Name) {
+        let srv = "/sap/opu/odata/sap/ZGWFI_COBRANZAS_APROB_SRV/",
+          id = "AttachDocSet(Codigo='" + ID + "',",
+          file = "Filename='" + Name;
+          let rta = srv + id + file + "')/$value";
+          return rta;
+          
+      },
+
       formatNumber: function (value) {
         if (!value) return 0;
 
