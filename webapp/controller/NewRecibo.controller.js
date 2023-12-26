@@ -66,6 +66,8 @@ sap.ui.define(
       onClearData: function () {
         let oMockModel = this.getView().getModel("mockdata");
         oMockModel.setProperty("/Paso01Cliente", {});
+        oMockModel.setProperty("/Paso2Data", []);
+        oMockModel.setProperty("/Paso3Data", []);
         oMockModel.setProperty("/Paso02Seleccionados", []);
         oMockModel.setProperty("/Paso03Comprobantes", []);
         oMockModel.setProperty("/Descuentos", []);
@@ -467,7 +469,7 @@ sap.ui.define(
               } else {
                 oItems[index]
                   .getCells()[6]
-                  .setValue(parseFloat(vObject.Saldo) * -1);
+                  .setValue(parseFloat(vObject.Saldo));
               }
             }
 

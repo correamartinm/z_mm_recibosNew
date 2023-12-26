@@ -15,8 +15,8 @@
 						</OverflowToolbar>
 					</upload:toolbar>
 					<upload:items>
-						<upload:UploadSetItem fileName="{Filename}"   mediaType="{MimeType}" visibleEdit="false" visibleRemove="false"  selected="true"
-						 url="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet/$value">
+						<upload:UploadSetItem fileName="{Filename}"   mediaType="{MimeType}"  visibleEdit="false" visibleRemove="false"  selected="true"
+						 url="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDoc/$value" >
 
 						</upload:UploadSetItem>
 					</upload:items>

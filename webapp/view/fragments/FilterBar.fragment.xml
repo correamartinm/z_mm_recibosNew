@@ -15,7 +15,7 @@
                 </fb:control>
             </fb:FilterGroupItem>
 
-            <fb:FilterGroupItem groupName="search" name="cuit" label="{i18n>lblcuit}" visibleInFilterBar="false">
+            <fb:FilterGroupItem groupName="search" name="cuit" label="{i18n>lblcuit}" visibleInFilterBar="true">
                 <fb:control>
                     
                     <MultiInput id="idCuitMultiInput" width="auto" showSuggestion="true" suggestionItems="{/CLIENTESSet}">
@@ -37,11 +37,11 @@
                     <ComboBox id="idProcesadoFilter"  width="60px" >
                         <core:Item key="X" text="SI" />
                         <core:Item key="null" text="NO" />
+                        <core:Item key="A" text="ANULADO" />
                     </ComboBox>
                     
                 </fb:control>
             </fb:FilterGroupItem>
-
 
         </fb:filterGroupItems>
 

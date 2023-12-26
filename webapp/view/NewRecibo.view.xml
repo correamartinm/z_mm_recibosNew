@@ -115,9 +115,9 @@
                                 <VBox  >
 
                                     <HBox class="sapUiTinyMarginBottom sapUiTinyMarginTop" alignItems="Center" justifyContent="SpaceBetween" alignContent="SpaceBetween" width="100%">
-                                        <Text text="{TipoLinea}" class="BoldOK sapUiTinyMarginBegin" />
+                                        <Text class="BoldOK sapUiTinyMarginEnd" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/>
+                                        <!-- <Text text="{TipoLinea}" class="BoldOK sapUiTinyMarginBegin" /> -->
                                         <Text text="        " width="200px" />
-                                        <!-- <Text class="BoldOK sapUiTinyMarginEnd" text="{parts: ['TipoLinea', 'Importe'], formatter: '.formatItem'}"/> -->
 
                                         <ObjectNumber unit="$" number="{parts: ['Importe'], formatter: '.formatNumber'}" state="{parts: ['Importe'], formatter: '.formatState'}" class="Bold sapUiTinyMarginEnd" />
                                     </HBox>
@@ -128,13 +128,13 @@
 
 
 
-                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '' }" class=" BoldOK sapUiSmallMarginTopBottom"/>
+                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '0.00' }" class=" BoldOK sapUiSmallMarginTopBottom"/>
 
                         <OverflowToolbar >
                             <ToolbarSpacer/>
-
-                            <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Critical" press="onNavBack" class="sapUiTinyMarginEnd"/>
-                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" />
+                            <!-- <Button icon="sap-icon://nav-back" text="{i18n>btnvolver}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/> -->
+                                <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/>
+                                <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress"  tooltip="{mockdata>/SALDO}" enabled="{= ${mockdata>/SALDO} === '0.00' }"/>
                             <ToolbarSpacer/>
                         </OverflowToolbar>
 

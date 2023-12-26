@@ -45,7 +45,7 @@ sap.ui.define(
               .setProperty("/SALDO", value);
           }
         }
-        return value;
+        return text;
       },
 
       formatNumber: function (value) {
@@ -65,21 +65,61 @@ sap.ui.define(
         }
       },
 
+
       formatIconBool: function (param) {
-        if (param === "X") {
-          return "accept";
-        } else {
-          return "decline";
+        switch (param) {
+          case "X":
+            return "accept";
+
+            break;
+          case "A":
+            return "sys-cancel";
+
+            break;
+
+          default:
+            return "border";
+            break;
         }
       },
 
-      formatStateBool: function (param) {
-        if (param === "X") {
-          return "Success";
-        } else {
-          
-          return "Error";
+      formatText: function (param) {
+        switch (param) {
+          case "X":
+            return this._i18n().getText("btnprocesado");
+
+            break;
+          case "A":
+            return  this._i18n().getText("btnanulado");
+
+            break;
+
+          default:
+            return "";
+            break;
         }
+      },
+
+
+      formatStateBool: function (param) {
+
+        switch (param) {
+          case "X":
+            return "Success";
+
+            break;
+          case "A":
+            return "Error";
+
+            break;
+
+          default:
+            return "None";
+            break;
+        }
+
+
+        
       },
       // ********************** File Uploader
 

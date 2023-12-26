@@ -63,49 +63,63 @@ sap.ui.define(
           oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
             pattern: "dd/mm/yyyy",
           });
-
-        if (oRazonsocial.getTokens().length !== 0) {
-          var orFilterL = [];
-          for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
-            orFilterL.push(
-              new sap.ui.model.Filter(
-                "RazonSocial",
-                sap.ui.model.FilterOperator.Contains,
-                oRazonsocial.getTokens()[l].getKey()
-              )
-            );
+          if (oRazonsocial.getTokens().length !== 0) {
+            for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
+              oFilter.push(
+                new sap.ui.model.Filter(
+                  "RazonSocial",
+                  sap.ui.model.FilterOperator.EQ,
+                  oRazonsocial.getTokens()[l].getKey()
+                )
+              );
+            }
+          } else {
+            if (oRazonsocial.getValue()) {
+              oFilter.push(
+                new sap.ui.model.Filter(
+                  "RazonSocial",
+                  sap.ui.model.FilterOperator.Contains,
+                  oRazonsocial.getValue()
+                )
+              );
+            }
           }
-          oFilter.push(new sap.ui.model.Filter(orFilterL, true));
-        }
-
-        if (oCuit.getTokens().length !== 0) {
-          var orFilterL = [];
-          for (var l = 0; l < oCuit.getTokens().length; l++) {
-            orFilterL.push(
-              new sap.ui.model.Filter(
-                "Cuit",
-                sap.ui.model.FilterOperator.EQ,
-                oCuit.getTokens()[l].getKey()
-              )
-            );
+  
+          if (oCuit.getTokens().length !== 0) {
+            for (var l = 0; l < oCuit.getTokens().length; l++) {
+              oFilter.push(
+                new sap.ui.model.Filter(
+                  "Cuit",
+                  sap.ui.model.FilterOperator.EQ,
+                  oCuit.getTokens()[l].getKey()
+                )
+              );
+            }
+          } else {
+            if (oCuit.getValue()) {
+              oFilter.push(
+                new sap.ui.model.Filter(
+                  "Cuit",
+                  sap.ui.model.FilterOperator.Contains,
+                  oCuit.getValue()
+                )
+              );
+            }
           }
-          oFilter.push(new sap.ui.model.Filter(orFilterL, true));
-        }
 
         if (oRangoFecha.getValue().length !== 0) {
-
-          var oFInicio = oRangoFecha.getDateValue();
-          var oFFin = oRangoFecha.getSecondDateValue();
-
-          // var oFInicio = oDateFormat.format(oRangoFecha.getFrom());
-          // var oFFin = oDateFormat.format(oRangoFecha.getTo());
+          // var oFInicio = oDateFormat.formatoRangoFecha.getDateValue());
+          // var oFFin = oDateFormat.format(oRangoFecha.getSecondDateValue());
 
           oFilter.push(
-            new Filter("Fecha", sap.ui.model.FilterOperator.BT, oFInicio, oFFin)
+            new sap.ui.model.Filter(
+              "Fecha",
+              sap.ui.model.FilterOperator.BT,
+              oRangoFecha.getDateValue(),
+              oRangoFecha.getSecondDateValue()
+            )
           );
-
-
-          }
+        }
 
         if (oProcesado) {
           if (oProcesado === "X") {

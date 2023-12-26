@@ -113,28 +113,27 @@
                     <ObjectNumber number="{Total}" unit="{Moneda}" />
                     <ObjectNumber number="{Total}" unit="{Moneda}" />
 
-                    <ObjectStatus icon="sap-icon://{
+                    <ObjectStatus text="{path: 'Procesado',
+                    formatter: '.formatText'}" icon="sap-icon://{
                             path: 'Procesado',
                             formatter: '.formatIconBool'
                         }" state="{
                             path: 'Procesado',
                             formatter: '.formatStateBool'
-                        }" inverted="true" title="{FechaProcesado}" />
+                        }" inverted="true" title="{FechaProcesado}" visible="{= ${Procesado} !== '' }" />
 
-                    <ObjectStatus icon="sap-icon://{
-                        path: 'Procesado',
-                        formatter: '.formatIconBool'
-                    }" state="{
+                    <ObjectStatus text="{path: 'Procesado',
+                    formatter: '.formatText'}" state="{
                         path: 'Procesado',
                         formatter: '.formatStateBool'
-                    }" inverted="true" />
+                    }" inverted="true" visible="{= ${Procesado} !== '' }" />
 
                     <Text text="{path : 'FechaProcesado' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
                     <HBox >
 
                         <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />
                         <Button icon="sap-icon://edit" enabled="false" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
-                        <Button icon="sap-icon://attachment" enabled="{= ${Procesado} !== 'X' }" id="idAttachmentsButton" press="onCallFileDialogRECIB"  class="sapUiTinyMarginBegin"/>
+                        <Button icon="sap-icon://attachment" enabled="{= ${Procesado} !== 'X' }" id="idAttachmentsButton" press="onCallFileDialogRECIB" class="sapUiTinyMarginBegin"/>
                     </HBox>
 
                 </cells>
