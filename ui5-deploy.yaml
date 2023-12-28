@@ -20,6 +20,6 @@ builder:
           name: ZDEMOCOBRANZA
           description: App Demo Cobranza
           package: ZFIORI
-          transport: MXDK900097
+          transport: MXDK900861
         exclude:
           - /test/

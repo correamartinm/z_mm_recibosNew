@@ -36,7 +36,7 @@
                 <fb:control>
                     <ComboBox id="idProcesadoFilter"  width="60px" >
                         <core:Item key="X" text="SI" />
-                        <core:Item key="null" text="NO" />
+                        <core:Item key="N" text="NO" />
                         <core:Item key="A" text="ANULADO" />
                     </ComboBox>
                     

@@ -51,12 +51,13 @@ sap.ui.define(
       // ********************************************
 
       _onClearTable: function (oTable, column) {
-        let oItems = oTable.getSelectedItems();
+        let oItems = oTable.getItems();
 
         if (oItems.length > 0) {
           for (var index = 0; index < oItems.length; index++) {
             oItems[index].getCells()[column].setEnabled(false);
             oItems[index].getCells()[column].setValue();
+            oItems[index].setSelected() === false;
           }
         }
 
@@ -67,9 +68,15 @@ sap.ui.define(
         let oMockModel = this.getView().getModel("mockdata");
         oMockModel.setProperty("/Paso01Cliente", {});
         oMockModel.setProperty("/Paso2Data", []);
-        oMockModel.setProperty("/Paso3Data", []);
         oMockModel.setProperty("/Paso02Seleccionados", []);
+        oMockModel.setProperty("/Paso02ImportePagos", "");
+        oMockModel.setProperty("/Paso02CantidadPagos", "");
+
+        oMockModel.setProperty("/Paso3Data", []);
         oMockModel.setProperty("/Paso03Comprobantes", []);
+        oMockModel.setProperty("/Paso03ImporteComprobantes", "");
+        oMockModel.setProperty("/Paso03CantidadComprobantes", "");
+
         oMockModel.setProperty("/Descuentos", []);
         oMockModel.setProperty("/Detalle", []);
         oMockModel.setProperty("/ActiveStep", "1");
@@ -83,8 +90,7 @@ sap.ui.define(
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
 
-        this._onClearTable(this.getView().byId("idPagoCtaTable"), 5);
-        this._onClearTable(this.getView().byId("idComprobanteTable"), 6);
+  
       },
 
       // ************ Control de los Pasos **********
@@ -1480,6 +1486,8 @@ sap.ui.define(
       },
 
       onAnularButtonPress: function () {
+        this._onClearTable(this.getView().byId("idPagoCtaTable"), 5);
+        this._onClearTable(this.getView().byId("idComprobanteTable"), 6);
         this.onNavBack();
       },
 
@@ -1529,6 +1537,8 @@ sap.ui.define(
         this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
           if (rta === "OK") this.discardProgress();
           oMockModel.setProperty("/NoComprobantes", false);
+          this._onClearTable(this.getView().byId("idPagoCtaTable"), 5);
+          this._onClearTable(this.getView().byId("idComprobanteTable"), 6);
           this.getOwnerComponent().getTargets().display("TargetMainView");
         });
       },
@@ -1565,6 +1575,8 @@ sap.ui.define(
             if (rta === "OK") this.discardProgress();
             oMockModel.setProperty("/NoComprobantes", false);
             this.discardProgress();
+            this._onClearTable(this.getView().byId("idPagoCtaTable"), 5);
+            this._onClearTable(this.getView().byId("idComprobanteTable"), 6);
 
             this.getOwnerComponent().getTargets().display("TargetMainView");
             oModel.refresh();
