@@ -36,6 +36,21 @@ sap.ui.define(
         oTarget.attachDisplay(this._onObjectMatched, this);
       },
 
+
+      // ************************* Dialogos ******************************
+
+      onOpenDialogo: function (oEvent) {
+    
+        this.getView().byId("EditaPagosDLG").open();
+
+
+        
+      },
+
+      onCloseEditaPagos: function () {
+        this.getView().byId("EditaPagosDLG").close();
+      },	
+      // ***************************************************************** 
       _onObjectMatched: function () {
         this._onValidateStep();
 

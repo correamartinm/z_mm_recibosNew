@@ -1,10 +1,23 @@
 <mvc:View controllerName="morixe.zfirecibos.controller.NewRecibo"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns:core="sap.ui.core"
-    xmlns:f="sap.f"
     xmlns="sap.m">
     <Page >
         <content>
+
+            <Dialog id="EditaPagosDLG" contentHeight="18%" contentWidth="6%" horizontalScrolling="true" title="{i18n>ajuscta}" type="Standard" verticalScrolling="true">
+                <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.EditaDetalle" type="XML"/>
+    
+                <beginButton>
+                    <Button text="{i18n>cancelar}" type="Default" iconFirst="true" width="auto" iconDensityAware="false" press="onCloseEditaPagos" class="sapUiTinyMarginEnd"/>
+                </beginButton>
+                <endButton>
+                    <Button text="{i18n>guardar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onActualizaPagos" />
+    
+                </endButton>
+            </Dialog>
+
+
             <NavContainer id="wizardNavContainer">
                 <pages>
                     <Page id="idRecibosPage" title="{i18n>lblnuevorecibo}" showNavButton="false" navButtonPress="onNavBack">
@@ -104,7 +117,7 @@
                     <Page id="idwizardReviewPage" showHeader="false" class="PanelLightCyan">
 
 
-                        <!-- <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Review" type="XML"/> -->
+
                         <List class="sapUiSmallMarginBeginEnd sapUiSmallMarginTopBottom" id="idResumenSetList" width="95%" items="{
                                     path: '/ResumenSet',   events: {
                                         dataRequested: '.onResumenData'
@@ -132,9 +145,9 @@
 
                         <OverflowToolbar >
                             <ToolbarSpacer/>
-                            <!-- <Button icon="sap-icon://nav-back" text="{i18n>btnvolver}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/> -->
-                                <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/>
-                                <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress"  tooltip="{mockdata>/SALDO}" enabled="{= ${mockdata>/SALDO} === '0.00' }"/>
+                            <Button icon="sap-icon://edit" text="{i18n>lblmedios}" type="Reject" press="onOpenDialogo" class="sapUiTinyMarginEnd" enabled="{= ${mockdata>/SALDO} !== '0.00' }"/>
+                            <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/>
+                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" tooltip="{mockdata>/SALDO}" enabled="{= ${mockdata>/SALDO} === '0.00' }"/>
                             <ToolbarSpacer/>
                         </OverflowToolbar>
 

@@ -134,6 +134,7 @@ sap.ui.define(
             Recibo: ""
           },
           Resumen: [],
+          EditaMP: false,
           ActiveRecibo: "",
           SUBTOTAL: "",
           RESTANTE: "",

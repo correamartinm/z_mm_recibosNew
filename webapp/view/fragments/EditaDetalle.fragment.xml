@@ -4,7 +4,7 @@
 
  
 
-    <Table items="{path : 'mockdata>/Detalle' ,sorter: [ { path: 'START', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
+    <Table items="{path : '/PagosSet' }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/EditaMP} === false }">
         <headerToolbar>
             <OverflowToolbar>
                 <ToolbarSpacer/>
@@ -39,60 +39,60 @@
                 <cells>
 
 
-                    <Text text=" {mockdata>Tipo} {mockdata>TipoDesc}"/>
+                    <Text text=" {TipoComprobante}"/>
                     <HBox >
-                        <Text text="{mockdata>NroCbte}" wrapping="false"/>
-                        <Text text="{path : 'mockdata>FechaEmi' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
-                        <Text text="{mockdata>NroCheque
-                            }"/>
+                        <Text text="{Numero}" wrapping="false"/>
+                        <Text text="{path : 'FechaEmision', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
+                        <Text text="{NroCheque}"/>
                     </HBox>
-                   
-                    <ObjectNumber number="{mockdata>Importe}" unit=""/>
+                    <Text text="{Importe}"/>
+
                     <HBox>
-                        <Button icon="sap-icon://delete" press="onButtonDeletePagoPressMsg" class="sapUiTinyMarginEnd"/>
+                        <Button icon="sap-icon://edit" press="onShowEditMP" class="sapUiTinyMarginEnd"/>
                         <!-- <Button icon="sap-icon://attachment" press="onButtonAtachPress" /> -->
                     </HBox>
+
 
                 </cells>
             </ColumnListItem>
         </items>
     </Table>
 
-    <VBox visible="{layout>/detalleadd}">
+    <VBox visible="{layout>/EditaMP}">
         <HBox justifyContent="End"  visible="{= ${mockdata>/Paso03ImporteComprobantes} > 0}">
             <!-- <Button icon="sap-icon://message-information" text="{i18n>msginfotitle}" press="onShowInfoMsg" class="sapUiTinyMarginEnd"/> -->
            
         </HBox>
-        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
+        <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/EditaMP}">
             <form:content>
-                <Label text="{i18n>lblmedios}" required="true" labelFor="idRSInput"/>
-                <Select id="idselectMP" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/MpKey}" >
+                <Label text="{i18n>lblmedios}" required="true" />
+                <Select id="idselectMPED" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/MpKey}" >
                     <core:Item key="{Codigo}" text="{Descripcion}" />
                 </Select>
 
-                <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobantePagoInput" visible="{mockdata>/ActiveMP/DetCbte}"/>
-                <Input id="idDetComprobante" type="Number" visible="{mockdata>/ActiveMP/DetCbte}"  value="{mockdata>/ActiveDetalle/NroCte}"/>
+                <Label text="{i18n>lblnumcomprobante}" required="true"  visible="{mockdata>/ActiveMP/DetCbte}"/>
+                <Input id="idDetComprobanteED" type="Number" visible="{mockdata>/ActiveMP/DetCbte}"  value="{mockdata>/ActiveDetalle/NroCte}"/>
 
-                <Label text="{i18n>lblimpor}" required="true" labelFor="idImportePagoInput"/>
-                <Input id="idImportePagoInput" type="Number" value="{mockdata>/ActiveDetalle/Importe}"/>
-                <Label text="{i18n>lblfechaemision}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecEmis}"/>
-                <DatePicker id="idDetFechaEmision" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecEmis}"  dateValue="{mockdata>/ActiveDetalle/FecEmis}"/>
+                <Label text="{i18n>lblimpor}" required="true" />
+                <Input id="idImportePagoInputED" type="Number" value="{mockdata>/ActiveDetalle/Importe}"/>
+                <Label text="{i18n>lblfechaemision}" required="true" visible="{mockdata>/ActiveMP/FecEmis}"/>
+                <DatePicker id="idDetFechaEmisionED" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecEmis}"  dateValue="{mockdata>/ActiveDetalle/FecEmis}"/>
 
-                <Label text="{i18n>lblfechadeposito}" required="true" labelFor="idFechaDatePickerFDeposito" visible="{mockdata>/ActiveMP/FecVto}" />
-                <DatePicker id="idDetFecDeposito" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
+                <Label text="{i18n>lblfechadeposito}" required="true"  visible="{mockdata>/ActiveMP/FecVto}" />
+                <DatePicker id="idDetFecDepositoED" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
 
 
-                <Label text="{i18n>lblncheque}" required="true" labelFor="idCodigoClienteInput" visible="{mockdata>/ActiveMP/NroCheq}"/>
-                <Input id="idDetNroCheque" visible="{mockdata>/ActiveMP/NroCheq}" value="{mockdata>/ActiveDetalle/NroCheq}"/>
+                <Label text="{i18n>lblncheque}" required="true"  visible="{mockdata>/ActiveMP/NroCheq}"/>
+                <Input id="idDetNroChequeED" visible="{mockdata>/ActiveMP/NroCheq}" value="{mockdata>/ActiveDetalle/NroCheq}"/>
 
-                <Label text="{i18n>lblbcodestino}" required="{mockdata>/ActiveMP/BcoDesReq}" labelFor="idDomicilioInput" visible="{mockdata>/ActiveMP/BcoDes}"/>
-                <Input id="idDetBcoDestino" visible="{mockdata>/ActiveMP/BcoDes}" value="{mockdata>/ActiveDetalle/BcoDes}"/>
+                <Label text="{i18n>lblbcodestino}" required="{mockdata>/ActiveMP/BcoDesReq}"  visible="{mockdata>/ActiveMP/BcoDes}"/>
+                <Input id="idDetBcoDestinoED" visible="{mockdata>/ActiveMP/BcoDes}" value="{mockdata>/ActiveDetalle/BcoDes}"/>
 
-                <Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
-                <Input id="idDetBcoEmisor" visible="{mockdata>/ActiveMP/BcoEmi}"  value="{mockdata>/ActiveDetalle/BcoEmi}"/>
+                <Label text="{i18n>lblbcoemisor}" required="true"  visible="{mockdata>/ActiveMP/BcoEmi}"/>
+                <Input id="idDetBcoEmisorED" visible="{mockdata>/ActiveMP/BcoEmi}"  value="{mockdata>/ActiveDetalle/BcoEmi}"/>
 
-                <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
-                <DatePicker id="idDetFecVto" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecVto}"/>
+                <Label text="{i18n>lblvencimientocheque}" required="true"  visible="{mockdata>/ActiveMP/FecVto}"/>
+                <DatePicker id="idDetFecVtoED" displayFormat="dd/mm/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FecVto}"/>
 
 
 

@@ -19,18 +19,16 @@
 		</f:header>
 		<f:content>
 
+
 			<Panel height="80%">
 				<content>
 
 
-					<VBox visible="{layout>/EdicionRecibo}">
+				
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
-					</VBox>
+				
 
-					<VBox visible="{= ${layout>/EdicionRecibo} === false }">
-						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.EditaDetalle" type="XML"/>
-					</VBox>
-
+				
 
 				</content>
 			</Panel>
