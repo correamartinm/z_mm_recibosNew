@@ -363,9 +363,8 @@ sap.ui.define(
         oAttachmentUpl.setBusy(false);
       },
       onDownload: function (oEvent) {
-        let 
-        oMockModel = this.getOwnerComponent().getModel("mockdata"),
-        File = oMockModel.getProperty("/FileParameters"),
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          File = oMockModel.getProperty("/FileParameters"),
           oAttachmentUpl = sap.ui.core.Fragment.byId(
             "UploadFile",
             "attachmentUpl"
@@ -390,7 +389,7 @@ sap.ui.define(
         );
 
         if (oAttachmentUpl === undefined) {
-           return;
+          return;
         }
 
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
@@ -496,8 +495,7 @@ sap.ui.define(
         for (var index = 0; index < oItems.length; index++) {
           if (Tipo === "ACTA" || Tipo === "APLIC") {
             oItems[index].Tipo = Tipo;
-          } else {
-            // oItems[index].NroLinea = index;
+          } else {           
             oItems[index].TipoLinea = Tipo;
             oItems[index].Cliente = DataCte.Cliente;
           }

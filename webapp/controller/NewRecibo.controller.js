@@ -807,6 +807,19 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {};
 
+
+          var oAttachmentUpl = sap.ui.core.Fragment.byId(
+            "UploadFile",
+            "attachmentUpl"
+          );
+  
+          if (oAttachmentUpl === undefined) {
+            MessageToast.show("Adjunte un fichero y vuelva a intentar")
+            return;
+          }
+
+
+
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
           return;

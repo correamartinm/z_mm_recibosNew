@@ -83,19 +83,17 @@
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 
-            <!-- <unified:FileUploader id="idRetencionesFileUploader" change="onAttachmentChange" name="FURetencion" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/> -->
+
             <Button icon="sap-icon://attachment" id="idAdjuntarComprobanteRetencionButton" text="{i18n>btnadjunto}" press="onCallFileDialogRETE" />
 
         </form:content>
     </form:SimpleForm>
 
-    <!-- <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" visible="{= ${layout>/retencionesadd} === false }">
-        <Button enabled="{= ${mockdata>/Paso05ImporteRetenciones} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonRETSavePress" />
-    </HBox> -->
+
 
 
     <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" visible="{layout>/retencionesadd}">
-        <!-- <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" class="sapUiTinyMarginEnd" /> -->
+
         <Button enabled="{mockdata>/AddButtonActive}" text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="cancelarRetencion" class="sapUiTinyMarginEnd"/>
         <Button visible="{= ${mockdata>/Paso05PathUpdate} !== '' }" text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://refresh" press="guardarRetencion" />
         <Button visible="{= ${mockdata>/Paso05PathUpdate} === '' }" enabled="{mockdata>/AddButtonActive}" text="{i18n>btnagregar}" type="Emphasized" icon="sap-icon://add" press="guardarRetencion" />
