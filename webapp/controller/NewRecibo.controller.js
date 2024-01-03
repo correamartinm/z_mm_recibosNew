@@ -785,15 +785,6 @@ sap.ui.define(
         oMockModel.setProperty("/ActiveRetencion", Object);
         oLayModel.setProperty("/retencionesadd", oValue);
 
-        // if (oValue === true) {
-        //   this._wizard.invalidateStep(
-        //     this.getView().byId("idRetencionesWizardStep")
-        //   );
-        // } else {
-        //   this._wizard.validateStep(
-        //     this.getView().byId("idRetencionesWizardStep")
-        //   );
-        // }
       },
 
       guardarRetencion: function () {
