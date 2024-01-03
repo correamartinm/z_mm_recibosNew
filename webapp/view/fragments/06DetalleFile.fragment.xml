@@ -11,15 +11,12 @@
                 <Label text="{i18n>btnadjuntocheque}" required="true" labelFor="idChequeFileUploader" visible="{mockdata>/ActiveMP/NroCheq}"/>
                 <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDetalleFileUploader" visible="{= ${mockdata>/ActiveMP/NroCheq} === false &amp;&amp; ${mockdata>/ActiveMP/key} !== '1' }"/>
 
-                <!-- <unified:FileUploader visible="{= ${mockdata>/ActiveMP/key} !== '1' }" id="idChequeFileUploader" change="onAttachmentChange" name="FUCheque" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet" uploadComplete="onUploadComplete" useMultipart="false" sendXHR="true" buttonText="{i18n>btttnselect}" style="Emphasized"/> -->
-                <!-- <unified:FileUploader visible="{mockdata>/ActiveMP/Adjunto}" id="idDetalleFileUploader" buttonText="{i18n>btttnselect}" style="Emphasized" icon="sap-icon://inspection" uploadOnChange="true" maximumFileSize="10" uploadComplete="_onFileUploaderUploadComplete" change="_onFileUploaderChange" typeMissmatch="_onFileUploaderTypeMissmatch" fileSizeExceed="_onFileUploaderFileSizeExceed"/> -->
-
             </form:content>
         </form:SimpleForm>
 
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{= ${device>/system/desktop} === false }">
             <form:content>
-                <!-- <Button text="{i18n>btnadjuntofoooto}" icon="sap-icon://add-photo" class="sapUiTinyMarginEnd" press="capturePic" /> -->
+          
 
             </form:content>
         </form:SimpleForm>

@@ -48,7 +48,7 @@
 
                     <HBox>
                         <Button icon="sap-icon://delete" press="onButtonDeletePagoPressMsg" class="sapUiTinyMarginEnd"/>
-                        <!-- <Button icon="sap-icon://attachment" press="onButtonAtachPress" /> -->
+                        <!-- <Button icon="sap-icon://edit"  press="onButtonEditMPPress"  /> -->
                     </HBox>
 
                 </cells>

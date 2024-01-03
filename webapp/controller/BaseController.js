@@ -389,6 +389,10 @@ sap.ui.define(
           "attachmentUpl"
         );
 
+        if (oAttachmentUpl === undefined) {
+           return;
+        }
+
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oSlug,
           paso1 = oMockModel.getProperty("/FileParameters");

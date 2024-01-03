@@ -36,21 +36,24 @@ sap.ui.define(
         oTarget.attachDisplay(this._onObjectMatched, this);
       },
 
-
       // ************************* Dialogos ******************************
 
       onOpenDialogo: function (oEvent) {
-    
-        this.getView().byId("EditaPagosDLG").open();
-
-
-        
+        this._onEditMode();
+        this._oNavContainer.to(this.byId("idRecibosPage"));
       },
 
-      onCloseEditaPagos: function () {
-        this.getView().byId("EditaPagosDLG").close();
-      },	
-      // ***************************************************************** 
+      _onEditMode: function () {
+        let oLayoutModel = this.getView().getModel("layout"),
+          oEntidad = "/EdicionRecibo",
+          oValue = oLayoutModel.getProperty(oEntidad);
+        oValue = !oValue;
+
+        oLayoutModel.setProperty(oEntidad, oValue);
+      },
+
+
+      // *****************************************************************
       _onObjectMatched: function () {
         this._onValidateStep();
 
@@ -104,8 +107,6 @@ sap.ui.define(
         oMockModel.setProperty("/Paso04PathUpdate", "");
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
-
-  
       },
 
       // ************ Control de los Pasos **********
@@ -446,7 +447,6 @@ sap.ui.define(
 
       onWizardStepPagosComplete: function () {},
 
-
       onSearchFieldSearchComprobante: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
           oValue = oEvent.getSource().getValue(),
@@ -488,9 +488,7 @@ sap.ui.define(
               if (parseFloat(vObject.Saldo) > 0) {
                 oItems[index].getCells()[6].setValue(vObject.Saldo);
               } else {
-                oItems[index]
-                  .getCells()[6]
-                  .setValue(parseFloat(vObject.Saldo));
+                oItems[index].getCells()[6].setValue(parseFloat(vObject.Saldo));
               }
             }
 
@@ -633,7 +631,6 @@ sap.ui.define(
         } else {
           oFecha.setValueState(ValueState.None);
         }
-
 
         let oValue = false,
           oImportesSuma = 0,
@@ -804,7 +801,7 @@ sap.ui.define(
           oTipo = this.getView().byId("idTipoRetencionInput"),
           oFecha = this.getView().byId("idFechaDatePickerFRetencion"),
           oImporte = this.getView().byId("idImporteRetencionInput"),
-          oNCertificado = this.getView().byId("idCertificadoRetencionInput"),          
+          oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
           oImportesSuma = 0,
           oldData = [],
           DataFinal = [],
@@ -830,8 +827,6 @@ sap.ui.define(
         } else {
           oFecha.setValueState(ValueState.None);
         }
-
-
 
         Update = oModel.getProperty("/Paso05PathUpdate");
 
@@ -975,21 +970,6 @@ sap.ui.define(
       // Medios de Pago ----------------------------
       // ********************************************
 
-      onWizardStepDetalleActivate: function () {
-        // let oModel = this.getView().getModel("mockdata"),
-        //   oData = this._onGetDataModel("mockdata", "/Paso01Cliente");
-        // console.log(oData);
-        // let Step = this.byId("idClienteWizardStep");
-        // if (oData.Anticipo === true) {
-        //   this._wizard.invalidateStep(
-        //     this.getView().byId("idDetalleWizardStep")
-        //   );
-        // } else {
-        //   this._wizard.invalidateStep(
-        //     this.getView().byId("idDetalleWizardStep")
-        //   );
-        // }
-      },
 
       onInputTipoPagoChange: function (oEvent) {
         let vObject,
@@ -1024,26 +1004,10 @@ sap.ui.define(
 
       onshowDetalleAdd: function (oValue) {
         this._onUpdateValues();
-        let oModel = this.getView().getModel("layout"),
-          oDescuento = "/detalleadd",
-          data = [];
-        this._onUpdateModel(oModel, oDescuento, oValue);
 
-       
-
-        let EditRecibo = oModel.getProperty("/EdicionRecibo");
-
-        // if (EditRecibo === true) {
-        //   if (oValue === true) {
-        //     this._wizard.invalidateStep(
-        //       this.getView().byId("idDetalleWizardStep")
-        //     );
-        //   } else {
-        //     this._wizard.validateStep(
-        //       this.getView().byId("idDetalleWizardStep")
-        //     );
-        //   }
-        // }
+        let oLayModel = this.getView().getModel("layout"),
+          EditRecibo = oLayModel.getProperty("/EdicionRecibo");
+        oLayModel.setProperty("/detalleadd", oValue);
       },
 
       onGuardarButtonDetallePress: function () {
@@ -1063,7 +1027,6 @@ sap.ui.define(
           oDatos = {},
           oImportePago = this.getView().byId("idImportePagoInput");
 
-
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
         let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
 
@@ -1074,6 +1037,16 @@ sap.ui.define(
           return;
         } else {
           oImportePago.setValueState(ValueState.None);
+        }
+
+        var oAttachmentUpl = sap.ui.core.Fragment.byId(
+          "UploadFile",
+          "attachmentUpl"
+        );
+
+        if (oAttachmentUpl === undefined) {
+          
+          // return;
         }
 
         //***** Segun MP Seleccionado */
@@ -1238,8 +1211,6 @@ sap.ui.define(
             BcoDes: false,
             BcoDesReq: false,
           };
-        let oFile = this.getView().byId("idChequeFileUploader");
-        oFile.setValue();
 
         this._onUpdateModel(oModel, "/ActiveMP", ActiveMP);
         this._onUpdateModel(oLayoutModel, "/MpKey", ActiveMP.key);
@@ -1249,6 +1220,23 @@ sap.ui.define(
         this._onResetDetalleValues();
         let oValue = false;
         this.onshowDetalleAdd(oValue);
+      },
+
+      onButtonEditMPPress: function (oEvent) {
+        let oModel = this.getOwnerComponent().getModel(),
+          oPath = oEvent.getSource().getBindingContext().getPath(),
+          oItem = oEvent.getSource().getBindingContext().getObject();
+
+        let oMockModel = this.getView().getModel("mockdata"),
+          oLayoutModel = this.getView().getModel("layout");
+
+        let MpActive = oMockModel.getProperty("/ActiveDetalle");
+
+        let oLayModel = this.getView().getModel("layout"),
+          EditRecibo = oLayModel.getProperty("/EdicionRecibo");
+        oLayModel.setProperty("/detalleadd", true);
+
+        // this._wizard.invalidateStep(this.getView().byId("idDetalleWizardStep"));
       },
 
       onButtonDeletePagoPressMsg: function (oEvent) {
@@ -1358,6 +1346,15 @@ sap.ui.define(
         this._onShowMsgBoxSucces(sMessage, sMessageTitle).then((rta) => {});
       },
 
+      onWizardStepDetalleComplete: function (params) {
+        this._onUpdateValues();
+
+        this._oNavContainer.to(this.byId("idwizardReviewPage"));
+
+        let oModel = this.getOwnerComponent().getModel();
+        oModel.refresh(true);
+      },
+
       // ********************************************
       // Calculos ----------------------------
       // ********************************************
@@ -1373,10 +1370,10 @@ sap.ui.define(
         // oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
 
         let oSubTotal =
-          (parseFloat(ImportePGOCTA) +
+          parseFloat(ImportePGOCTA) +
           parseFloat(ImporteDTO) +
-          parseFloat(ImporteDET))-
-          parseFloat(ImporteRET) ;
+          parseFloat(ImporteDET) -
+          parseFloat(ImporteRET);
 
         let oSub =
           parseFloat(ImporteCBTES) -
@@ -1481,7 +1478,6 @@ sap.ui.define(
         }
       },
 
-
       // ***********************************************
       // **************** Navegacion *******************
       // ***********************************************
@@ -1489,15 +1485,6 @@ sap.ui.define(
       onWizardComplete: function () {},
       _backToWizardContent: function () {
         this._oNavContainer.backToPage(this._oWizardContentPage.getId());
-      },
-
-      onWizardStepDetalleComplete: function (params) {
-        this._onUpdateValues();
-
-        this._oNavContainer.to(this.byId("idwizardReviewPage"));
-
-        let oModel = this.getOwnerComponent().getModel();
-        oModel.refresh(true);
       },
 
       onAnularButtonPress: function () {
@@ -1602,8 +1589,6 @@ sap.ui.define(
       onAnularButtonPress: function () {
         this.discardProgress();
       },
-
-
     });
   }
 );

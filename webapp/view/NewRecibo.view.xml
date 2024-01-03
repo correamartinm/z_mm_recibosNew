@@ -5,19 +5,6 @@
     <Page >
         <content>
 
-            <Dialog id="EditaPagosDLG" contentHeight="18%" contentWidth="6%" horizontalScrolling="true" title="{i18n>ajuscta}" type="Standard" verticalScrolling="true">
-                <core:Fragment fragmentName="morixe.zfirecibos.view.fragments.EditaDetalle" type="XML"/>
-    
-                <beginButton>
-                    <Button text="{i18n>cancelar}" type="Default" iconFirst="true" width="auto" iconDensityAware="false" press="onCloseEditaPagos" class="sapUiTinyMarginEnd"/>
-                </beginButton>
-                <endButton>
-                    <Button text="{i18n>guardar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onActualizaPagos" />
-    
-                </endButton>
-            </Dialog>
-
-
             <NavContainer id="wizardNavContainer">
                 <pages>
                     <Page id="idRecibosPage" title="{i18n>lblnuevorecibo}" showNavButton="false" navButtonPress="onNavBack">
