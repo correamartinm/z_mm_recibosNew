@@ -172,10 +172,21 @@
                 <Input id="idDetNroCheque" visible="{mockdata>/ActiveMP/NroCheq}" value="{mockdata>/ActiveDetalle/NroCheq}"/>
 
                 <Label text="{i18n>lblbcodestino}" required="{mockdata>/ActiveMP/BcoDesReq}" labelFor="idDomicilioInput" visible="{mockdata>/ActiveMP/BcoDes}"/>
-                <Input id="idDetBcoDestino" visible="{mockdata>/ActiveMP/BcoDes}" value="{mockdata>/ActiveDetalle/BancoDestino}"/>
+
+                <Select id="idDetBcoDestino" items="{/BancoDestSet}" selectedKey="{mockdata>/ActiveMP/BancoDestino}" visible="{mockdata>/ActiveMP/BcoDes}">
+                    <core:Item key="{Codigo}" text="{Descripcion}" />
+                </Select>
+                <!-- <Input id="idDetBcoDestino" visible="{mockdata>/ActiveMP/BcoDes}" value="{mockdata>/ActiveDetalle/BancoDestino}"/> -->
 
                 <Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
-                <Input id="idDetBcoEmisor" visible="{mockdata>/ActiveMP/BcoEmi}" value="{mockdata>/ActiveDetalle/BancoEmisor}"/>
+
+                
+                    <Select id="idDetBcoEmisor" items="{/BancoEmiSet}" selectedKey="{mockdata>/ActiveMP/BancoEmisor}" visible="{mockdata>/ActiveMP/BcoEmi}">
+                        <core:Item key="{Codigo}" text="{Descripcion}" />
+                    </Select>
+                    
+                    
+                <!-- <Input id="idDetBcoEmisor" visible="{mockdata>/ActiveMP/BcoEmi}" value="{mockdata>/ActiveDetalle/BancoEmisor}"/> -->
 
                 <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
                 <DatePicker id="idDetFecVto" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>

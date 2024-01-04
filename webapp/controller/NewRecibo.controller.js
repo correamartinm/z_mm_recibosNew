@@ -22,9 +22,9 @@ sap.ui.define(
     Download,
     MessageToast
   ) {
-    let rtaP2, rtaP3, rtaP4, rtaP5, rtaP6;
-    ("use strict");
-
+    "use strict";
+    let ofiltersCBT = [],
+      ofiltersPCA = [];
     return BaseController.extend("morixe.zfirecibos.controller.NewRecibo", {
       onInit: function () {
         this._wizard = this.byId("idWizard");
@@ -310,13 +310,26 @@ sap.ui.define(
       onSearchFieldSearchPagoCta: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
           oValue = oEvent.getSource().getValue(),
-          oFilters = [];
+          oItems = oTable.getSelectedItems();
+
+        ofiltersPCA = [];
+        for (var index = 0; index < oItems.length; index++) {
+          ofiltersPCA.push(
+            new Filter(
+              "Numero",
+              FilterOperator.EQ,
+              oItems[index].getCells()[1].getText()
+            )
+          );
+        }
 
         if (oValue) {
-          oFilters.push(new Filter("Numero", FilterOperator.Contains, oValue));
-          oTable.getBinding("items").filter([oFilters]);
+          ofiltersPCA.push(
+            new Filter("Numero", FilterOperator.Contains, oValue)
+          );
+          oTable.getBinding("items").filter([ofiltersPCA]);
         } else {
-          oTable.getBinding("items").filter([oFilters]);
+          oTable.getBinding("items").filter([]);
         }
       },
 
@@ -457,13 +470,26 @@ sap.ui.define(
       onSearchFieldSearchComprobante: function (oEvent) {
         let oTable = oEvent.getSource().getParent().getParent(),
           oValue = oEvent.getSource().getValue(),
-          oFilters = [];
+          oItems = oTable.getSelectedItems();
+
+        ofiltersCBT = [];
+        for (var index = 0; index < oItems.length; index++) {
+          ofiltersCBT.push(
+            new Filter(
+              "Numero",
+              FilterOperator.EQ,
+              oItems[index].getCells()[1].getText()
+            )
+          );
+        }
 
         if (oValue) {
-          oFilters.push(new Filter("Numero", FilterOperator.Contains, oValue));
-          oTable.getBinding("items").filter([oFilters]);
+          ofiltersCBT.push(
+            new Filter("Numero", FilterOperator.Contains, oValue)
+          );
+          oTable.getBinding("items").filter([ofiltersCBT]);
         } else {
-          oTable.getBinding("items").filter([oFilters]);
+          oTable.getBinding("items").filter([]);
         }
       },
 
@@ -645,6 +671,11 @@ sap.ui.define(
           oFecha.setValueState(ValueState.None);
         }
 
+        if (ofile === false) {
+          MessageToast.show("Adjunte un fichero y vuelva a intentar");
+          return;
+        }
+
         let oValue = false,
           oImportesSuma = 0,
           oDecuentos = "/Descuentos";
@@ -811,11 +842,6 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {};
 
-        if (ofile === false) {
-          MessageToast.show("Adjunte un fichero y vuelva a intentar");
-          return;
-        }
-
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
           return;
@@ -835,6 +861,11 @@ sap.ui.define(
           return;
         } else {
           oFecha.setValueState(ValueState.None);
+        }
+
+        if (ofile === false) {
+          MessageToast.show("Adjunte un fichero y vuelva a intentar");
+          return;
         }
 
         Update = oModel.getProperty("/Paso05PathUpdate");
@@ -1044,11 +1075,6 @@ sap.ui.define(
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
         let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
 
-        if (ofile === false) {
-          MessageToast.show("Adjunte un fichero y vuelva a intentar");
-          return;
-        }
-
         // ********* Fijos
 
         if (!oImportePago.getValue()) {
@@ -1115,7 +1141,7 @@ sap.ui.define(
         }
 
         if (MpKValidate.BcoEmi === true) {
-          if (!oBcoEmisor.getValue()) {
+          if (!oBcoEmisor.getSelectedKey()) {
             oBcoEmisor.setValueState(ValueState.Error);
             return;
           } else {
@@ -1124,12 +1150,17 @@ sap.ui.define(
         }
 
         if (MpKValidate.BcoDes === true && MpKValidate.BcoDesReq === true) {
-          if (!oBcoDestino.getValue()) {
+          if (!oBcoDestino.getSelectedKey()) {
             oBcoDestino.setValueState(ValueState.Error);
             return;
           } else {
             oBcoDestino.setValueState(ValueState.None);
           }
+        }
+
+        if (ofile === false) {
+          MessageToast.show("Adjunte un fichero y vuelva a intentar");
+          return;
         }
 
         let Update = oModel.getProperty("/Paso06PathUpdate"),
@@ -1162,8 +1193,8 @@ sap.ui.define(
             Fecha: oFechaDeposito.getDateValue(),
             Detalle: oMP.getSelectedItem().getText(),
             FechaVencimiento: oFechaVencimiento.getDateValue(),
-            BancoEmisor: oBcoEmisor.getValue(),
-            BancoDestino: oBcoDestino.getValue(),
+            BancoEmisor: oBcoEmisor.getSelectedKey(),
+            BancoDestino: oBcoDestino.getSelectedKey(),
           };
         } else {
           oDatos = {
@@ -1175,8 +1206,8 @@ sap.ui.define(
             Fecha: oFechaDeposito.getDateValue(),
             Detalle: oMP.getSelectedItem().getText(),
             FechaVencimiento: oFechaVencimiento.getDateValue(),
-            BancoEmisor: oBcoEmisor.getValue(),
-            BancoDestino: oBcoDestino.getValue(),
+            BancoEmisor: oBcoEmisor.getSelectedKey(),
+            BancoDestino: oBcoDestino.getSelectedKey(),
           };
         }
 
@@ -1231,8 +1262,8 @@ sap.ui.define(
       onGuardarButtonDETSavePress: function () {
         let oEntidad = "/Detalle",
           Tipo = "DETA",
-          oEntidadPost = "/PagosSet";
-        Step = "idDetalleWizardStep";
+          oEntidadPost = "/PagosSet",
+          Step = "idDetalleWizardStep";
 
         this._onGuardar(oEntidad, Tipo, Step, oEntidadPost);
       },
