@@ -440,7 +440,8 @@ sap.ui.define(
           }
         }
       },
-      onUploadCompleted: function () {
+      onUploadCompleted: function (oEvent) {
+        let oMockModel = this.getOwnerComponent().getModel("mockdata");
         this.i += 1;
         if (this.i === this.iIncompleteItems) {
           //turn off busy indicator when all attachments have completed uploading
@@ -448,6 +449,27 @@ sap.ui.define(
             false
           );
         }
+
+        let Data = oEvent.oSource.getHeaderFields()[1].getText();
+        var Cadena = Data.split(",", 2);
+
+        switch (Cadena[1]) {
+          case "Tipo=DESC":
+          _onGuardar
+            oMockModel.setProperty("/filedescuento", true );
+            break;
+
+          case "Tipo=RETE":
+            oMockModel.setProperty("/fileretencion", true );
+            break;
+          case "Tipo=DETA":
+            oMockModel.setProperty("/filempago", true );
+            break;
+
+          default:
+            break;
+        }
+        //
         console.log("Fichero Cargado");
       },
       parseErrorMsg: function (oError) {
@@ -495,7 +517,7 @@ sap.ui.define(
         for (var index = 0; index < oItems.length; index++) {
           if (Tipo === "ACTA" || Tipo === "APLIC") {
             oItems[index].Tipo = Tipo;
-          } else {           
+          } else {
             oItems[index].TipoLinea = Tipo;
             oItems[index].Cliente = DataCte.Cliente;
           }

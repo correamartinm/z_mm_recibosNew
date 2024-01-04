@@ -4,9 +4,6 @@
 	<Dialog id="iduploader" title="Carga de Ficheros" class="sapUiSizeCompact">
 		<Panel width="auto" >
 			<content>
-
-
-
 				<upload:UploadSet items="{path: '/AttachDocSet'}" id="attachmentUpl" instantUpload="true" maxFileSize="2" beforeUploadStarts="onStartUpload" selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
 					<upload:toolbar>
 						<OverflowToolbar>
@@ -16,7 +13,7 @@
 							<Button id="download" enabled="false" icon="sap-icon://download" press="onDownload" type="Transparent" />
 						</OverflowToolbar>
 					</upload:toolbar>
-					<!-- url="{parts:['Recibo', 'Filename'], formatter:'.formatUrl' }" -->
+				
 					<upload:items>
 						<upload:UploadSetItem fileName="{Filename}" mediaType="{MimeType}" visibleEdit="false" visibleRemove="false" selected="true" >
 

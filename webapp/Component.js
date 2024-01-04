@@ -113,6 +113,10 @@ sap.ui.define(
           },
           Retenciones: [],
           Detalle: [],
+          MpUpdate: {
+            ruta : "",
+            datos : {}
+          },
           ActiveDetalle: {
             MPkey: 0,
             MPDesc:"",
@@ -141,7 +145,10 @@ sap.ui.define(
           TOTAL:"",
           ANTICIPO:"",
           SALDO:"",
-          ActiveStep:"1"
+          ActiveStep:"1",
+          filedescuento: false,
+          fileretencion: false,
+          filempago: false
 
   
         });
@@ -153,6 +160,7 @@ sap.ui.define(
           retencionesadd: false,
           detalleadd: false,
           controlrecibo: false,
+          
           MpKey: 1,
           RsKey: 0,
         });

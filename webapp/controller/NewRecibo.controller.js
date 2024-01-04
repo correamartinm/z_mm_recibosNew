@@ -52,7 +52,6 @@ sap.ui.define(
         oLayoutModel.setProperty(oEntidad, oValue);
       },
 
-
       // *****************************************************************
       _onObjectMatched: function () {
         this._onValidateStep();
@@ -107,6 +106,10 @@ sap.ui.define(
         oMockModel.setProperty("/Paso04PathUpdate", "");
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
+
+        oMockModel.setProperty("/filedescuento", false);
+        oMockModel.setProperty("/fileretencion", false);
+        oMockModel.setProperty("/filempago", false);
       },
 
       // ************ Control de los Pasos **********
@@ -218,6 +221,10 @@ sap.ui.define(
           };
 
           oMockModel.setProperty("/Paso01Cliente", oPayload);
+
+          if (anticipo === true) {
+            this.onGuardarButtonClientePress();
+          }
         }
         // ******** Hay documentos para el Cliente ???
       },
@@ -607,9 +614,15 @@ sap.ui.define(
           oFecha = this.getView().byId("idFechaDatePickerFDescuento"),
           oImporte = this.getView().byId("idImporteInput"),
           oMotivo = this.getView().byId("idMotivoInput"),
+          ofile = oModel.getProperty("/filedescuento"),
           oldData = [],
           DataFinal = [],
           oDatos = {};
+
+        if (ofile === false) {
+          MessageToast.show("Adjunte un fichero y vuelva a intentar");
+          return;
+        }
 
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
@@ -784,7 +797,6 @@ sap.ui.define(
 
         oMockModel.setProperty("/ActiveRetencion", Object);
         oLayModel.setProperty("/retencionesadd", oValue);
-
       },
 
       guardarRetencion: function () {
@@ -793,23 +805,16 @@ sap.ui.define(
           oFecha = this.getView().byId("idFechaDatePickerFRetencion"),
           oImporte = this.getView().byId("idImporteRetencionInput"),
           oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
+          ofile = oModel.getProperty("/fileretencion"),
           oImportesSuma = 0,
           oldData = [],
           DataFinal = [],
           oDatos = {};
 
-
-          var oAttachmentUpl = sap.ui.core.Fragment.byId(
-            "UploadFile",
-            "attachmentUpl"
-          );
-  
-          if (oAttachmentUpl === undefined) {
-            MessageToast.show("Adjunte un fichero y vuelva a intentar")
-            return;
-          }
-
-
+        if (ofile === false) {
+          MessageToast.show("Adjunte un fichero y vuelva a intentar");
+          return;
+        }
 
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
@@ -974,7 +979,6 @@ sap.ui.define(
       // Medios de Pago ----------------------------
       // ********************************************
 
-
       onInputTipoPagoChange: function (oEvent) {
         let vObject,
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
@@ -1003,18 +1007,23 @@ sap.ui.define(
 
       onAgregarDetalleButtonPress: function () {
         let oValue = true;
-        this.onshowDetalleAdd(oValue);
+        this.onshowDetalleAdd(oValue, []);
       },
 
-      onshowDetalleAdd: function (oValue) {
+      onshowDetalleAdd: function (oValue, Object) {
         this._onUpdateValues();
 
-        let oLayModel = this.getView().getModel("layout"),
-          EditRecibo = oLayModel.getProperty("/EdicionRecibo");
-        oLayModel.setProperty("/detalleadd", oValue);
+        // EditRecibo = oLayModel.getProperty("/EdicionRecibo");
+        this.getOwnerComponent()
+          .getModel("layout")
+          .setProperty("/detalleadd", oValue);
+
+        this.getOwnerComponent()
+          .getModel("mockdata")
+          .setProperty("/ActiveDetalle", Object);
       },
 
-      onGuardarButtonDetallePress: function () {
+      onGuardarButtonDetallePress: async function () {
         let oModel = this.getView().getModel("mockdata"),
           oLayoutModel = this.getView().getModel("layout");
 
@@ -1029,10 +1038,16 @@ sap.ui.define(
           oFechaVencimiento = this.getView().byId("idDetFecVto"),
           DataFinal = [],
           oDatos = {},
+          ofile = oModel.getProperty("/filempago"),
           oImportePago = this.getView().byId("idImportePagoInput");
 
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
         let MpKValidate = this._onGetDataModel(oModel, "/ActiveMP");
+
+        if (ofile === false) {
+          MessageToast.show("Adjunte un fichero y vuelva a intentar");
+          return;
+        }
 
         // ********* Fijos
 
@@ -1049,7 +1064,6 @@ sap.ui.define(
         );
 
         if (oAttachmentUpl === undefined) {
-          
           // return;
         }
 
@@ -1151,6 +1165,19 @@ sap.ui.define(
             BancoEmisor: oBcoEmisor.getValue(),
             BancoDestino: oBcoDestino.getValue(),
           };
+        } else {
+          oDatos = {
+            Descripcion: oMP.getSelectedItem().getText(),
+            Numero: oCbte.getValue(),
+            NroCheque: oCheque.getValue(),
+            FechaEmision: oFechaEmision.getDateValue(),
+            Importe: oImportePago.getValue(),
+            Fecha: oFechaDeposito.getDateValue(),
+            Detalle: oMP.getSelectedItem().getText(),
+            FechaVencimiento: oFechaVencimiento.getDateValue(),
+            BancoEmisor: oBcoEmisor.getValue(),
+            BancoDestino: oBcoDestino.getValue(),
+          };
         }
 
         DataFinal.push(oDatos);
@@ -1168,7 +1195,6 @@ sap.ui.define(
           BcoDes: "",
           Adjunto: "",
         };
-
         oModel.setProperty("/ActiveDetalle", ActiveDetalle);
         oMP.setSelectedKey("0000000001");
 
@@ -1179,15 +1205,27 @@ sap.ui.define(
         }
 
         oModel.setProperty("/Detalle", DataFinal);
-        let oValue = false;
-        this.onshowDetalleAdd(oValue);
-
         oModel.setProperty("/Paso06Detalles", DataFinal.length);
         oModel.setProperty("/Paso06ImporteDetalle", oImportesSuma);
 
+        this.onshowDetalleAdd(false, []);
         this._onUpdateValues();
+        if (Update === "") {
+          this.onGuardarButtonDETSavePress();
+        } else {
+          let rta = await this.onupdateModel(
+            this.getOwnerComponent().getModel(),
+            this.getView(),
+            Update,
+            oDatos
+          );
 
-        this.onGuardarButtonDETSavePress();
+          if (rta.Respuesta !== "OK") {
+            this._onErrorHandle(rta.Datos);
+          }
+
+          oModel.refresh(true);
+        }
       },
 
       onGuardarButtonDETSavePress: function () {
@@ -1223,24 +1261,47 @@ sap.ui.define(
       cancelarDetlles: function () {
         this._onResetDetalleValues();
         let oValue = false;
-        this.onshowDetalleAdd(oValue);
+        this.onshowDetalleAdd(oValue, []);
       },
 
       onButtonEditMPPress: function (oEvent) {
         let oModel = this.getOwnerComponent().getModel(),
+          oMockModel = this.getView().getModel("mockdata"),
           oPath = oEvent.getSource().getBindingContext().getPath(),
           oItem = oEvent.getSource().getBindingContext().getObject();
 
-        let oMockModel = this.getView().getModel("mockdata"),
-          oLayoutModel = this.getView().getModel("layout");
+        oMockModel.setProperty("/Paso06PathUpdate", oPath);
+        this.onshowDetalleAdd(true, oItem);
 
-        let MpActive = oMockModel.getProperty("/ActiveDetalle");
+        //   let Value = {
+        //   ruta: oPath,
+        //   datos: oItem,
+        // };
 
-        let oLayModel = this.getView().getModel("layout"),
-          EditRecibo = oLayModel.getProperty("/EdicionRecibo");
-        oLayModel.setProperty("/detalleadd", true);
+        // let MpUpdate = oMockModel.setProperty("/MpUpdate", Value);
 
-        // this._wizard.invalidateStep(this.getView().byId("idDetalleWizardStep"));
+        // this.getView().byId("dialog1").open();
+      },
+
+      onCloseImporteChange: function () {
+        this.getView().byId("dialog1").close();
+      },
+
+      onSaveImporteChange: async function () {
+        let oModel = this.getView().getModel(),
+          oMockModel = this.getView().getModel("mockdata"),
+          MpUpdate = oMockModel.getProperty("/MpUpdate"),
+          oPath = MpUpdate.ruta,
+          oPayload = MpUpdate.datos,
+          oView = this.getView();
+
+        let rta = await this.onupdateModel(oModel, oView, oPath, oPayload);
+
+        if (rta.Respuesta !== "OK") {
+          this._onErrorHandle(rta.Datos);
+        }
+
+        oModel.refresh(true);
       },
 
       onButtonDeletePagoPressMsg: function (oEvent) {

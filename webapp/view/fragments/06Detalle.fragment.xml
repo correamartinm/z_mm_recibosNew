@@ -2,6 +2,94 @@
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core">
 
+    <Dialog id="dialog1" contentHeight="40%" contentWidth="70%" horizontalScrolling="true" title="{i18n>lblactualizar} {i18n>lblimpor}" type="Standard" verticalScrolling="true">
+
+
+
+        <form:Form editable="true">
+            <form:layout>
+                <form:ColumnLayout columnsM="1" columnsL="1" columnsXL="1" labelCellsLarge="2"/>
+            </form:layout>
+            <form:formContainers>
+
+                <form:FormContainer>
+                    <form:formElements>
+
+
+
+
+                        <form:FormElement label="{i18n>lblpagoacta}">
+                            <form:fields>
+                                <Text text="{mockdata>/Paso02ImportePagos}" id="txpacta" />
+                            </form:fields>
+                        </form:FormElement>
+                        <!-- Fin Elemento -->
+
+                        <form:FormElement label="{i18n>lbldocsafectados}">
+                            <form:fields>
+
+                                <Text text="{mockdata>/Paso02ImportePagos}" id="txpacbtes" />
+                            </form:fields>
+                        </form:FormElement>
+                        <!-- Fin Elemento -->
+
+                        <form:FormElement label="{i18n>lbldescuentos}">
+                            <form:fields>
+
+                                <Text text="{mockdata>/Paso04ImporteDescuentos}" id="txpadesc" />
+
+
+                            </form:fields>
+                        </form:FormElement>
+                        <!-- Fin Elemento -->
+
+                        <form:FormElement label="{i18n>lblretenciones}">
+                            <form:fields>
+
+                                <Text text="{mockdata>/Paso05ImporteRetenciones}" id="txparet" />
+                            </form:fields>
+                        </form:FormElement>
+                        <!-- Fin Elemento -->
+
+                        <form:FormElement label="{i18n>lblimpor} {i18n>lblmedios}">
+                            <form:fields>
+
+                                <Input value="{mockdata>/MpUpdate/datos/Importe}" textAlign="End"/>
+
+                            </form:fields>
+                        </form:FormElement>
+                        <!-- Fin Elemento -->
+
+
+
+
+
+                    </form:formElements>
+
+                </form:FormContainer>
+
+                <!-- Fin de do Contenedor -->
+
+            </form:formContainers>
+        </form:Form>
+
+
+
+
+
+
+
+        <beginButton>
+            <Button text="{i18n>btnvolver}" type="Default" iconFirst="true" width="auto" iconDensityAware="false" press="onCloseImporteChange" class="sapUiTinyMarginEnd"/>
+        </beginButton>
+        <endButton>
+            <Button text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveImporteChange" />
+
+        </endButton>
+    </Dialog>
+
+
+
     <Table items="{path : '/PagosSet' ,events: {
         dataReceived: '.onCheckStep' } }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
         <headerToolbar>
@@ -48,7 +136,7 @@
 
                     <HBox>
                         <Button icon="sap-icon://delete" press="onButtonDeletePagoPressMsg" class="sapUiTinyMarginEnd"/>
-                        <!-- <Button icon="sap-icon://edit"  press="onButtonEditMPPress"  /> -->
+                        <Button icon="sap-icon://edit" press="onButtonEditMPPress" />
                     </HBox>
 
                 </cells>
@@ -92,7 +180,7 @@
                 <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
                 <DatePicker id="idDetFecVto" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
 
-                    <Label text="{i18n>lbldocumentacion}" required="true" />
+                <Label text="{i18n>lbldocumentacion}" required="true" />
                 <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />
 
 
