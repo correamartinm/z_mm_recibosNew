@@ -7,9 +7,15 @@ xmlns:form="sap.ui.layout.form"
         <form:content>
 
         <Label text="{i18n>lblrazonsocial}" required="true" labelFor="idRSInput"/>
-            <ComboBox id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{/CLIENTESSet}" enabled="{= ${mockdata>/Paso01Cliente/Mensaje} === undefined }">
+
+            <!-- <ComboBox id="idRSInput" selectedKey="{mockdata>/Paso01Cliente/Codigo}" selectionChange="onInputRazonSocialChange" items="{/CLIENTESSet}" enabled="{= ${mockdata>/Paso01Cliente/Mensaje} === undefined }">
                 <core:Item key="{Codigo}" text="{RazonSocial}" />
-            </ComboBox>
+            </ComboBox> -->
+
+
+
+            <Input showValueHelp="true" value="{mockdata>/Paso01Cliente/RazonSocial}"  change="onInputRazonSocialChange" valueHelpRequest="VHD_Open_Sociedad"/>
+
 
             <Label text="{i18n>lblcodigo}" labelFor="idCodigoClienteInput" />
             <Input id="idCodigoClienteInput" editable="false" value="{mockdata>/Paso01Cliente/Codigo}"/>

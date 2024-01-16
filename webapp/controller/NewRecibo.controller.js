@@ -6,6 +6,7 @@ sap.ui.define(
     "sap/ui/core/ValueState",
     "sap/m/Dialog",
     "sap/m/Button",
+    "sap/ui/core/Fragment",
     "../libs/Download",
     "sap/m/MessageToast",
   ],
@@ -19,6 +20,7 @@ sap.ui.define(
     ValueState,
     Dialog,
     Button,
+    Fragment,
     Download,
     MessageToast
   ) {
@@ -36,6 +38,94 @@ sap.ui.define(
         oTarget.attachDisplay(this._onObjectMatched, this);
       },
 
+// ********************** Dialogos de Ayuda **************************
+
+
+
+      getBaseURL: function () {
+        var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");       
+        return appId;
+      },
+	  
+	  
+	  
+	        VHD_Open_Sociedad: function (oEvent) {
+        var aFilters = [],
+          oView = this.getView(),
+          sInputValue = oEvent.getSource();
+
+        // Creo dialogo
+        if (!this.VHD_Sociedad) {
+          this.VHD_Sociedad = Fragment.load({
+            id: oView.getId(),
+            name: this.getBaseURL() + ".view.fragments.VHDSOC",
+            controller: this,
+          }).then(function (oVHDSociedad) {
+            oView.addDependent(oVHDSociedad);
+            return oVHDSociedad;
+          });
+        }
+
+        this.VHD_Sociedad.then(function (oVHDSociedad) {
+          if (sInputValue.getValue() !== "") {
+            var orFilterInput = [];
+            orFilterInput.push(
+              new Filter("RazonSocial", FilterOperator.EQ, sInputValue)
+            );
+            aFilters.push(new sap.ui.model.Filter(orFilterInput, false));
+          }
+          // muestro dialogo con valor inicial
+          // oVHDSociedad.getBinding("items").filter(aFilters);
+          oVHDSociedad.open();
+        });
+      },
+
+      _VHD_Search_Sociedad: function (evt) {
+        var sValue = evt.getParameter("value"),
+          Campo,
+          sValueUpper;
+        sValueUpper = sValue.toUpperCase();
+        if (sValue !== "") {
+          if (isNaN(sValue) === true) {
+            Campo = "RazonSocial";
+          } else {
+            Campo = "Codigo";
+          }
+
+          var oFilter = new Filter(Campo, FilterOperator.Contains, sValue);
+          var oFilterUpper = new Filter(
+            Campo,
+            FilterOperator.Contains,
+            sValueUpper
+          );
+
+          evt.getSource().getBinding("items").filter([oFilter, oFilterUpper]);
+        } else {
+          evt.getSource().getBinding("items").filter([]);
+        }
+      },
+
+      _VHD_Confirm_Sociedad: function (oEvent) {
+        var oSelectedItem = oEvent.getParameter("selectedItem"),
+          oInput = this.getView().byId("SociedadFilterSet");
+
+
+        if (!oSelectedItem) {
+          // oInput.resetProperty("value");
+          this.getOwnerComponent()
+          .getModel("mockdata")
+          .setProperty("/Paso01Cliente", {Codigo: ""});
+          return;
+        }
+
+        // oInput.setValue(oSelectedItem.getTitle());
+        this.getOwnerComponent()
+          .getModel("mockdata")
+          .setProperty("/Paso01Cliente", oSelectedItem.getBindingContext().getObject());
+
+          this.onInputRazonSocialChange(oSelectedItem.getBindingContext().getPath());
+      },
+      _VHD_Close_Sociedad: function (evt) {},
       // ************************* Dialogos ******************************
 
       onOpenDialogo: function (oEvent) {
@@ -64,7 +154,7 @@ sap.ui.define(
 
         let oModel = this.getOwnerComponent().getModel();
         oModel.setSizeLimit(2000);
-        
+
       },
 
       // ********************************************
@@ -133,15 +223,15 @@ sap.ui.define(
         }
       },
 
-      onInputRazonSocialChange: async function (oEvent) {
+      onInputRazonSocialChange: async function (oPath) {
         let vObject,
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          oModel = this.getOwnerComponent().getModel(),
-          oSource = oEvent.getSource(),
-          anticipo,
-          recibo,
           oData = oMockModel.getProperty("/Paso01Cliente"),
-          oPath = oSource.getSelectedItem().getBindingContext().getPath();
+          recibo,
+          anticipo,
+          oModel = this.getOwnerComponent().getModel();
+          // oSource = oEvent.getSource(),
+          // oPath1 = oSource.getSelectedItem().getBindingContext().getPath();
 
         let oView = this.getView(),
           oEntidad2 = "/PagoCuentaSet",

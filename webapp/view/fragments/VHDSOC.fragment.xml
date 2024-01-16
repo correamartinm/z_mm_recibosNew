@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog
+	    class="sapUiSizeCompact"
+		id="BuscarCociedad"
+		title="{i18n>lblrazonsocial}"
+		items="{/CLIENTESSet}"
+		search="_VHD_Search_Sociedad"
+		confirm="_VHD_Confirm_Sociedad"
+		cancel="_VHD_Close_Sociedad">
+		<StandardListItem
+			title="{Codigo}"
+			info="{RazonSocial}"	/>	
+	</SelectDialog>
+</core:FragmentDefinition>
