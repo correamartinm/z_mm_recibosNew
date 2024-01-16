@@ -455,7 +455,7 @@ sap.ui.define(
 
         switch (Cadena[1]) {
           case "Tipo=DESC":
-          _onGuardar
+        
             oMockModel.setProperty("/filedescuento", true );
             break;
 
@@ -591,12 +591,12 @@ sap.ui.define(
           oModel.update(oPath, oPayload, {
             success: function (oData) {
               oView.setBusy(false);
+              oModel.refresh(true);
 
               if (oData.Tipo === "E") {
                 // Error
               } else {
                 resolve({ Respuesta: "OK", Datos: oData });
-                oModel.refresh(true);
                 // Correcto
               }
             }.bind(this),

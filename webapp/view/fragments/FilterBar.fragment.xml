@@ -6,7 +6,7 @@
 
         <fb:filterGroupItems>
 
-            <fb:FilterGroupItem groupName="search" name="razonsocial" label="{i18n>lblrazonsocial} / {i18n>lblcuit}" visibleInFilterBar="true">
+            <fb:FilterGroupItem groupName="search" name="razonsocial" label="{i18n>lblrazonsocial}" visibleInFilterBar="true">
                 <fb:control>
                   
                     <MultiInput id="idRazonSocialMultiInput" width="auto" showSuggestion="true" suggestionItems="{/CLIENTESSet}">

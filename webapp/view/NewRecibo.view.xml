@@ -132,9 +132,10 @@
 
                         <OverflowToolbar >
                             <ToolbarSpacer/>
-                            <Button icon="sap-icon://edit" text="{i18n>btnvolver}" type="Reject" press="onOpenDialogo" class="sapUiTinyMarginEnd" enabled="{= ${mockdata>/SALDO} !== '0.00' }"/>
+                            <Button icon="sap-icon://edit" text="{i18n>btnvolver}" type="Reject" press="onOpenDialogo" class="sapUiTinyMarginEnd"/>
                             <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/>
-                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" tooltip="{mockdata>/SALDO}" enabled="{= ${mockdata>/SALDO} === '0.00' }"/>
+                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" tooltip="{mockdata>/SALDO}" enabled="{= ${mockdata>/SALDO} === '0.00' }" visible="{= ${mockdata>/Paso01Cliente/Anticipo} === false }" />
+                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" tooltip="{mockdata>/SALDO}" visible="{= ${mockdata>/Paso01Cliente/Anticipo} === true }"/>
                             <ToolbarSpacer/>
                         </OverflowToolbar>
 

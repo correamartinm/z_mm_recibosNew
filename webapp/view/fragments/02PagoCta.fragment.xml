@@ -3,7 +3,7 @@
 
 
 
-    <Table id="idPagoCtaTable"  items="{mockdata>/Paso2Data}" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" growingThreshold="10" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idPagoCtaTable" items="{mockdata>/Paso2Data}" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" growingThreshold="10" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="75%" search="onSearchFieldSearchPagoCta" placeholder="{i18n>lblnumcomprobante}" />
@@ -22,9 +22,17 @@
             <Column width="4rem" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblnumcomprobante}" />
+                    </header>
+                </Column>
+                
+                
+                <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                    <header>
+                    <Label text="{i18n>lbldocumentosap}" />
                 </header>
             </Column>
-            <Column popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+
+            <Column width="4rem" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblfecha}"/>
                 </header>
@@ -64,14 +72,15 @@
 
 
                     <Text text="{mockdata>Tipo}" wrapping="false"/>
-                   
+
+                    <Label text="{mockdata>NroFactura}"/>
                     <Label text="{mockdata>Numero}"/>
                     <Label text="{path : 'mockdata>Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}" design="Bold"/>
-                    
+
 
                     <Label text="{mockdata>Total}"/>
                     <Label text="{mockdata>Saldo}"/>
-                    
+
                     <Input enabled="false" value="{mockdata>Importe}" textAlign="End" change="onInputImporteChangePagos"/>
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
@@ -83,7 +92,7 @@
             </ColumnListItem>
         </items>
     </Table>
-    <OverflowToolbar  visible="{= ${mockdata>/Paso02CantidadPagos} > 0 }">
+    <OverflowToolbar visible="{= ${mockdata>/Paso02CantidadPagos} > 0 }">
         <content>
             <ToolbarSpacer />
 
@@ -100,10 +109,10 @@
 
 
 
-    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop" >
+    <HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd sapUiLargeMarginTop">
 
-    
-            <!-- <Button  text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" /> -->
-            <Button enabled="{= ${mockdata>/Paso02ImportePagos} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonPagoAdicionalPress" />
+
+        <!-- <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" /> -->
+        <Button enabled="{= ${mockdata>/Paso02ImportePagos} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonPagoAdicionalPress" />
     </HBox>
 </core:FragmentDefinition>

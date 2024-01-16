@@ -4,7 +4,7 @@
         <!-- <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{path : '/cbts' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders"> -->
         <headerToolbar>
             <OverflowToolbar>
-                <SearchField width="75%" search="onSearchFieldSearchComprobante" placeholder="{i18n>lblnumcomprobante}" />
+                <SearchField width="75%" search="onSearchFieldSearchComprobante" placeholder="{i18n>lblnumleg}" />
                 <ToolbarSpacer/>
 
 
@@ -17,6 +17,12 @@
                     <Label text="{i18n>lbltc}" tooltip="{i18n>lbltipocomprobante}"/>
                 </header>
             </Column>
+            <Column width="4rem" hAlign="Center">
+                <header>
+                    <Label text="{i18n>lblnumleg}" />
+                </header>
+            </Column>
+
             <Column width="4rem" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblnumcomprobante}" />
@@ -61,6 +67,8 @@
 
 
                     <Text text="{mockdata>Tipo}" wrapping="false"/>
+                        
+                    <Label text="{mockdata>NroFactura}"/>
                     <Label text="{mockdata>Numero}"/>
                     <Label text="{path : 'mockdata>Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}" design="Bold"/>
                     <Label text="{path : 'mockdata>Vencimiento' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}" design="Bold"/>

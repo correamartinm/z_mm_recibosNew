@@ -1,6 +1,6 @@
 <c:FragmentDefinition xmlns="sap.m"
 	xmlns:c="sap.ui.core"
-	xmlns:upload="sap.m.upload">>
+	xmlns:upload="sap.m.upload">
 	<Dialog id="iduploader" title="Carga de Ficheros" class="sapUiSizeCompact">
 		<Panel width="auto" >
 			<content>
