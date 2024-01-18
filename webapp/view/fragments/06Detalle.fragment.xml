@@ -152,7 +152,8 @@
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
             <form:content>
                 <Label text="{i18n>lblmedios}" required="true" labelFor="idRSInput"/>
-                <Select id="idselectMP" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
+                    
+                <Select enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }"  id="idselectMP" items="{/DetallePagoSet}"  change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
                     <core:Item key="{Codigo}" text="{Descripcion}" />
                 </Select>
 

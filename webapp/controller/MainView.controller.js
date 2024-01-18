@@ -18,9 +18,12 @@ sap.ui.define(
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         let oTarget = oRouter.getTarget("TargetMainView");
         oTarget.attachDisplay(this._onObjectMatched, this);
+    
       },
 
       // ****************** Usuario
+
+
 
       _onObjectMatched: function () {
         this._onRefreshTable([]);

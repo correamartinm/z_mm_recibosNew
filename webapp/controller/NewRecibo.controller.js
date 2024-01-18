@@ -38,18 +38,14 @@ sap.ui.define(
         oTarget.attachDisplay(this._onObjectMatched, this);
       },
 
-// ********************** Dialogos de Ayuda **************************
-
-
+      // ********************** Dialogos de Ayuda **************************
 
       getBaseURL: function () {
-        var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");       
+        var appId = this.getOwnerComponent().getManifestEntry("/sap.app/id");
         return appId;
       },
-	  
-	  
-	  
-	        VHD_Open_Sociedad: function (oEvent) {
+
+      VHD_Open_Sociedad: function (oEvent) {
         var aFilters = [],
           oView = this.getView(),
           sInputValue = oEvent.getSource();
@@ -109,21 +105,25 @@ sap.ui.define(
         var oSelectedItem = oEvent.getParameter("selectedItem"),
           oInput = this.getView().byId("SociedadFilterSet");
 
-
         if (!oSelectedItem) {
           // oInput.resetProperty("value");
           this.getOwnerComponent()
-          .getModel("mockdata")
-          .setProperty("/Paso01Cliente", {Codigo: ""});
+            .getModel("mockdata")
+            .setProperty("/Paso01Cliente", { Codigo: "" });
           return;
         }
 
         // oInput.setValue(oSelectedItem.getTitle());
         this.getOwnerComponent()
           .getModel("mockdata")
-          .setProperty("/Paso01Cliente", oSelectedItem.getBindingContext().getObject());
+          .setProperty(
+            "/Paso01Cliente",
+            oSelectedItem.getBindingContext().getObject()
+          );
 
-          this.onInputRazonSocialChange(oSelectedItem.getBindingContext().getPath());
+        this.onInputRazonSocialChange(
+          oSelectedItem.getBindingContext().getPath()
+        );
       },
       _VHD_Close_Sociedad: function (evt) {},
       // ************************* Dialogos ******************************
@@ -154,7 +154,6 @@ sap.ui.define(
 
         let oModel = this.getOwnerComponent().getModel();
         oModel.setSizeLimit(2000);
-
       },
 
       // ********************************************
@@ -204,6 +203,7 @@ sap.ui.define(
         oMockModel.setProperty("/filedescuento", false);
         oMockModel.setProperty("/fileretencion", false);
         oMockModel.setProperty("/filempago", false);
+       
       },
 
       // ************ Control de los Pasos **********
@@ -230,8 +230,8 @@ sap.ui.define(
           recibo,
           anticipo,
           oModel = this.getOwnerComponent().getModel();
-          // oSource = oEvent.getSource(),
-          // oPath1 = oSource.getSelectedItem().getBindingContext().getPath();
+        // oSource = oEvent.getSource(),
+        // oPath1 = oSource.getSelectedItem().getBindingContext().getPath();
 
         let oView = this.getView(),
           oEntidad2 = "/PagoCuentaSet",
@@ -744,10 +744,10 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {};
 
-        if (ofile === false) {
-          MessageToast.show("Adjunte un fichero y vuelva a intentar");
-          return;
-        }
+        // if (ofile === false) {
+        //   MessageToast.show("Adjunte un fichero y vuelva a intentar");
+        //   return;
+        // }
 
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
@@ -1141,6 +1141,17 @@ sap.ui.define(
       },
 
       onshowDetalleAdd: function (oValue, Object) {
+        let Recibo = this.getOwnerComponent()
+          .getModel("mockdata")
+          .getProperty("/Paso01Cliente");
+
+      
+        if (Recibo.Recibo === true && Object.length === 0) {
+          Object.NroLinea = '0000000001'; // efectivo ****
+        }
+
+        
+
         this._onUpdateValues();
 
         // EditRecibo = oLayModel.getProperty("/EdicionRecibo");
