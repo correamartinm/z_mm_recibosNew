@@ -472,6 +472,7 @@ sap.ui.define(
 
             if (
               oItems[index].getCells()[6].getValue() === "0.00" ||
+              oItems[index].getCells()[6].getValue() === "0,00" ||
               oItems[index].getCells()[6].getValue() === ""
             ) {
               if (parseFloat(vObject.Saldo) > 0) {
@@ -481,7 +482,9 @@ sap.ui.define(
               } else {
                 oItems[index]
                   .getCells()[6]
-                  .setValue(parseFloat(vObject.Saldo) * -1);
+                  .setValue(
+                    this.formatCurrency(parseFloat(vObject.Saldo) * -1)
+                  );
               }
               vObject.Aplicado = oItems[index].getCells()[6].getValue();
             }
@@ -517,9 +520,14 @@ sap.ui.define(
               // let  oValue = oItems[index].getCells()[7].getValue();
               Data.push(vObject);
               Data.NroLinea = index;
+
+              if (vObject.Aplicado.includes(",")) {
+                vObject.Aplicado = vObject.Aplicado.replace(/\./g, "");
+                vObject.Aplicado = vObject.Aplicado.replace(/\,/g, ".");
+              }
+
               oImportesSuma =
-                parseFloat(oImportesSuma) +
-                parseFloat(vObject.Importe.replace(/\./g, ""));
+                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
             }
           }
 
@@ -1298,6 +1306,13 @@ sap.ui.define(
         let Update = oModel.getProperty("/Paso06PathUpdate"),
           oImportesSuma = 0;
 
+        let oImporteNew = oImportePago.getValue();
+
+        if (oImporteNew.includes(",")) {
+          oImporteNew = oImporteNew.replace(/\./g, "");
+          oImporteNew = oImporteNew.replace(/,/g, ".");
+        }
+
         if (Update === "") {
           if (!oMP.getSelectedKey()) {
             oMP.setValueState(ValueState.Error);
@@ -1307,21 +1322,12 @@ sap.ui.define(
           }
 
           oDatos = {
-            // Tipo: oMP.getSelectedKey(),
-            // NroCbte: oCbte.getValue(),
-            // FechaVto: oFechaVencimiento.getDateValue(),
-            // FechaDto: oFechaDeposito.getDateValue(),
-            // FechaEmi: oFechaEmision.getDateValue(),
-            // BcoDestino: oBcoDestino.getValue(),
-            // BcoEmisor: oBcoEmisor.getValue(),
-            // Codigo: oMP.getSelectedKey(),
-
             NroLinea: oMP.getSelectedKey(),
             Descripcion: oMP.getSelectedItem().getText(),
             Numero: oCbte.getValue(),
             NroCheque: oCheque.getValue(),
             FechaEmision: oFechaEmision.getDateValue(),
-            Importe: oImportePago.getValue(),
+            Importe: oImporteNew,
             Fecha: oFechaDeposito.getDateValue(),
             Detalle: oMP.getSelectedItem().getText(),
             FechaVencimiento: oFechaVencimiento.getDateValue(),
@@ -1334,7 +1340,7 @@ sap.ui.define(
             Numero: oCbte.getValue(),
             NroCheque: oCheque.getValue(),
             FechaEmision: oFechaEmision.getDateValue(),
-            Importe: oImportePago.getValue(),
+            Importe: oImporteNew,
             Fecha: oFechaDeposito.getDateValue(),
             Detalle: oMP.getSelectedItem().getText(),
             FechaVencimiento: oFechaVencimiento.getDateValue(),
@@ -1354,6 +1360,7 @@ sap.ui.define(
           FecDepo: null,
           FecCbte: null,
           FecVto: null,
+          Fecha: null,
           BcoEmi: "",
           BcoDes: "",
           Adjunto: "",
