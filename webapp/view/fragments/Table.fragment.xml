@@ -103,7 +103,7 @@
 
 
                     <Label text="{Numero} " design="Bold"/>
-                    <Text text="{path : 'Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}" />
+                    <Text text="{path : 'Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true}}" />
 
                     <Label text="{RazonSocial}" design="Bold" wrapping="true"/>
                     <Label text="{RazonSocial}" design="Bold"/>
@@ -128,10 +128,10 @@
                         formatter: '.formatStateBool'
                     }" inverted="true" visible="{= ${Procesado} !== '' }" />
 
-                    <Text text="{path : 'FechaProcesado' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
+                    <Text text="{path : 'FechaProcesado' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true}}"/>
                     <HBox >
 
-                        <Button icon="sap-icon://print" enabled="{= ${Procesado} === 'X' }" press="onButtonPrintPress" />
+                        <Button icon="sap-icon://print" enabled="{= ${Procesado} !== 'A' }" press="onButtonPrintPress" />
                         <Button icon="sap-icon://edit" enabled="false" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
                         <Button icon="sap-icon://attachment" enabled="{= ${Procesado} !== 'X' }" id="idAttachmentsButton" press="onCallFileDialogRECIB" class="sapUiTinyMarginBegin"/>
                     </HBox>

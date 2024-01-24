@@ -9,6 +9,7 @@ sap.ui.define(
     "sap/ui/core/Fragment",
     "../libs/Download",
     "sap/m/MessageToast",
+    "sap/ui/model/type/Currency",
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -22,7 +23,8 @@ sap.ui.define(
     Button,
     Fragment,
     Download,
-    MessageToast
+    MessageToast,
+    Currency
   ) {
     "use strict";
     let ofiltersCBT = [],
@@ -36,6 +38,15 @@ sap.ui.define(
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         let oTarget = oRouter.getTarget("TargetNewRecibo");
         oTarget.attachDisplay(this._onObjectMatched, this);
+      },
+
+      // *************
+
+      onformatImportes: function (oEvent) {
+        var oInput = oEvent.getSource(),
+          oValue = oInput.getValue();
+
+        oInput.setValue(this.formatCurrency(oValue));
       },
 
       // ********************** Dialogos de Ayuda **************************
@@ -195,7 +206,7 @@ sap.ui.define(
         oMockModel.setProperty("/RESTANTE", "");
         oMockModel.setProperty("/TOTAL", "");
         oMockModel.setProperty("/ANTICIPO", "");
-        oMockModel.setProperty("/SALDO", "");
+        oMockModel.setProperty("/SALDO", 0);
         oMockModel.setProperty("/Paso04PathUpdate", "");
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
@@ -203,7 +214,6 @@ sap.ui.define(
         oMockModel.setProperty("/filedescuento", false);
         oMockModel.setProperty("/fileretencion", false);
         oMockModel.setProperty("/filempago", false);
-       
       },
 
       // ************ Control de los Pasos **********
@@ -465,7 +475,9 @@ sap.ui.define(
               oItems[index].getCells()[6].getValue() === ""
             ) {
               if (parseFloat(vObject.Saldo) > 0) {
-                oItems[index].getCells()[6].setValue(vObject.Saldo);
+                oItems[index]
+                  .getCells()[6]
+                  .setValue(this.formatCurrency(vObject.Saldo));
               } else {
                 oItems[index]
                   .getCells()[6]
@@ -506,7 +518,8 @@ sap.ui.define(
               Data.push(vObject);
               Data.NroLinea = index;
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Importe);
+                parseFloat(oImportesSuma) +
+                parseFloat(vObject.Importe.replace(/\./g, ""));
             }
           }
 
@@ -545,6 +558,10 @@ sap.ui.define(
         } else {
           oTarget.setValueState(ValueState.Warning);
         }
+        ///////////////
+
+        var oInput = oEvent.getSource();
+        oInput.setValue(this.formatCurrency(oValue));
 
         this._onCheckPago();
       },
@@ -618,7 +635,9 @@ sap.ui.define(
               oItems[index].getCells()[7].getValue() === ""
             ) {
               if (parseFloat(vObject.Saldo) > 0) {
-                oItems[index].getCells()[7].setValue(vObject.Saldo);
+                oItems[index]
+                  .getCells()[7]
+                  .setValue(this.formatCurrency(vObject.Saldo));
               } else {
                 oItems[index].getCells()[7].setValue(parseFloat(vObject.Saldo));
               }
@@ -651,6 +670,9 @@ sap.ui.define(
           oTarget.setValueState(ValueState.Warning);
         }
 
+        var oInput = oEvent.getSource();
+        oInput.setValue(this.formatCurrency(oValue));
+
         this._onCheckComprobantes();
       },
 
@@ -674,8 +696,13 @@ sap.ui.define(
             if (oItems[index].getSelected() === true) {
               Data.push(vObject);
               Data.NroLinea = index;
+              if (vObject.Importe.includes(",")) {
+                vObject.Importe = vObject.Importe.replace(/\./g, "");
+                vObject.Importe = vObject.Importe.replace(/\,/g, ".");
+              }
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Importe);
+                parseFloat(oImportesSuma) +
+                parseFloat(parseFloat(vObject.Importe));
             }
           }
         }
@@ -744,11 +771,6 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {};
 
-        // if (ofile === false) {
-        //   MessageToast.show("Adjunte un fichero y vuelva a intentar");
-        //   return;
-        // }
-
         if (!oImporte.getValue()) {
           oImporte.setValueState(ValueState.Error);
           return;
@@ -770,10 +792,10 @@ sap.ui.define(
           oFecha.setValueState(ValueState.None);
         }
 
-        if (ofile === false) {
-          MessageToast.show("Adjunte un fichero y vuelva a intentar");
-          return;
-        }
+        // if (ofile === false) {
+        //   MessageToast.show("Adjunte un fichero y vuelva a intentar");
+        //   return;
+        // }
 
         let oValue = false,
           oImportesSuma = 0,
@@ -818,7 +840,8 @@ sap.ui.define(
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+            parseFloat(oImportesSuma) +
+            parseFloat(DataFinal[index].Importe.replace(/\./g, ""));
           DataFinal.NroLinea = index;
         }
 
@@ -1007,7 +1030,8 @@ sap.ui.define(
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+            parseFloat(oImportesSuma) +
+            parseFloat(DataFinal[index].Importe.replace(/\./g, ""));
           // DataFinal.NroLinea = index;
         }
         oModel.setProperty("/Retenciones", DataFinal);
@@ -1127,6 +1151,7 @@ sap.ui.define(
           Adjunto: this.onCheckValue(vObject.Adjuntos),
           FecEmis: this.onCheckValue(vObject.FechaEmision),
           FecVto: this.onCheckValue(vObject.FechaVencimiento),
+          Fecha: this.onCheckValue(vObject.Fecha),
           BcoEmi: this.onCheckValue(vObject.BancoEmisor),
           BcoDes: this.onCheckValue(vObject.BancoDestino),
           BcoDesReq: this.onCheckValueReq(vObject.BancoDestino),
@@ -1145,12 +1170,9 @@ sap.ui.define(
           .getModel("mockdata")
           .getProperty("/Paso01Cliente");
 
-      
         if (Recibo.Recibo === true && Object.length === 0) {
-          Object.NroLinea = '0000000001'; // efectivo ****
+          Object.NroLinea = "0000000001"; // efectivo ****
         }
-
-        
 
         this._onUpdateValues();
 
@@ -1341,7 +1363,8 @@ sap.ui.define(
 
         for (var index = 0; index < DataFinal.length; index++) {
           oImportesSuma =
-            parseFloat(oImportesSuma) + parseFloat(DataFinal[index].Importe);
+            parseFloat(oImportesSuma) +
+            parseFloat(DataFinal[index].Importe.replace(/\./g, ""));
           DataFinal.NroLinea = index;
         }
 

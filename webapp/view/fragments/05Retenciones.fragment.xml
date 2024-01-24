@@ -49,8 +49,9 @@
 
                     <Label text="{Descripcion}" design="Bold"/>
                     <Label text="{Numero}"/>
-                    <Text text="{path : 'Fecha', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
-                    <Label text="{Importe}"/>
+                    <Text text="{path : 'Fecha', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true}}"/>
+                    <!-- <Label text="{Importe}"/> -->
+                    <Label text="{path : 'Importe' , formatter : '.formatCurrency'}"/>
 
                     <HBox>
                         <Button icon="sap-icon://delete" class="sapUiTinyMarginEnd" press="onButtonDeleteRetencionPressMsg" />
@@ -79,7 +80,7 @@
             <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveRetencion/Fecha}" />
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteRetencionInput"/>
-            <Input id="idImporteRetencionInput" type="Number" value="{mockdata>/ActiveRetencion/Importe}"/>
+            <Input id="idImporteRetencionInput" change="onformatImportes" value="{mockdata>/ActiveRetencion/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 

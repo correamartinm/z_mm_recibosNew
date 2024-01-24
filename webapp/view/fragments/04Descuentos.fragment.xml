@@ -49,11 +49,13 @@
 
                     <Label text="{Descripcion}"/>
                     <Label text="{Numero}"/>
-                    <Text text="{path : 'Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy'}}"/>
-                    <!-- <Label text="{Fecha}" design="Bold"/> -->
-                    <Label text="{Importe}"/>
+                    <Text text="{path : 'Fecha' , type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy', UTC: true}}"/>
+                    
+                    
+                    <Label text="{path : 'Importe' , formatter : '.formatCurrency'}"/>
+                    <!-- <Label text="{Importe}"/> -->
 
-                    <!-- <ObjectStatus title="" state="Error" inverted="true" /> -->
+                    
                     <HBox >
 
                         <!-- <Button icon="sap-icon://print" enabled="{= ${PAID_STATUS} === 1 }" press="onButtonPrintPress" /> -->
@@ -82,7 +84,7 @@
             <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveDescuento/Fecha}"/>
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteInput"/>
-            <Input id="idImporteInput" type="Number" value="{mockdata>/ActiveDescuento/Importe}"/>
+            <Input id="idImporteInput" change="onformatImportes" value="{mockdata>/ActiveDescuento/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
 

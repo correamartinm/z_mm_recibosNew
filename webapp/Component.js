@@ -144,7 +144,7 @@ sap.ui.define(
           RESTANTE: "",
           TOTAL:"",
           ANTICIPO:"",
-          SALDO:"",
+          SALDO: 0,
           ActiveStep:"1",
           filedescuento: false,
           fileretencion: false,

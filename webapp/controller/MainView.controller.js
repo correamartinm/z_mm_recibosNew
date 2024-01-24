@@ -18,18 +18,46 @@ sap.ui.define(
         var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
         let oTarget = oRouter.getTarget("TargetMainView");
         oTarget.attachDisplay(this._onObjectMatched, this);
-    
       },
 
       // ****************** Usuario
-
-
 
       _onObjectMatched: function () {
         this._onRefreshTable([]);
       },
 
-      onButtonPrintPress: function (params) {},
+      onButtonPrintPress: function (oEvent) {
+        let oPath = oEvent.getSource().getBindingContext().getPath(),
+          oModel = this.getOwnerComponent().getModel(),
+          oView = this.getView(),
+          oItem = oEvent.getSource().getBindingContext().getObject();
+
+        var oData = {
+          Codigo: oItem.Numero,
+        };
+
+        oView.setBusy(true);
+        oModel.callFunction("/PrintDoc", {
+          method: "GET",
+          urlParameters: oData,
+
+          success: jQuery.proxy(function (oData) {
+            oView.setBusy(false);
+
+              if (oData.PrintDoc.URL) {
+              
+              let url =window.location.protocol  + "//" + window.location.host + oData.PrintDoc.URL;
+              
+              window.open(url);
+            }
+          }, this),
+          error: jQuery.proxy(function (oError) {
+            oView.setBusy(false);
+
+            MessageToast.show(that.getResourceBundle().getText("printError"));
+          }, this),
+        });
+      },
       // Filtros **************************
 
       _onRefreshTable: function (oFilter) {

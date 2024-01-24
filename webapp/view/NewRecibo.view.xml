@@ -128,14 +128,14 @@
 
 
 
-                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} !== '0.00' }" class=" BoldOK sapUiSmallMarginTopBottom"/>
+                        <MessageStrip text="{i18n>lblimporteacta} {mockdata>/SALDO}" showIcon="true" visible="{= ${mockdata>/SALDO} > 0 }" class=" BoldOK sapUiSmallMarginTopBottom"/>
 
                         <OverflowToolbar >
                             <ToolbarSpacer/>
                             <Button icon="sap-icon://edit" text="{i18n>btnvolver}" type="Reject" press="onOpenDialogo" class="sapUiTinyMarginEnd"/>
                             <Button icon="sap-icon://sys-cancel" text="{i18n>btnanular}" type="Reject" press="onNavBack" class="sapUiTinyMarginEnd"/>
-                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" tooltip="{mockdata>/SALDO}" enabled="{= ${mockdata>/SALDO} === '0.00' }" visible="{= ${mockdata>/Paso01Cliente/Anticipo} === false }" />
-                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress" tooltip="{mockdata>/SALDO}" visible="{= ${mockdata>/Paso01Cliente/Anticipo} === true }"/>
+                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress"  enabled="{= ${mockdata>/SALDO} === -1  }" visible="{= ${mockdata>/Paso01Cliente/Anticipo} === false }" />
+                            <Button icon="sap-icon://message-success" text="{i18n>btnconfirmar}" type="Success" press="onConfirmarReciboButtonPress"  visible="{= ${mockdata>/Paso01Cliente/Anticipo} === true }"/>
                             <ToolbarSpacer/>
                         </OverflowToolbar>
 

@@ -34,15 +34,44 @@ sap.ui.define(
           oControl.focus;
         });
       },
+
+      onAmountChange: function(oEvent) {
+        var oInput = oEvent.getSource();
+        var sValue = oInput.getValue();
+  
+        // Parse the entered value and format it as currency
+        var oCurrencyType = new Currency({
+          showMeasure: false
+        });
+  
+        try {
+          var fParsedValue = oCurrencyType.parseValue(sValue, "string");
+          oInput.setValue(oCurrencyType.formatValue(fParsedValue, "string"));
+        } catch (oException) {
+          // Handle parse errors, if any
+          oInput.setValueState("Error");
+        }
+      },
+
       formatItem: function (text, value) {
         if (!text) {
           return "";
         } else {
           let ovalue = parseFloat(value);
           if (text.toUpperCase() === "SALDO" && value !== "") {
-            this.getOwnerComponent()
+
+            if (parseFloat(value) <= 0 ){
+              this.getOwnerComponent()
               .getModel("mockdata")
-              .setProperty("/SALDO", value);
+              .setProperty("/SALDO", -1);
+            } else {
+              this.getOwnerComponent()
+              .getModel("mockdata")
+              .setProperty("/SALDO", parseFloat(value));
+            }
+
+
+            
           }
         }
         return text;
@@ -105,6 +134,22 @@ sap.ui.define(
             return "";
             break;
         }
+      },
+
+      formatCurrency: function (param) {
+        let oValue,
+        oCurrencyFormat = sap.ui.core.format.NumberFormat.getCurrencyInstance( {currencyCode: false});
+    
+      
+        if (param){
+          oValue = oCurrencyFormat.format(param);
+          return oValue;
+    
+        } else {
+          return param;
+        }
+
+        
       },
 
       formatStateBool: function (param) {
@@ -522,6 +567,14 @@ sap.ui.define(
             oItems[index].Cliente = DataCte.Cliente;
           }
 
+
+          if ( oItems[index].Importe.includes(",")){
+            oItems[index].Importe = oItems[index].Importe.replace(/\./g, '');
+            oItems[index].Importe = oItems[index].Importe.replace(/,/g, '.');
+          } 
+          
+          
+
           console.log(Step, oItems);
           rtaP2 = await this._oncreateModelNew(
             oModel,
@@ -592,13 +645,9 @@ sap.ui.define(
             success: function (oData) {
               oView.setBusy(false);
               oModel.refresh(true);
+              resolve({ Respuesta: "OK", Datos: oData });
 
-              if (oData.Tipo === "E") {
-                // Error
-              } else {
-                resolve({ Respuesta: "OK", Datos: oData });
-                // Correcto
-              }
+
             }.bind(this),
 
             error: function (oError) {
