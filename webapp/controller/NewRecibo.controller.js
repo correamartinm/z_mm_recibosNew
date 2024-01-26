@@ -211,9 +211,13 @@ sap.ui.define(
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
 
+        oMockModel.setProperty("/descuentosadd", false);
+        oMockModel.setProperty("/retencionesadd", false);
+        oMockModel.setProperty("/detalleadd", false);
+
         oMockModel.setProperty("/filedescuento", false);
-        oMockModel.setProperty("/fileretencion", false);
-        oMockModel.setProperty("/filempago", false);
+        oMockModel.setProperty("/fileretencion", 0);
+        oMockModel.setProperty("/filempago", 0);
       },
 
       // ************ Control de los Pasos **********
@@ -358,6 +362,7 @@ sap.ui.define(
           oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
           oData = oMockModel.getProperty("/Paso01Cliente");
+        if (oData.RazonSocial === "" || oData.RazonSocial === undefined) return;
 
         let Step = this.byId("idClienteWizardStep");
 
@@ -515,25 +520,26 @@ sap.ui.define(
           for (var index = 0; index < oItems.length; index++) {
             oPath = oItems[index].getBindingContextPath();
             vObject = oMockModel.getObject(oPath);
+            let oValue = oItems[index].getCells()[6].getValue();
 
             if (oItems[index].getSelected() === true) {
               // let  oValue = oItems[index].getCells()[7].getValue();
+              vObject.Aplicado = oValue;
               Data.push(vObject);
               Data.NroLinea = index;
-
-              if (vObject.Aplicado.includes(",")) {
-                vObject.Aplicado = vObject.Aplicado.replace(/\./g, "");
-                vObject.Aplicado = vObject.Aplicado.replace(/\,/g, ".");
+              if (oValue.includes(",")) {
+                oValue = oValue.replace(/\./g, "");
+                oValue = oValue.replace(/\,/g, ".");
               }
 
               oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(vObject.Aplicado);
+                parseFloat(oImportesSuma) + parseFloat(oValue);
             }
           }
 
           oMockModel.setProperty(oComprobantes, Data);
           oMockModel.setProperty(oCantidad, Data.length);
-          oMockModel.setProperty(oImporte, oImportesSuma);
+          oMockModel.setProperty(oImporte, this.formatCurrency(oImportesSuma));
         } else {
           oMockModel.setProperty(oComprobantes, []);
           oMockModel.setProperty(oCantidad, 0);
@@ -557,6 +563,8 @@ sap.ui.define(
           oMax = oEvent.getSource().getParent().getCells()[3].getText(),
           oValue = oTarget.getValue();
         let oItem = oStockTable.getSelectedItem();
+
+        if (oValue === "") oValue = 0;
 
         oValue = parseFloat(oValue);
         oMax = parseFloat(oMax);
@@ -669,6 +677,8 @@ sap.ui.define(
           oValue = oTarget.getValue();
         let oItem = oStockTable.getSelectedItem();
 
+        if (!oValue) oValue = "0";
+
         oValue = parseFloat(oValue);
         oMax = parseFloat(oMax);
 
@@ -716,7 +726,7 @@ sap.ui.define(
         }
         oMockModel.setProperty(oComprobantes, Data);
         oMockModel.setProperty(oCantidad, Data.length);
-        oMockModel.setProperty(oImporte, oImportesSuma);
+        oMockModel.setProperty(oImporte, this.formatCurrency(oImportesSuma));
       },
 
       onGuardarButtonComprobantesPress: function () {
@@ -968,6 +978,7 @@ sap.ui.define(
           oNCertificado = this.getView().byId("idCertificadoRetencionInput"),
           ofile = oModel.getProperty("/fileretencion"),
           oImportesSuma = 0,
+          oCantRet = this.getView().byId("idRetencionesTable").getItems() || 0,
           oldData = [],
           DataFinal = [],
           oDatos = {};
@@ -993,16 +1004,18 @@ sap.ui.define(
           oFecha.setValueState(ValueState.None);
         }
 
-        if (ofile === false) {
-          MessageToast.show("Adjunte un fichero y vuelva a intentar");
-          return;
-        }
-
         let Update = oModel.getProperty("/Paso05PathUpdate");
 
         let oActiveRetencion = oModel.getProperty("/ActiveRetencion");
 
         if (Update === "") {
+          if (oCantRet.length + 1 > ofile) {
+            MessageToast.show(
+              "Adjunte un fichero por retención y vuelva a intentar"
+            );
+            return;
+          }
+
           if (!oTipo.getSelectedKey()) {
             oTipo.setValueState(ValueState.Error);
             return;
@@ -1171,15 +1184,21 @@ sap.ui.define(
       onAgregarDetalleButtonPress: function () {
         let oValue = true;
         this.onshowDetalleAdd(oValue, []);
+
+        this.getOwnerComponent()
+          .getModel("mockdata")
+          .setProperty("/Paso06PathUpdate", "");
       },
 
       onshowDetalleAdd: function (oValue, Object) {
         let Recibo = this.getOwnerComponent()
-          .getModel("mockdata")
-          .getProperty("/Paso01Cliente");
+            .getModel("mockdata")
+            .getProperty("/Paso01Cliente"),
+          oCboMp = this.getView().byId("idselectMP");
 
         if (Recibo.Recibo === true && Object.length === 0) {
-          Object.NroLinea = "0000000001"; // efectivo ****
+          Object.NroLinea = "0000000001";
+          Object.Descripcion = "EFECTIVO";
         }
 
         this._onUpdateValues();
@@ -1210,6 +1229,7 @@ sap.ui.define(
           DataFinal = [],
           oDatos = {},
           ofile = oModel.getProperty("/filempago"),
+          oCantPagos = this.getView().byId("idTableMP").getItems() || 0,
           oImportePago = this.getView().byId("idImportePagoInput");
 
         let MpKey = this._onGetDataModel(oLayoutModel, "/MpKey");
@@ -1298,11 +1318,6 @@ sap.ui.define(
           }
         }
 
-        if (ofile === false) {
-          MessageToast.show("Adjunte un fichero y vuelva a intentar");
-          return;
-        }
-
         let Update = oModel.getProperty("/Paso06PathUpdate"),
           oImportesSuma = 0;
 
@@ -1314,6 +1329,13 @@ sap.ui.define(
         }
 
         if (Update === "") {
+          if (oCantPagos.length + 1 > ofile) {
+            MessageToast.show(
+              "Adjunte un fichero por medio de pago y vuelva a intentar"
+            );
+            return;
+          }
+
           if (!oMP.getSelectedKey()) {
             oMP.setValueState(ValueState.Error);
             return;
@@ -1336,13 +1358,15 @@ sap.ui.define(
           };
         } else {
           oDatos = {
-            Descripcion: oMP.getSelectedItem().getText(),
+            //Detalle: oMP.getSelectedItem().getText(),
+            //Descripcion: oMP.getSelectedItem().getText(),
+            Descripcion: oMP.getValue(),
             Numero: oCbte.getValue(),
             NroCheque: oCheque.getValue(),
             FechaEmision: oFechaEmision.getDateValue(),
             Importe: oImporteNew,
             Fecha: oFechaDeposito.getDateValue(),
-            Detalle: oMP.getSelectedItem().getText(),
+            Detalle: oMP.getValue(),
             FechaVencimiento: oFechaVencimiento.getDateValue(),
             BancoEmisor: oBcoEmisor.getSelectedKey(),
             BancoDestino: oBcoDestino.getSelectedKey(),
@@ -1498,6 +1522,7 @@ sap.ui.define(
 
       onButtonDeletePagoPress: async function (oPath) {
         let oModel = this.getView().getModel(),
+          oMockModel = this.getView().getModel("mockdata"),
           oItem = oModel.getObject(oPath),
           oView = this.getView(),
           oAddedData = this.getView()
@@ -1508,6 +1533,8 @@ sap.ui.define(
 
         if (rta.Respuesta !== "OK") {
           this._onErrorHandle(rta.Datos);
+        } else {
+          oMockModel.setProperty("/Paso06ImporteDetalle", 0);
         }
 
         // if (oAddedData.length > 1) {
@@ -1516,12 +1543,11 @@ sap.ui.define(
         // } else {
         //   oModel.setProperty("/Detalle", []);
         //   oModel.setProperty("/Paso06Detalles", 0);
-        //   oModel.setProperty("/Paso06ImporteDetalle", 0);
         //   oModel.getProperty("/RESTANTE", 0);
         //   this.onCheckDetalles();
         // }
 
-        oModel.refresh();
+        oModel.refresh(true);
       },
 
       onCheckValue: function (oValue) {

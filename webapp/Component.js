@@ -119,7 +119,7 @@ sap.ui.define(
             datos : {}
           },
           ActiveDetalle: {
-            MPkey: 0,
+            MPkey: "0000000001",
             MPDesc:"",
             NroCheq: "",
             NroCte: "",
@@ -148,8 +148,8 @@ sap.ui.define(
           SALDO: 0,
           ActiveStep:"1",
           filedescuento: false,
-          fileretencion: false,
-          filempago: false
+          fileretencion: 0,
+          filempago: 0
 
   
         });

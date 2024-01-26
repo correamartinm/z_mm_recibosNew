@@ -115,6 +115,6 @@
 
 
         <!-- <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" /> -->
-        <Button enabled="{= ${mockdata>/Paso02ImportePagos} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonPagoAdicionalPress" />
+        <Button enabled="{= ${mockdata>/Paso02ImportePagos} !== 0 }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonPagoAdicionalPress" />
     </HBox>
 </core:FragmentDefinition>

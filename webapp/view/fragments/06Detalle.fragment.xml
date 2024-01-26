@@ -90,7 +90,7 @@
 
 
 
-    <Table items="{path : '/PagosSet' ,events: {
+    <Table id="idTableMP" items="{path : '/PagosSet' ,events: {
         dataReceived: '.onCheckStep' } }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders" visible="{= ${layout>/detalleadd} === false }">
         <headerToolbar>
             <OverflowToolbar>
@@ -125,13 +125,19 @@
             <ColumnListItem type="Active" highlight="Information">
                 <cells>
 
-
-                    <Text text=" {TipoComprobante}"/>
-                    <HBox >
+                    <VBox alignContent="Start" alignItems="Start">
+                        <Text text="{Detalle}"/>
                         <Text text="{Numero}" wrapping="false"/>
-                        <Text text="{path : 'FechaEmision', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
-                        <Text text="{NroCheque}"/>
-                    </HBox>
+                        <Text text="{path : 'Fecha', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
+
+                    </VBox>
+                    <VBox alignContent="Start" alignItems="Start">
+
+                        <Text visible="{= ${FechaEmision} !== '' }" text="{i18n>lblfechaemision}: {path : 'FechaEmision', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
+                        <Text visible="{= ${FechaVencimiento} !== '' }" text="{i18n>lblvencimiento}: {path : 'FechaVencimiento', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
+                        <Text text="{i18n>lblncheque}: {NroCheque}" visible="{= ${NroCheque} !== '' }"/>
+                    </VBox>
+
                     <!-- <Text text="{Importe}"/> -->
                     <Label text="{path : 'Importe' , formatter : '.formatCurrency'}"/>
 
@@ -153,10 +159,15 @@
         <form:SimpleForm editable="true" layout="ColumnLayout" visible="{layout>/detalleadd}">
             <form:content>
                 <Label text="{i18n>lblmedios}" required="true" labelFor="idRSInput"/>
-                    
-                <Select enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }"  id="idselectMP" items="{/DetallePagoSet}"  change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
+
+                <!-- <Select editable="{= ${mockdata>/Paso06PathUpdate} === '' }" enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }" showSecondaryValues="true" id="idselectMP" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
                     <core:Item key="{Codigo}" text="{Descripcion}" />
-                </Select>
+                </Select> -->
+
+                <ComboBox editable="{= ${mockdata>/Paso06PathUpdate} === '' }" enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }" showSecondaryValues="true" id="idselectMP" items="{/DetallePagoSet}" value="{mockdata>/ActiveDetalle/Descripcion}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
+                    <core:Item key="{Codigo}" text="{Descripcion}" />
+                </ComboBox>
+
 
                 <Label text="{i18n>lblnumcomprobante}" required="true" labelFor="idComprobantePagoInput" visible="{mockdata>/ActiveMP/DetCbte}"/>
                 <Input id="idDetComprobante" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" value="{mockdata>/ActiveDetalle/Numero}"/>
@@ -182,19 +193,19 @@
 
                 <Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
 
-                
-                    <Select id="idDetBcoEmisor" items="{/BancoEmiSet}" selectedKey="{mockdata>/ActiveMP/BancoEmisor}" visible="{mockdata>/ActiveMP/BcoEmi}">
-                        <core:Item key="{Codigo}" text="{Descripcion}" />
-                    </Select>
-                    
-                    
+
+                <Select id="idDetBcoEmisor" items="{/BancoEmiSet}" selectedKey="{mockdata>/ActiveMP/BancoEmisor}" visible="{mockdata>/ActiveMP/BcoEmi}">
+                    <core:Item key="{Codigo}" text="{Descripcion}" />
+                </Select>
+
+
                 <!-- <Input id="idDetBcoEmisor" visible="{mockdata>/ActiveMP/BcoEmi}" value="{mockdata>/ActiveDetalle/BancoEmisor}"/> -->
 
                 <Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
                 <DatePicker id="idDetFecVto" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
 
                 <Label text="{i18n>lbldocumentacion}" required="true" />
-                <Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />
+                <Button enabled="{= ${mockdata>/ActiveDetalle/Descripcion} !== '' }" text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />
 
 
 

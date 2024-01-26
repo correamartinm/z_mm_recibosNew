@@ -109,6 +109,6 @@
 
 
         <!-- <Button text="{i18n>btnvolver}" type="Emphasized" icon="sap-icon://nav-back" press="onVolverButtonCancelarDescPress" class="sapUiTinyMarginEnd" /> -->
-        <Button enabled="{= ${mockdata>/Paso03ImporteComprobantes} > 0}" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonComprobantesPress" />
+        <Button enabled="{= ${mockdata>/Paso03ImporteComprobantes} !== ''  &amp;&amp; ${mockdata>/Paso03ImporteComprobantes} !== 0  }" text="{i18n>btnguardar}" type="Emphasized" icon="sap-icon://save" press="onGuardarButtonComprobantesPress" />
     </HBox>
 </core:FragmentDefinition>

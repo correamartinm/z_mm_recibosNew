@@ -35,15 +35,15 @@ sap.ui.define(
         });
       },
 
-      onAmountChange: function(oEvent) {
+      onAmountChange: function (oEvent) {
         var oInput = oEvent.getSource();
         var sValue = oInput.getValue();
-  
+
         // Parse the entered value and format it as currency
         var oCurrencyType = new Currency({
-          showMeasure: false
+          showMeasure: false,
         });
-  
+
         try {
           var fParsedValue = oCurrencyType.parseValue(sValue, "string");
           oInput.setValue(oCurrencyType.formatValue(fParsedValue, "string"));
@@ -59,19 +59,15 @@ sap.ui.define(
         } else {
           let ovalue = parseFloat(value);
           if (text.toUpperCase() === "SALDO" && value !== "") {
-
-            if (parseFloat(value) <= 0 ){
+            if (parseFloat(value) <= 0) {
               this.getOwnerComponent()
-              .getModel("mockdata")
-              .setProperty("/SALDO", -1);
+                .getModel("mockdata")
+                .setProperty("/SALDO", -1);
             } else {
               this.getOwnerComponent()
-              .getModel("mockdata")
-              .setProperty("/SALDO", parseFloat(value));
+                .getModel("mockdata")
+                .setProperty("/SALDO", parseFloat(value));
             }
-
-
-            
           }
         }
         return text;
@@ -138,18 +134,16 @@ sap.ui.define(
 
       formatCurrency: function (param) {
         let oValue,
-        oCurrencyFormat = sap.ui.core.format.NumberFormat.getCurrencyInstance( {currencyCode: false});
-    
-      
-        if (param){
+          oCurrencyFormat = sap.ui.core.format.NumberFormat.getCurrencyInstance(
+            { currencyCode: false }
+          );
+
+        if (param) {
           oValue = oCurrencyFormat.format(param);
           return oValue;
-    
         } else {
           return param;
         }
-
-        
       },
 
       formatStateBool: function (param) {
@@ -273,6 +267,8 @@ sap.ui.define(
           oMockModel = this.getOwnerComponent().getModel("mockdata");
 
         let paso1 = oMockModel.getProperty("/Paso01Cliente");
+        let paso5 = oMockModel.getProperty("/ActiveRetencion");
+        oItem.filename = paso5.NroLinea;
         oItem.Cliente = paso1.Cliente;
         oItem.Tipo = "RETE";
 
@@ -291,6 +287,9 @@ sap.ui.define(
           oMockModel = this.getOwnerComponent().getModel("mockdata");
 
         let paso1 = oMockModel.getProperty("/Paso01Cliente");
+
+        let paso5 = oMockModel.getProperty("/ActiveDetalle");
+        oItem.filename = paso5.Descripcion;
         oItem.Cliente = paso1.Cliente;
         oItem.Tipo = "DETA";
 
@@ -332,6 +331,7 @@ sap.ui.define(
         Item.filter(oFilters);
 
         this._oDialogUploadSet.open();
+        
       },
 
       onCloseonFileDialog: function () {
@@ -397,7 +397,7 @@ sap.ui.define(
               });
           }
         });
-        oEvent.getSource().setEnabled(false);
+        // oEvent.getSource().setEnabled(false);
         sap.ui.core.Fragment.byId("UploadFile", "download").setEnabled(false);
 
         if (oAttachmentUpl.getItems().length > 0) {
@@ -407,6 +407,7 @@ sap.ui.define(
         }
         oAttachmentUpl.setBusy(false);
       },
+
       onDownload: function (oEvent) {
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           File = oMockModel.getProperty("/FileParameters"),
@@ -440,6 +441,11 @@ sap.ui.define(
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oSlug,
           paso1 = oMockModel.getProperty("/FileParameters");
+        if (paso1.filename === undefined) {
+          paso1.filename = "";
+        } else {
+          paso1.filename = paso1.filename + " - ";
+        }
 
         var aIncompleteItems = oAttachmentUpl.getIncompleteItems();
         this.iIncompleteItems = aIncompleteItems.length;
@@ -475,6 +481,7 @@ sap.ui.define(
                   ",Tipo=" +
                   paso1.Tipo +
                   ",Nombre=" +
+                  paso1.filename +
                   sFileName,
               });
             }
@@ -495,20 +502,28 @@ sap.ui.define(
           );
         }
 
-        let Data = oEvent.oSource.getHeaderFields()[1].getText();
-        var Cadena = Data.split(",", 2);
+        let Data = oEvent.oSource.getHeaderFields()[1].getText(),
+          Cadena = Data.split(",", 2),
+          ofileRet = oMockModel.getProperty("/fileretencion"),
+          ofileMP = oMockModel.getProperty("/filempago");
+
+          var oAttachmentUpl = sap.ui.core.Fragment.byId(
+            "UploadFile",
+            "attachmentUpl"
+          );
+        
+        let ovalue =   oAttachmentUpl.getItems().length;
 
         switch (Cadena[1]) {
           case "Tipo=DESC":
-        
-            oMockModel.setProperty("/filedescuento", true );
+            oMockModel.setProperty("/filedescuento", true);
             break;
 
           case "Tipo=RETE":
-            oMockModel.setProperty("/fileretencion", true );
+            oMockModel.setProperty("/fileretencion", ovalue);
             break;
           case "Tipo=DETA":
-            oMockModel.setProperty("/filempago", true );
+            oMockModel.setProperty("/filempago", ovalue);
             break;
 
           default:
@@ -567,13 +582,16 @@ sap.ui.define(
             oItems[index].Cliente = DataCte.Cliente;
           }
 
-
-          if ( oItems[index].Importe.includes(",")){
-            oItems[index].Importe = oItems[index].Importe.replace(/\./g, '');
-            oItems[index].Importe = oItems[index].Importe.replace(/,/g, '.');
-          } 
-          
-          
+          if (oItems[index].Importe.includes(",")) {
+            oItems[index].Importe = oItems[index].Importe.replace(/\./g, "");
+            oItems[index].Importe = oItems[index].Importe.replace(/,/g, ".");
+          }
+          if (oItems[index].Aplicado !== undefined) {
+            if (oItems[index].Aplicado.includes(",")) {
+              oItems[index].Aplicado = oItems[index].Importe.replace(/\./g, "");
+              oItems[index].Aplicado = oItems[index].Importe.replace(/,/g, ".");
+            }
+          }
 
           console.log(Step, oItems);
           rtaP2 = await this._oncreateModelNew(
@@ -646,8 +664,6 @@ sap.ui.define(
               oView.setBusy(false);
               oModel.refresh(true);
               resolve({ Respuesta: "OK", Datos: oData });
-
-
             }.bind(this),
 
             error: function (oError) {
