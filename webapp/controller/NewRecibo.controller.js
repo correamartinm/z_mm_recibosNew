@@ -364,8 +364,6 @@ sap.ui.define(
           oData = oMockModel.getProperty("/Paso01Cliente");
         if (oData.RazonSocial === "" || oData.RazonSocial === undefined) return;
 
-        let Step = this.byId("idClienteWizardStep");
-
         if (oData.Anticipo === true) {
           oTipoCte = "A";
         } else if (oData.Recibo === true) {
@@ -379,12 +377,6 @@ sap.ui.define(
             Accion: oData.Accion,
             TipoComprobante: oTipoCte,
           };
-
-          if (oData.Anticipo === true) {
-            Step.setNextStep(this.getView().byId("idDetalleWizardStep"));
-          } else {
-            Step.setNextStep(this.getView().byId("idPagoaCtaWizardStep"));
-          }
 
           let rta = await this._oncreateModel(
             oModel,
@@ -401,12 +393,24 @@ sap.ui.define(
 
             oMockModel.setProperty("/Paso01Cliente", oData);
 
+            let Step = this.byId("idClienteWizardStep");
+            Step.setNextStep(this.getView().byId("idPagoaCtaWizardStep"));
+
             this._onValidateStep();
           }
         }
       },
 
       onWizardStepClienteComplete: async function () {
+        let oMockModel = this.getView().getModel("mockdata"),
+          oData = oMockModel.getProperty("/Paso01Cliente");
+        let Step = this.byId("idPagoaCtaWizardStep");
+
+        if (oData.Anticipo === true) {
+          Step.setNextStep(this.getView().byId("idDetalleWizardStep"));
+        } else {
+          Step.setNextStep(this.getView().byId("idComprobanteWizardStep"));
+        }
         this.onFilterTableCbtes02();
         this._onCheckPago();
       },
@@ -532,8 +536,7 @@ sap.ui.define(
                 oValue = oValue.replace(/\,/g, ".");
               }
 
-              oImportesSuma =
-                parseFloat(oImportesSuma) + parseFloat(oValue);
+              oImportesSuma = parseFloat(oImportesSuma) + parseFloat(oValue);
             }
           }
 
@@ -589,9 +592,33 @@ sap.ui.define(
           Step = "idPagoaCtaWizardStep";
 
         this._onGuardar(oEntidad, Tipo, Step, PostEntidad);
+
+        let StepWz = this.byId("idClienteWizardStep");
+        let oData = this.getView()
+          .getModel("mockdata")
+          .getProperty("/Paso01Cliente");
+
+
+        this.onWizardStepPagosComplete();
       },
 
-      onWizardStepPagosComplete: function () {},
+      onWizardStepPagosComplete: function () {
+
+        let oModel = this.getView().getModel("mockdata"),
+          TipoRecibo = oModel.getProperty("/Paso01Cliente"),
+          ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos");
+          
+
+        // ValidarDetalles
+
+        if (TipoRecibo.Anticipo === true && parseFloat(ImportePGOCTA) > 0) {
+          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
+        } else {
+          this._wizard.invalidateStep(this.getView().byId("idDetalleWizardStep"));
+        }
+
+
+      },
 
       // ********************************************
       // Paso Seleccion Pagos a Comprobantes --------------
@@ -1125,6 +1152,7 @@ sap.ui.define(
 
       onWizardStepRetencionComplete: function () {
         let oModel = this.getView().getModel("mockdata"),
+          TipoRecibo = oModel.getProperty("/Paso01Cliente"),
           ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
           ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
           ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
@@ -1148,6 +1176,16 @@ sap.ui.define(
 
         oModel.setProperty("/SUBTOTAL", oSubTotal);
         oModel.getProperty("/RESTANTE", oSubTotal);
+
+        // ValidarDetalles
+
+        if (TipoRecibo.Anticipo === true && parseFloat(ImportePGOCTA) > 0) {
+          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
+        }
+
+        if (parseFloat(ImportePGOCTA) > 0 && parseFloat(ImporteCBTES) > 0) {
+          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
+        }
       },
 
       // ********************************************

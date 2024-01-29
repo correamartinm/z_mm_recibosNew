@@ -26,7 +26,7 @@
 
                         <Wizard id="idWizard" complete="onWizardComplete" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" enableBranching="true">
 
-                            <WizardStep icon="sap-icon://person-placeholder" validated="false" id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
+                            <WizardStep icon="sap-icon://person-placeholder" validated="false" nextStep="idPagoaCtaWizardStep"  id="idClienteWizardStep" subsequentSteps="idPagoaCtaWizardStep, idDetalleWizardStep" complete="onWizardStepClienteComplete" title="{i18n>clientetitle}">
 
                                 <Panel >
                                     <content>
@@ -38,7 +38,7 @@
 
                             </WizardStep>
 
-                            <WizardStep nextStep="idComprobanteWizardStep" icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate" complete="onWizardStepPagosComplete">
+                            <WizardStep icon="sap-icon://customer-financial-fact-sheet" id="idPagoaCtaWizardStep" title="{i18n>pagoactatitle}" activate="onWizardStepPagoActivate" complete="onWizardStepPagosComplete">
 
                                 <Panel >
 
