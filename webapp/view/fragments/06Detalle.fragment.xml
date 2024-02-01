@@ -163,8 +163,9 @@
                 <!-- <Select editable="{= ${mockdata>/Paso06PathUpdate} === '' }" enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }" showSecondaryValues="true" id="idselectMP" items="{/DetallePagoSet}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
                     <core:Item key="{Codigo}" text="{Descripcion}" />
                 </Select> -->
-
-                <ComboBox editable="{= ${mockdata>/Paso06PathUpdate} === '' }" enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }" showSecondaryValues="true" id="idselectMP" items="{/DetallePagoSet}" value="{mockdata>/ActiveDetalle/Descripcion}" change="onInputTipoPagoChange" selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
+                
+                
+                <ComboBox enabled="{= ${mockdata>/Paso01Cliente/Recibo} !== true }"  editable="{= ${mockdata>/Paso06PathUpdate} === '' }"    showSecondaryValues="true" id="idselectMP" items="{/DetallePagoSet}" value="{mockdata>/ActiveDetalle/Descripcion}" change="onInputTipoPagoChange"  selectedKey="{mockdata>/ActiveDetalle/NroLinea}">
                     <core:Item key="{Codigo}" text="{Descripcion}" />
                 </ComboBox>
 

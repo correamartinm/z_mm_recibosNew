@@ -502,6 +502,7 @@ sap.ui.define(
               .getCells()[6]
               .setValueState(sap.ui.core.ValueState.None);
 
+            vObject.Importe = oItems[index].getCells()[6].getValue();
             this._onFocusControl(oItems[index].getCells()[6]);
           }
         }
@@ -528,6 +529,7 @@ sap.ui.define(
 
             if (oItems[index].getSelected() === true) {
               // let  oValue = oItems[index].getCells()[7].getValue();
+              vObject.Importe = oValue;
               vObject.Aplicado = oValue;
               Data.push(vObject);
               Data.NroLinea = index;
@@ -539,7 +541,7 @@ sap.ui.define(
               oImportesSuma = parseFloat(oImportesSuma) + parseFloat(oValue);
             }
           }
-
+          console.log(Data);
           oMockModel.setProperty(oComprobantes, Data);
           oMockModel.setProperty(oCantidad, Data.length);
           oMockModel.setProperty(oImporte, this.formatCurrency(oImportesSuma));
@@ -598,26 +600,23 @@ sap.ui.define(
           .getModel("mockdata")
           .getProperty("/Paso01Cliente");
 
-
         this.onWizardStepPagosComplete();
       },
 
       onWizardStepPagosComplete: function () {
-
         let oModel = this.getView().getModel("mockdata"),
           TipoRecibo = oModel.getProperty("/Paso01Cliente"),
           ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos");
-          
 
         // ValidarDetalles
 
         if (TipoRecibo.Anticipo === true && parseFloat(ImportePGOCTA) > 0) {
           this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
         } else {
-          this._wizard.invalidateStep(this.getView().byId("idDetalleWizardStep"));
+          this._wizard.invalidateStep(
+            this.getView().byId("idDetalleWizardStep")
+          );
         }
-
-
       },
 
       // ********************************************
@@ -995,6 +994,9 @@ sap.ui.define(
 
         oMockModel.setProperty("/ActiveRetencion", Object);
         oLayModel.setProperty("/retencionesadd", oValue);
+        if (oValue === false) {
+          oMockModel.setProperty("/Paso05PathUpdate", "");
+        }
       },
 
       guardarRetencion: function () {
@@ -1063,11 +1065,11 @@ sap.ui.define(
           };
         } else {
           oDatos = {
-            TipoComprobante: oTipo.getSelectedItem().getText(),
+            TipoComprobante: oActiveRetencion.TipoComprobante,
             Fecha: oFecha.getDateValue(),
             Importe: oImporte.getValue(),
             Codigo: oActiveRetencion.Codigo,
-            Descripcion: oTipo.getSelectedItem().getText(),
+            Descripcion: oActiveRetencion.Descripcion,
             Numero: oNCertificado.getValue(),
             // NroLinea: oTipo.getSelectedKey(),
             // Numero: parseFloat(oNCertificado.getValue()),
@@ -1158,13 +1160,15 @@ sap.ui.define(
           ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
           ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
 
-        oModel.setProperty("/Paso02ImportePagos", parseFloat(ImportePGOCTA));
-        oModel.setProperty(
-          "/Paso03ImporteComprobantes",
-          parseFloat(ImporteCBTES)
-        );
+        // oModel.setProperty("/Paso02ImportePagos", parseFloat(ImportePGOCTA));
+        // oModel.setProperty("/Paso03ImporteComprobantes", parseFloat(ImporteCBTES)  );
+
         oModel.setProperty("/Paso04ImporteDescuentos", parseFloat(ImporteDTO));
         oModel.setProperty("/Paso05ImporteRetenciones", parseFloat(ImporteRET));
+
+        ImporteDTO = this.formatCurrencytoText(ImporteDTO);
+        ImporteRET = this.formatCurrencytoText(ImporteRET);
+        ImporteCBTES = this.formatCurrencytoText(ImporteCBTES);
 
         let oSubTotal =
           parseFloat(ImporteCBTES) ||
@@ -1233,11 +1237,31 @@ sap.ui.define(
             .getModel("mockdata")
             .getProperty("/Paso01Cliente"),
           oCboMp = this.getView().byId("idselectMP");
+        // let oFilter = new Array();
+        // let binding = oCboMp.getBinding("items");
+        let EtvoItem = oCboMp.getItemByText("EFECTIVO");
 
-        if (Recibo.Recibo === true && Object.length === 0) {
-          Object.NroLinea = "0000000001";
-          Object.Descripcion = "EFECTIVO";
+        Object.NroLinea = EtvoItem.mProperties.key;
+        Object.Descripcion = EtvoItem.mProperties.text;
+        oCboMp.setSelectedKey(EtvoItem.mProperties.key);
+        // oCboMp.fireSelectionChange();
+        oCboMp.fireChange();
+        
+        if (Recibo.Recibo === true && Object.length === 0 && oValue === true) {
+
+          // oFilter.push(
+          //   new sap.ui.model.Filter(
+          //     "Descripcion",
+          //     sap.ui.model.FilterOperator.EQ,
+          //     "EFECTIVO"
+          //   )
+          // );
+
+          // binding.filter(oFilter, "Application");
+          // let item = oCboMp.getItems();
+
         }
+        // binding.filter(oFilter, "Application");
 
         this._onUpdateValues();
 
@@ -1837,11 +1861,14 @@ sap.ui.define(
           sMessageTitle = this._i18n().getText("msgvolver");
 
         this._onShowMsgBoxConfirm(sMessage, sMessageTitle).then((rta) => {
-          if (rta === "OK") this.discardProgress();
+          if (rta === "OK") {
+
+          this.discardProgress();
           oMockModel.setProperty("/NoComprobantes", false);
           this._onClearTable(this.getView().byId("idPagoCtaTable"), 6);
           this._onClearTable(this.getView().byId("idComprobanteTable"), 7);
           this.getOwnerComponent().getTargets().display("TargetMainView");
+          } 
         });
       },
 

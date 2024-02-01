@@ -53,6 +53,17 @@ sap.ui.define(
         }
       },
 
+      formatCurrencytoText: function (ovalue) {
+        if (isNaN(ovalue) === true) {
+          if (ovalue.includes(",")) {
+            ovalue = ovalue.replace(/\./g, "");
+            ovalue = ovalue.replace(/,/g, ".");
+          }
+        }
+
+        return ovalue;
+      },
+
       formatItem: function (text, value) {
         if (!text) {
           return "";
@@ -137,6 +148,11 @@ sap.ui.define(
           oCurrencyFormat = sap.ui.core.format.NumberFormat.getCurrencyInstance(
             { currencyCode: false }
           );
+
+        if (param === undefined) return param;
+        if (isNaN(param) === true && param.includes(",")) {
+          return param;
+        }
 
         if (param) {
           oValue = oCurrencyFormat.format(param);
@@ -331,7 +347,6 @@ sap.ui.define(
         Item.filter(oFilters);
 
         this._oDialogUploadSet.open();
-        
       },
 
       onCloseonFileDialog: function () {
@@ -507,12 +522,12 @@ sap.ui.define(
           ofileRet = oMockModel.getProperty("/fileretencion"),
           ofileMP = oMockModel.getProperty("/filempago");
 
-          var oAttachmentUpl = sap.ui.core.Fragment.byId(
-            "UploadFile",
-            "attachmentUpl"
-          );
-        
-        let ovalue =   oAttachmentUpl.getItems().length;
+        var oAttachmentUpl = sap.ui.core.Fragment.byId(
+          "UploadFile",
+          "attachmentUpl"
+        );
+
+        let ovalue = oAttachmentUpl.getItems().length;
 
         switch (Cadena[1]) {
           case "Tipo=DESC":
