@@ -128,13 +128,13 @@
                     <VBox alignContent="Start" alignItems="Start">
                         <Text text="{Detalle}"/>
                         <Text text="{Numero}" wrapping="false"/>
-                        <Text text="{path : 'Fecha', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
+                        <Text  visible="{= ${Fecha} !== null }" text="{path : 'Fecha', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
 
                     </VBox>
                     <VBox alignContent="Start" alignItems="Start">
 
-                        <Text visible="{= ${FechaEmision} !== '' }" text="{i18n>lblfechaemision}: {path : 'FechaEmision', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
-                        <Text visible="{= ${FechaVencimiento} !== '' }" text="{i18n>lblvencimiento}: {path : 'FechaVencimiento', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
+                        <Text visible="{= ${FechaEmision} !== null }" text="{i18n>lblfechaemision}: {path : 'FechaEmision', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
+                        <Text visible="{= ${FechaVencimiento} !== null }" text="{i18n>lblvencimiento}: {path : 'FechaVencimiento', type: 'sap.ui.model.type.Date' , formatOptions: {pattern: 'dd/MM/yyyy' , UTC: true }}"/>
                         <Text text="{i18n>lblncheque}: {NroCheque}" visible="{= ${NroCheque} !== '' }"/>
                     </VBox>
 
