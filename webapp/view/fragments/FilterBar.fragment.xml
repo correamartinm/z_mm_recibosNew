@@ -2,7 +2,7 @@
     xmlns:core="sap.ui.core"
     xmlns:fb="sap.ui.comp.filterbar">
 
-    <fb:FilterBar id="idFilterBar" header="{i18n>tabletitle}" reset="onFilterBarReset" showRestoreOnFB="true" search="onFilterBarSearch" showRestoreButton="false"   showFilterConfiguration="false">
+    <fb:FilterBar id="idFilterBar" header="{i18n>tabletitle}:" reset="onFilterBarReset" showRestoreOnFB="true" search="onFilterBarSearch" showRestoreButton="false"   showFilterConfiguration="false">
 
         <fb:filterGroupItems>
 

@@ -500,7 +500,7 @@ sap.ui.define(
                   sFileName,
               });
             }
-            console.log(oSlug.mProperties);
+            // console.log(oSlug.mProperties);
             oAttachmentUpl.addHeaderField(oXCSRFToken).addHeaderField(oSlug);
             // oAttachmentUpl.uploadItem(aIncompleteItems[i]);
             // oAttachmentUpl.removeAllHeaderFields();
@@ -544,8 +544,7 @@ sap.ui.define(
           default:
             break;
         }
-        //
-        console.log("Fichero Cargado");
+        //   console.log("Fichero Cargado");
       },
       parseErrorMsg: function (oError) {
         //parses oData error messages dependent on different return values
@@ -608,7 +607,7 @@ sap.ui.define(
             }
           }
 
-          console.log(Step, oItems);
+          // console.log(Step, oItems);
           rtaP2 = await this._oncreateModelNew(
             oModel,
             oView,

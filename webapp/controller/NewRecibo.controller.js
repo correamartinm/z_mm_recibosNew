@@ -252,7 +252,7 @@ sap.ui.define(
           oEntidad = "/ComprobantesSet";
 
         let oResponseModel = await this._onreadModel(oModel, oView, oPath);
-        console.log(oResponseModel);
+        // console.log(oResponseModel);
 
         if (oResponseModel.Rta !== "OK") {
           vObject = [];
@@ -384,7 +384,7 @@ sap.ui.define(
             oEntidad,
             oPayload
           );
-          console.log(rta);
+          // console.log(rta);
           if (rta.Mensaje !== "") {
             oData.Completo = false;
             oData.Mensaje = rta.Mensaje;
@@ -541,7 +541,7 @@ sap.ui.define(
               oImportesSuma = parseFloat(oImportesSuma) + parseFloat(oValue);
             }
           }
-          console.log(Data);
+          // console.log(Data);
           oMockModel.setProperty(oComprobantes, Data);
           oMockModel.setProperty(oCantidad, Data.length);
           oMockModel.setProperty(oImporte, this.formatCurrency(oImportesSuma));
