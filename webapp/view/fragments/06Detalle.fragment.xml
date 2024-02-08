@@ -174,7 +174,7 @@
                 <Input id="idDetComprobante" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" value="{mockdata>/ActiveDetalle/Numero}"/>
 
                 <Label text="{i18n>lblimpor}" required="true" labelFor="idImportePagoInput"/>
-                <Input id="idImportePagoInput" change="onformatImportes" value="{mockdata>/ActiveDetalle/Importe}" placeholder=" {i18n>lblrestante}: {mockdata>/RESTANTE}"/>
+                <Input showClearIcon="true" id="idImportePagoInput" change="onformatImportes" value="{mockdata>/ActiveDetalle/Importe}" placeholder=" {i18n>lblrestante}: {mockdata>/RESTANTE}"/>
                 <Label text="{i18n>lblfechaemision}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecEmis}"/>
                 <DatePicker id="idDetFechaEmision" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecEmis}" dateValue="{mockdata>/ActiveDetalle/FechaEmision}"/>
 

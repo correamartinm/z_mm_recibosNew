@@ -75,7 +75,7 @@ sap.ui.define(
 
         oRazonsocial.removeAllTokens;
         oProcesado.setSelectedKey(null);
-        oCuit.removeAllTokens;
+        oCuit.removeAllTokens();
         oFecha.setValue(null);
         let oFilter = [];
         this._onRefreshTable(oFilter);

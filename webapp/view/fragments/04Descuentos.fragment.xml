@@ -84,7 +84,7 @@
             <DatePicker id="idFechaDatePickerFDescuento" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveDescuento/Fecha}"/>
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteInput"/>
-            <Input id="idImporteInput" change="onformatImportes" value="{mockdata>/ActiveDescuento/Importe}"/>
+            <Input id="idImporteInput" change="onformatImportes" value="{mockdata>/ActiveDescuento/Importe}" showClearIcon="true"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idDescuentoFileUploader"/>
 

@@ -318,6 +318,7 @@ sap.ui.define(
 
       onFileDialog: function (oItem, oFilters) {
         if (!this._oDialogUploadSet) {
+
           this._oDialogUploadSet = sap.ui.xmlfragment(
             "UploadFile",
             "morixe.zfirecibos.view.fragments.FileUploader",
@@ -327,6 +328,10 @@ sap.ui.define(
         }
 
         // Filtro Ficheros
+
+        let check = this.getOwnerComponent()
+        .getModel("mockdata")
+        .getProperty("/FileParameters");
 
         var oUploadCollection = sap.ui.core.Fragment.byId(
           "UploadFile",
@@ -345,6 +350,11 @@ sap.ui.define(
         let Item = oUploadCollection.getBinding("items");
 
         Item.filter(oFilters);
+
+        if (check.Tipo === "RECIB") {
+          oUploadCollection.setUploadEnabled(false);
+          // oUploadCollection.setUploadButtonInvisible(false);
+        }
 
         this._oDialogUploadSet.open();
       },
@@ -500,10 +510,8 @@ sap.ui.define(
                   sFileName,
               });
             }
-            // console.log(oSlug.mProperties);
+
             oAttachmentUpl.addHeaderField(oXCSRFToken).addHeaderField(oSlug);
-            // oAttachmentUpl.uploadItem(aIncompleteItems[i]);
-            // oAttachmentUpl.removeAllHeaderFields();
           }
         }
       },
@@ -544,7 +552,7 @@ sap.ui.define(
           default:
             break;
         }
-        //   console.log("Fichero Cargado");
+        console.log("Fichero Cargado");
       },
       parseErrorMsg: function (oError) {
         //parses oData error messages dependent on different return values

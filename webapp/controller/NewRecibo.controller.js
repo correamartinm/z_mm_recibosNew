@@ -187,6 +187,8 @@ sap.ui.define(
 
       onClearData: function () {
         let oMockModel = this.getView().getModel("mockdata");
+        let oLayModel = this.getView().getModel("layout");
+
         oMockModel.setProperty("/Paso01Cliente", {});
         oMockModel.setProperty("/Paso2Data", []);
         oMockModel.setProperty("/Paso02Seleccionados", []);
@@ -211,9 +213,9 @@ sap.ui.define(
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
 
-        oMockModel.setProperty("/descuentosadd", false);
-        oMockModel.setProperty("/retencionesadd", false);
-        oMockModel.setProperty("/detalleadd", false);
+        oLayModel.setProperty("/descuentosadd", false);
+        oLayModel.setProperty("/retencionesadd", false);
+        oLayModel.setProperty("/detalleadd", false);
 
         oMockModel.setProperty("/filedescuento", false);
         oMockModel.setProperty("/fileretencion", 0);
@@ -1009,8 +1011,6 @@ sap.ui.define(
             this.getView().byId("idRetencionesWizardStep")
           );
         }
-
-
       },
 
       guardarRetencion: function () {
@@ -1171,9 +1171,6 @@ sap.ui.define(
           ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
           ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones");
 
-        // oModel.setProperty("/Paso02ImportePagos", parseFloat(ImportePGOCTA));
-        // oModel.setProperty("/Paso03ImporteComprobantes", parseFloat(ImporteCBTES)  );
-
         oModel.setProperty("/Paso04ImporteDescuentos", parseFloat(ImporteDTO));
         oModel.setProperty("/Paso05ImporteRetenciones", parseFloat(ImporteRET));
 
@@ -1248,32 +1245,18 @@ sap.ui.define(
             .getModel("mockdata")
             .getProperty("/Paso01Cliente"),
           oCboMp = this.getView().byId("idselectMP");
-        // let oFilter = new Array();
-        // let binding = oCboMp.getBinding("items");
+
         let EtvoItem = oCboMp.getItemByText("EFECTIVO");
 
-        Object.NroLinea = EtvoItem.mProperties.key;
-        Object.Descripcion = EtvoItem.mProperties.text;
-        oCboMp.setSelectedKey(EtvoItem.mProperties.key);
-        // oCboMp.fireSelectionChange();
-        oCboMp.fireChange();
-
-        if (Recibo.Recibo === true && Object.length === 0 && oValue === true) {
-          // oFilter.push(
-          //   new sap.ui.model.Filter(
-          //     "Descripcion",
-          //     sap.ui.model.FilterOperator.EQ,
-          //     "EFECTIVO"
-          //   )
-          // );
-          // binding.filter(oFilter, "Application");
-          // let item = oCboMp.getItems();
+        if (Object.length === 0 && oValue === true) {
+          Object.NroLinea = EtvoItem.mProperties.key;
+          Object.Descripcion = EtvoItem.mProperties.text;
+          oCboMp.setSelectedKey(EtvoItem.mProperties.key);
+          oCboMp.fireChange();
         }
-        // binding.filter(oFilter, "Application");
 
         this._onUpdateValues();
 
-        // EditRecibo = oLayModel.getProperty("/EdicionRecibo");
         this.getOwnerComponent()
           .getModel("layout")
           .setProperty("/detalleadd", oValue);
@@ -1282,17 +1265,13 @@ sap.ui.define(
           .getModel("mockdata")
           .setProperty("/ActiveDetalle", Object);
 
-          if (oValue === true) {
-            this._wizard.invalidateStep(
-              this.getView().byId("idDetalleWizardStep")
-            );
-          } else {
-            this._wizard.validateStep(
-              this.getView().byId("idDetalleWizardStep")
-            );
-          }
-
-
+        if (oValue === true) {
+          this._wizard.invalidateStep(
+            this.getView().byId("idDetalleWizardStep")
+          );
+        } else {
+          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
+        }
       },
 
       onGuardarButtonDetallePress: async function () {

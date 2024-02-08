@@ -80,7 +80,7 @@
             <DatePicker id="idFechaDatePickerFRetencion" displayFormat="dd/MM/YYYY" dateValue="{mockdata>/ActiveRetencion/Fecha}" />
 
             <Label text="{i18n>lblimpor}" required="true" labelFor="idImporteRetencionInput"/>
-            <Input id="idImporteRetencionInput" change="onformatImportes" value="{mockdata>/ActiveRetencion/Importe}"/>
+            <Input showClearIcon="true" id="idImporteRetencionInput" change="onformatImportes" value="{mockdata>/ActiveRetencion/Importe}"/>
 
             <Label text="{i18n>lbldocumentacion}" required="true" labelFor="idRetencionesFileUploader"/>
 
