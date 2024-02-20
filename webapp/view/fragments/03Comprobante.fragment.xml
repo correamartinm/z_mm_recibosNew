@@ -1,10 +1,10 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core">
-    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{mockdata>/Paso3Data}" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" growingThreshold="10" sticky="HeaderToolbar,ColumnHeaders">
-        <!-- <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesSelectionChange" items="{path : '/cbts' ,sorter: [ { path: 'Fecha', descending: true }  ]   }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders"> -->
+    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesChackBoxChange" items="{ path : 'mockdata>/Paso3Data', sorter: [{ path: 'mockdata>Importe', descending: true }] }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" growingThreshold="10" sticky="HeaderToolbar,ColumnHeaders">
+       
         <headerToolbar>
             <OverflowToolbar>
-                <SearchField width="75%" search="onSearchFieldSearchComprobante" placeholder="{i18n>lblnumleg}" />
+                <SearchField id="sf03" width="75%" search="onSearchFieldSearchComprobante" value="" placeholder="{i18n>lblnumleg}" />
                 <ToolbarSpacer/>
 
 
@@ -77,7 +77,7 @@
                     <Label text="{path : 'mockdata>Saldo' , formatter : '.formatCurrency'}"/>
                     <!-- <Label text="{mockdata>Total}"/> -->
                     <!-- <Label text="{mockdata>Saldo}"/> -->
-                    <Input enabled="false" value="{mockdata>Importe}" textAlign="End" change="onInputImporteChange"/>
+                    <Input enabled="{= ${mockdata>Importe} !== '0.00' &amp;&amp; ${mockdata>Importe} !== '0,00' &amp;&amp; ${mockdata>Importe} !== '0,00'  }" value="{mockdata>Importe}" textAlign="End" change="onInputImporteChange"/>
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonPrintPress" class="sapUiTinyMarginBeginEnd" />
                         <Button icon="sap-icon://edit" press="onButtonPrintPress" />

@@ -7,19 +7,10 @@
         <Button icon="sap-icon://sys-add" press="onAgregarButtonPress" text="{i18n>btnagregar}" type="Emphasized" />
     </Toolbar>
 
-    <Table id="idTable" items="{
-        path : '/RECIBOSSet',
-        sorter: [{
-            path: 'Fecha',
-            descending: true
-        }, {
-            path: 'Procesado',
-            descending: true
-        }],
-        filters : [
-            { path : 'Procesado', operator : 'NE', value1 : '' }
-        ]					
-    }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idTable" items="{ path : '/RECIBOSSet', sorter: [{ path: 'Fecha', descending: true }, { path: 'Procesado', descending: true }],
+        filters : [ { path : 'Procesado', operator : 'NE', value1 : '' }  ] }" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="10" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+
+      
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="95%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />

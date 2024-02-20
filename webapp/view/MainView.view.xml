@@ -20,15 +20,18 @@
 		<f:content>
 
 
-			<Panel height="80%">
+			<Panel height="85%">
 				<content>
 
 
-				
-						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
-				
+					<VBox
+					>
 
-				
+						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
+					</VBox>
+
+
+
 
 				</content>
 			</Panel>

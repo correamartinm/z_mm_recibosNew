@@ -213,13 +213,16 @@ sap.ui.define(
         oMockModel.setProperty("/Paso05PathUpdate", "");
         oMockModel.setProperty("/Paso06PathUpdate", "");
 
+        oMockModel.setProperty("/filedescuento", false);
+        oMockModel.setProperty("/fileretencion", 0);
+        oMockModel.setProperty("/filempago", 0);
+
         oLayModel.setProperty("/descuentosadd", false);
         oLayModel.setProperty("/retencionesadd", false);
         oLayModel.setProperty("/detalleadd", false);
 
-        oMockModel.setProperty("/filedescuento", false);
-        oMockModel.setProperty("/fileretencion", 0);
-        oMockModel.setProperty("/filempago", 0);
+        this.getView().byId("sf02").setValue();
+        this.getView().byId("sf03").setValue();
       },
 
       // ************ Control de los Pasos **********
@@ -418,6 +421,8 @@ sap.ui.define(
       },
 
       // ********************************************
+      // Paso Seleccion Pagos a Cta-------
+      // ********************************************
       // Paso Seleccion Pagos a Cuenta --------------
       // ********************************************
 
@@ -427,6 +432,7 @@ sap.ui.define(
           oItems = oTable.getSelectedItems();
 
         ofiltersPCA = [];
+        let oFilter = new Array();
         for (var index = 0; index < oItems.length; index++) {
           ofiltersPCA.push(
             new Filter(
@@ -441,7 +447,11 @@ sap.ui.define(
           ofiltersPCA.push(
             new Filter("NroFactura", FilterOperator.Contains, oValue)
           );
-          oTable.getBinding("items").filter([ofiltersPCA]);
+
+          ofiltersPCA.push(new Filter("NroFactura", FilterOperator.EQ, oValue));
+
+          oFilter.push(new sap.ui.model.Filter(ofiltersPCA, false));
+          oTable.getBinding("items").filter([oFilter]);
         } else {
           oTable.getBinding("items").filter([]);
         }
@@ -454,16 +464,105 @@ sap.ui.define(
           oCCodigo = oCliente.Codigo,
           oFilters = [];
         oFilters.push(new Filter("Cliente", FilterOperator.Contains, oCCodigo));
-
-        //        oFilters.push(new Filter("Tipo", FilterOperator.EQ, oCliente.Codigo));
         if (oTable.getItems() > 0)
           oTable.getBinding("items").filter([oFilters]);
+      },
+
+      onTablePagoChackBoxChange: async function (oEvent) {
+        let oItem = oEvent.getParameters("listItem"),
+          oModel = this.getOwnerComponent().getModel(),
+          oMockModel = this.getView().getModel("mockdata"),
+          oView = this.getView(),
+          oPath = oItem.listItem.getBindingContextPath("mockdata"),
+          vObject = oMockModel.getObject(oPath);
+
+        if (oItem.selected === false) {
+          oItem.listItem.getCells()[6].setValue();
+          oItem.listItem
+            .getCells()[6]
+            .setValueState(sap.ui.core.ValueState.None);
+
+          this._onCheckPago();
+          return;
+        }
+
+        let oKey = oModel.createKey("/PagoCuentaSet", {
+          Numero: vObject.Numero,
+          Sociedad: vObject.Sociedad,
+          Periodo: vObject.Periodo,
+        });
+
+        // oEntidad = "/ComprobantesSet";
+
+        let oResponseModel = await this._onreadModel(oModel, oView, oKey);
+
+        if (oResponseModel.Rta !== "OK") {
+          oItem.listItem.setSelected(false);
+          oItem.selected = false;
+          vObject = [];
+
+          let sMessage =
+              oResponseModel.Data.message +
+              " : " +
+              oResponseModel.Data.statusCode +
+              " - " +
+              oResponseModel.Data.statusText,
+            sMessageTitle = this._i18n().getText("msgerror");
+
+          this._onShowMsgBoxError(sMessage, sMessageTitle).then((rta) => {});
+        } else {
+          if (oResponseModel.Data.Mensaje !== "") {
+            MessageToast.show(oResponseModel.Mensaje);
+            oItem.listItem.setSelected(false);
+            oItem.selected = false;
+          } else {
+            // ************
+
+            oItem.listItem.getCells()[6].setEnabled(true);
+            oPath = oItem.listItem.getBindingContextPath();
+            vObject = this.getView().getModel("mockdata").getObject(oPath);
+
+            oItem.listItem
+              .getCells()[6]
+              .setEnabled(oItem.listItem.getSelected());
+
+            if (
+              oItem.listItem.getCells()[6].getValue() === "0.00" ||
+              oItem.listItem.getCells()[6].getValue() === "0,00" ||
+              oItem.listItem.getCells()[6].getValue() === ""
+            ) {
+              if (parseFloat(vObject.Saldo) > 0) {
+                oItem.listItem
+                  .getCells()[6]
+                  .setValue(this.formatCurrency(vObject.Saldo));
+              } else {
+                oItem.listItem
+                  .getCells()[6]
+                  .setValue(
+                    this.formatCurrency(parseFloat(vObject.Saldo) * -1)
+                  );
+              }
+              vObject.Aplicado = oItem.listItem.getCells()[6].getValue();
+            }
+
+            oItem.listItem
+              .getCells()[6]
+              .setValueState(sap.ui.core.ValueState.None);
+
+            vObject.Importe = oItem.listItem.getCells()[6].getValue();
+            this._onFocusControl(oItem.listItem.getCells()[6]);
+
+            // **************
+            this._onCheckPago(oEvent);
+          }
+        }
       },
 
       onTablePagoCtaSelectionChange: function (oEvent) {
         let oTable = this.getView().byId("idPagoCtaTable"),
           oModel = this.getView().getModel("mockdata"),
           oItems = oTable.getItems(),
+          oBinding = oTable.getBinding("items"),
           oPath,
           oControlCheck,
           vObject;
@@ -631,6 +730,7 @@ sap.ui.define(
           oItems = oTable.getSelectedItems();
 
         ofiltersCBT = [];
+        let oFilter = new Array();
         for (var index = 0; index < oItems.length; index++) {
           ofiltersCBT.push(
             new Filter(
@@ -645,12 +745,102 @@ sap.ui.define(
           ofiltersCBT.push(
             new Filter("NroFactura", FilterOperator.Contains, oValue)
           );
-          oTable.getBinding("items").filter([ofiltersCBT]);
+          ofiltersCBT.push(
+            new Filter("NroFactura", FilterOperator.EQ, oValue)
+          );
+          oFilter.push(new sap.ui.model.Filter(ofiltersCBT, false));
+          oTable.getBinding("items").filter([oFilter]);
         } else {
           oTable.getBinding("items").filter([]);
         }
 
-        this._onCheckComprobantes();
+        // this._onCheckComprobantes();
+      },
+
+      onTableComprobantesChackBoxChange: async function (oEvent) {
+        let oItem = oEvent.getParameters("listItem"),
+          oModel = this.getOwnerComponent().getModel(),
+          oMockModel = this.getView().getModel("mockdata"),
+          oView = this.getView(),
+          oPath = oItem.listItem.getBindingContextPath("mockdata"),
+          vObject = oMockModel.getObject(oPath);
+
+        if (oItem.selected === false) {
+          oItem.listItem.getCells()[7].setValue();
+          oItem.listItem
+            .getCells()[7]
+            .setValueState(sap.ui.core.ValueState.None);
+
+          this._onCheckComprobantes();
+          return;
+        }
+
+        let oKey = oModel.createKey("/ComprobantesSet", {
+          Numero: vObject.Numero,
+          Posicion: vObject.Posicion,
+          Sociedad: vObject.Sociedad,
+          Periodo: vObject.Periodo,
+        });
+
+        let oResponseModel = await this._onreadModel(oModel, oView, oKey);
+
+        if (oResponseModel.Rta !== "OK") {
+          oItem.listItem.setSelected(false);
+          oItem.selected = false;
+          vObject = [];
+
+          let sMessage =
+              oResponseModel.Data.message +
+              " : " +
+              oResponseModel.Data.statusCode +
+              " - " +
+              oResponseModel.Data.statusText,
+            sMessageTitle = this._i18n().getText("msgerror");
+
+          this._onShowMsgBoxError(sMessage, sMessageTitle).then((rta) => {});
+        } else {
+          if (oResponseModel.Data.Mensaje !== "") {
+            MessageToast.show(oResponseModel.Mensaje);
+            oItem.listItem.setSelected(false);
+            oItem.selected = false;
+          } else {
+            // ****************************
+            oItem.listItem
+              .getCells()[7]
+              .setEnabled(oItem.listItem.getSelected());
+            oPath = oItem.listItem.getBindingContextPath();
+            vObject = this.getView().getModel("mockdata").getObject(oPath);
+
+
+              oItem.listItem
+                .getCells()[7]
+                .setEnabled(oItem.listItem.getSelected());
+
+              if (
+                oItem.listItem.getCells()[7].getValue() === "0.00" ||
+                oItem.listItem.getCells()[7].getValue() === ""
+              ) {
+                if (parseFloat(vObject.Saldo) > 0) {
+                  oItem.listItem
+                    .getCells()[7]
+                    .setValue(this.formatCurrency(vObject.Saldo));
+                } else {
+                  oItem.listItem
+                    .getCells()[7]
+                    .setValue(parseFloat(vObject.Saldo));
+                }
+              }
+
+              oItem.listItem
+                .getCells()[7]
+                .setValueState(sap.ui.core.ValueState.None);
+
+              this._onFocusControl(oItem.listItem.getCells()[7]);
+            
+            // ***************************
+            this._onCheckComprobantes();
+          }
+        }
       },
 
       onTableComprobantesSelectionChange: function (oEvent) {
@@ -900,6 +1090,7 @@ sap.ui.define(
         oModel.setProperty(oImporteDec, oImportesSuma);
 
         oModel.setProperty("/Paso04Grabado", false);
+        oModel.setProperty("/Paso04PathUpdate", "");
 
         this.onGuardarButtonDescSavePress();
       },
@@ -1684,13 +1875,21 @@ sap.ui.define(
 
       _onUpdateValues: function () {
         let oModel = this.getView().getModel("mockdata"),
-          ImportePGOCTA = oModel.getProperty("/Paso02ImportePagos"),
-          ImporteCBTES = oModel.getProperty("/Paso03ImporteComprobantes"),
-          ImporteDTO = oModel.getProperty("/Paso04ImporteDescuentos"),
-          ImporteRET = oModel.getProperty("/Paso05ImporteRetenciones"),
-          ImporteDET = oModel.getProperty("/Paso06ImporteDetalle");
-
-        // oModel.setProperty("/Paso06ImporteDetalle", parseFloat(ImporteDET));
+          ImportePGOCTA = this.formatCurrencytoText(
+            oModel.getProperty("/Paso02ImportePagos")
+          ),
+          ImporteCBTES = this.formatCurrencytoText(
+            oModel.getProperty("/Paso03ImporteComprobantes")
+          ),
+          ImporteDTO = this.formatCurrencytoText(
+            oModel.getProperty("/Paso04ImporteDescuentos")
+          ),
+          ImporteRET = this.formatCurrencytoText(
+            oModel.getProperty("/Paso05ImporteRetenciones")
+          ),
+          ImporteDET = this.formatCurrencytoText(
+            oModel.getProperty("/Paso06ImporteDetalle")
+          );
 
         let oSubTotal =
           parseFloat(ImportePGOCTA) +

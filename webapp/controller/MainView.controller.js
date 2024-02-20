@@ -24,6 +24,8 @@ sap.ui.define(
 
       _onObjectMatched: function () {
         this._onRefreshTable([]);
+
+        this.getOwnerComponent().getModel().setSizeLimit("20000");
       },
 
       onButtonPrintPress: function (oEvent) {
@@ -44,10 +46,13 @@ sap.ui.define(
           success: jQuery.proxy(function (oData) {
             oView.setBusy(false);
 
-              if (oData.PrintDoc.URL) {
-              
-              let url =window.location.protocol  + "//" + window.location.host + oData.PrintDoc.URL;
-              
+            if (oData.PrintDoc.URL) {
+              let url =
+                window.location.protocol +
+                "//" +
+                window.location.host +
+                oData.PrintDoc.URL;
+
               window.open(url);
             }
           }, this),
@@ -70,13 +75,21 @@ sap.ui.define(
         let oView = this.getView(),
           oRazonsocial = oView.byId("idRazonSocialMultiInput"),
           oCuit = oView.byId("idCuitMultiInput"),
+          oNumero = oView.byId("idnumeroMultiInput"),
           oProcesado = oView.byId("idProcesadoFilter"),
           oFecha = oView.byId("idFechaDateRangeSelection");
 
-        oRazonsocial.removeAllTokens;
+        oRazonsocial.removeAllTokens();
+        oNumero.removeAllTokens();
         oProcesado.setSelectedKey(null);
         oCuit.removeAllTokens();
         oFecha.setValue(null);
+
+        oNumero.setValue("");
+        oRazonsocial.setValue("");
+    
+
+
         let oFilter = [];
         this._onRefreshTable(oFilter);
       },
@@ -85,22 +98,50 @@ sap.ui.define(
         let oView = this.getView(),
           oFilter = [],
           oRazonsocial = oView.byId("idRazonSocialMultiInput"),
+          oNumero = oView.byId("idnumeroMultiInput"),
           oProcesado = oView.byId("idProcesadoFilter").getSelectedKey(),
           oCuit = oView.byId("idCuitMultiInput"),
           oRangoFecha = oView.byId("idFechaDateRangeSelection"),
           oDateFormat = sap.ui.core.format.DateFormat.getDateInstance({
             pattern: "dd/mm/yyyy",
           });
-        if (oRazonsocial.getTokens().length !== 0) {
-          for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
+
+        if (oNumero.getTokens().length !== 0) {
+          let ofnum = new Array();
+          for (var l = 0; l < oNumero.getTokens().length; l++) {
+            ofnum.push(
+              new sap.ui.model.Filter(
+                "Numero",
+                sap.ui.model.FilterOperator.EQ,
+                oNumero.getTokens()[l].getKey()
+              )
+            );
+          }
+          oFilter.push(new sap.ui.model.Filter(ofnum, false));
+        } else {
+          if (oNumero.getValue()) {
             oFilter.push(
               new sap.ui.model.Filter(
-                "RazonSocial",
+                "Numero",
+                sap.ui.model.FilterOperator.Contains,
+                oNumero.getValue()
+              )
+            );
+          }
+        }
+
+        if (oRazonsocial.getTokens().length !== 0) {
+          let ofrs = new Array();
+          for (var l = 0; l < oRazonsocial.getTokens().length; l++) {
+            ofrs.push(
+              new sap.ui.model.Filter(
+                "Cliente",
                 sap.ui.model.FilterOperator.EQ,
                 oRazonsocial.getTokens()[l].getKey()
               )
             );
           }
+          oFilter.push(new sap.ui.model.Filter(ofrs, false));
         } else {
           if (oRazonsocial.getValue()) {
             oFilter.push(
@@ -114,8 +155,9 @@ sap.ui.define(
         }
 
         if (oCuit.getTokens().length !== 0) {
+          let ofcuit = new Array();
           for (var l = 0; l < oCuit.getTokens().length; l++) {
-            oFilter.push(
+            ofcuit.push(
               new sap.ui.model.Filter(
                 "Cuit",
                 sap.ui.model.FilterOperator.EQ,
@@ -123,6 +165,7 @@ sap.ui.define(
               )
             );
           }
+          oFilter.push(new sap.ui.model.Filter(ofcuit, false));
         } else {
           if (oCuit.getValue()) {
             oFilter.push(
@@ -139,12 +182,15 @@ sap.ui.define(
           // var oFInicio = oDateFormat.formatoRangoFecha.getDateValue());
           // var oFFin = oDateFormat.format(oRangoFecha.getSecondDateValue());
 
+          let fini = new Date(oRangoFecha.getDateValue() + "GMT");
+          let ffin = new Date(oRangoFecha.getSecondDateValue() + "GMT");
+
           oFilter.push(
             new sap.ui.model.Filter(
               "Fecha",
               sap.ui.model.FilterOperator.BT,
-              oRangoFecha.getDateValue(),
-              oRangoFecha.getSecondDateValue()
+              fini,
+              ffin
             )
           );
         }

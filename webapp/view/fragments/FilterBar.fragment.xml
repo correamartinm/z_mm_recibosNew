@@ -5,20 +5,33 @@
     <fb:FilterBar id="idFilterBar" header="{i18n>tabletitle}:" reset="onFilterBarReset" showRestoreOnFB="true" search="onFilterBarSearch" showRestoreButton="false"   showFilterConfiguration="false">
 
         <fb:filterGroupItems>
+            <fb:FilterGroupItem groupName="search" name="numero" label="{i18n>lblnumero}" visibleInFilterBar="true">
+                <fb:control>
+                  
+                    <MultiInput id="idnumeroMultiInput" valueHelpIconSrc=""  width="auto" showSuggestion="true" suggestionItems="{/RECIBOSSet}">
+                        <core:Item key="{Numero}" text="{Numero}" />
+                    </MultiInput>
+                </fb:control>
+            </fb:FilterGroupItem>
+
+
 
             <fb:FilterGroupItem groupName="search" name="razonsocial" label="{i18n>lblrazonsocial}" visibleInFilterBar="true">
                 <fb:control>
                   
-                    <MultiInput id="idRazonSocialMultiInput" width="auto" showSuggestion="true" suggestionItems="{/CLIENTESSet}">
-                        <core:Item key="{RazonSocial}" text="{RazonSocial} {Cuit}" />
+                    <MultiInput id="idRazonSocialMultiInput" valueHelpIconSrc="" width="auto" showSuggestion="true" suggestionItems="{/CLIENTESSet}">
+                        <core:Item key="{Codigo}" text="{RazonSocial} {Cuit}" />
                     </MultiInput>
+                    
+                   
+                    
                 </fb:control>
             </fb:FilterGroupItem>
 
             <fb:FilterGroupItem groupName="search" name="cuit" label="{i18n>lblcuit}" visibleInFilterBar="true">
                 <fb:control>
                     
-                    <MultiInput id="idCuitMultiInput" width="auto" showSuggestion="true" suggestionItems="{/CLIENTESSet}">
+                    <MultiInput id="idCuitMultiInput" valueHelpIconSrc="" width="auto" showSuggestion="true" suggestionItems="{/CLIENTESSet}">
                         <core:Item key="{Cuit}" text="{RazonSocial} {Cuit}"/>
                     </MultiInput>
                 </fb:control>

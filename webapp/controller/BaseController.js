@@ -84,11 +84,16 @@ sap.ui.define(
         return text;
       },
 
-      formatUrl: function (ID, Name) {
-        let srv = "/sap/opu/odata/sap/ZGWFI_COBRANZAS_APROB_SRV/",
+
+      formatUrl: function (Item) {
+        let srv = "/sap/opu/odata/sap/ZGWFI_COBRANZAS_APROB_SRV",
+        ID =Item.Codigo,
+        oName = Item.Filename,
           id = "AttachDocSet(Codigo='" + ID + "',",
-          file = "Filename='" + Name;
-        let rta = srv + id + file + "')/$value";
+          file = "Filename='" + oName,
+          Adjunto = "', Adjunto='" + Item.Adjunto;
+        let rta = srv + Item +"/$value";
+        // let rta = srv + id + file + Adjunto +"')/$value";
         return rta;
       },
 
@@ -444,7 +449,7 @@ sap.ui.define(
         oAttachmentUpl.setBusy(true);
         oAttachmentUpl.getItems().forEach((oItem) => {
           if (oItem.getListItem().getSelected()) {
-            let uri = this.formatUrl(File.Recibo, oItem.getFileName());
+            let uri = this.formatUrl(oItem.getBindingContext().getPath());
             oItem.setUrl(uri);
             oItem.download(true);
             oItem.getListItem().setSelected(false);

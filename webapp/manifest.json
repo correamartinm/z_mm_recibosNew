@@ -73,12 +73,7 @@
                 "preload": true,
                 "dataSource": "ZGWFI_COBRANZAS_SRV",
                 "settings": {
-                    "defaultBindingMode": "TwoWay",
-                    "defaultCountMode": "Inline",
-                    "refreshAfterChange": false,
-                    "metadataUrlParams": {
-                        "sap-value-list": "none"
-                    }
+                  
                 }
             }
         },

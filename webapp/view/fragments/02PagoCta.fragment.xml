@@ -3,10 +3,10 @@
 
 
 
-    <Table id="idPagoCtaTable" items="{mockdata>/Paso2Data}" mode="MultiSelect" selectionChange="onTablePagoCtaSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" growingThreshold="10" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idPagoCtaTable" items="{ path : 'mockdata>/Paso2Data', sorter: [{ path: 'mockdata>Importe', descending: true }] }" mode="MultiSelect" selectionChange="onTablePagoChackBoxChange" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" growingThreshold="10" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
         <headerToolbar>
             <OverflowToolbar>
-                <SearchField width="75%" search="onSearchFieldSearchPagoCta" placeholder="{i18n>lblnumcomprobante}" />
+                <SearchField id="sf02" width="75%" search="onSearchFieldSearchPagoCta" placeholder="{i18n>lblnumcomprobante}" />
                 <ToolbarSpacer/>
 
 
@@ -69,8 +69,6 @@
             <ColumnListItem type="Active" highlight="Information">
                 <cells>
 
-
-
                     <Text text="{mockdata>Tipo}" wrapping="false"/>
 
                     <Label text="{mockdata>NroFactura}"/>
@@ -79,15 +77,14 @@
 
                     <Label text="{path : 'mockdata>Total' , formatter : '.formatCurrency'}"/>
                     <Label text="{path : 'mockdata>Saldo' , formatter : '.formatCurrency'}"/>
-                    <!-- <Label text="{mockdata>Total}"/> -->
-                    <!-- <Label text="{mockdata>Saldo}"/> -->
 
-                        <Input enabled="false" value="{path : 'mockdata>Importe' , formatter : '.formatCurrency'}" textAlign="End" change="onInputImporteChangePagos"/>
-                    <!-- <Input enabled="false" value="{mockdata>Importe}" textAlign="End" change="onInputImporteChangePagos"/> -->
+                    <Input enabled="{= ${mockdata>Importe} !== '0.00' &amp;&amp; ${mockdata>Importe} !== '0,00' &amp;&amp; ${mockdata>Importe} !== '0,00'  }" value="{path : 'mockdata>Importe' , formatter : '.formatCurrency'}" textAlign="End" change="onInputImporteChangePagos"/>
+                   
                     <HBox visible="false">
                         <Button icon="sap-icon://delete" press="onButtonDeletePress" class="sapUiTinyMarginBeginEnd" />
                         <Button icon="sap-icon://edit" press="onButtonEditPress" />
                     </HBox>
+                    <!-- <CheckBox selected="{mockdata>Seleccionado}" /> -->
 
 
                 </cells>
