@@ -84,15 +84,14 @@ sap.ui.define(
         return text;
       },
 
-
       formatUrl: function (Item) {
         let srv = "/sap/opu/odata/sap/ZGWFI_COBRANZAS_APROB_SRV",
-        ID =Item.Codigo,
-        oName = Item.Filename,
+          ID = Item.Codigo,
+          oName = Item.Filename,
           id = "AttachDocSet(Codigo='" + ID + "',",
           file = "Filename='" + oName,
           Adjunto = "', Adjunto='" + Item.Adjunto;
-        let rta = srv + Item +"/$value";
+        let rta = srv + Item + "/$value";
         // let rta = srv + id + file + Adjunto +"')/$value";
         return rta;
       },
@@ -323,7 +322,6 @@ sap.ui.define(
 
       onFileDialog: function (oItem, oFilters) {
         if (!this._oDialogUploadSet) {
-
           this._oDialogUploadSet = sap.ui.xmlfragment(
             "UploadFile",
             "morixe.zfirecibos.view.fragments.FileUploader",
@@ -335,13 +333,33 @@ sap.ui.define(
         // Filtro Ficheros
 
         let check = this.getOwnerComponent()
-        .getModel("mockdata")
-        .getProperty("/FileParameters");
+            .getModel("mockdata")
+            .getProperty("/FileParameters"),
+          oUploadCollection = sap.ui.core.Fragment.byId(
+            "UploadFile",
+            "attachmentUpl"
+          ),
+          oTitle = "";
+        switch (check.Tipo) {
+          case "DESC":
+            oTitle = "Solo Adjuntos Descuentos";
+            break;
 
-        var oUploadCollection = sap.ui.core.Fragment.byId(
-          "UploadFile",
-          "attachmentUpl"
-        );
+          case "DETA":
+            oTitle = "Solo Adjuntos Medios de Pago";
+            break;
+
+          case "RECIB":
+            oTitle = "Adjuntos ";
+            break;
+
+          case "RETE":
+            oTitle = "Solo Adjuntos de Retenciones";
+            break;
+
+          default:
+            break;
+        }
 
         // Muestro Dialogo
         if (oItem.Recibo !== undefined) {
@@ -349,7 +367,7 @@ sap.ui.define(
             "Cliente: " + oItem.Cliente + " Numero: " + oItem.Recibo
           );
         } else {
-          this._oDialogUploadSet.setTitle("Cliente: " + oItem.Cliente);
+          this._oDialogUploadSet.setTitle( "Cliente: " + oItem.Cliente+" - "+ oTitle);
         }
 
         let Item = oUploadCollection.getBinding("items");
@@ -390,6 +408,7 @@ sap.ui.define(
           sap.ui.core.Fragment.byId("UploadFile", "download").setEnabled(false);
         }
       },
+
       onSelectionChangeAttachment: function () {
         if (
           sap.ui.core.Fragment.byId("UploadFile", "attachmentUpl")
@@ -405,6 +424,7 @@ sap.ui.define(
           sap.ui.core.Fragment.byId("UploadFile", "download").setEnabled(false);
         }
       },
+
       onRemove: function (oEvent) {
         var oAttachmentUpl = sap.ui.core.Fragment.byId(
           "UploadFile",
@@ -458,6 +478,7 @@ sap.ui.define(
         oAttachmentUpl.setBusy(false);
         oEvent.getSource().setEnabled(false);
       },
+      
       onStartUpload: function () {
         var oAttachmentUpl = sap.ui.core.Fragment.byId(
           "UploadFile",

@@ -4,7 +4,7 @@
 	<Dialog id="iduploader" title="Carga de Ficheros" class="sapUiSizeCompact">
 		<Panel width="auto" >
 			<content>
-				<upload:UploadSet items="{path: '/AttachDocSet'}"  id="attachmentUpl" instantUpload="true" maxFileSize="2" beforeUploadStarts="onStartUpload" selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
+				<upload:UploadSet items="{path: '/AttachDocSet'}" multiple="false" id="attachmentUpl" instantUpload="true"  beforeUploadStarts="onStartUpload" selectionChanged="onSelectionChangeAttachment" uploadCompleted="onUploadCompleted" uploadUrl="/sap/opu/odata/sap/ZGWFI_COBRANZAS_SRV/AttachDocSet">
 					<upload:toolbar>
 						<OverflowToolbar>
 							<CheckBox id="checkbox" select="onSelectAllAttachments" visible="false" />
