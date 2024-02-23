@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m"
     xmlns:core="sap.ui.core">
-    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesChackBoxChange" items="{ path : 'mockdata>/Paso3Data', sorter: [{ path: 'mockdata>Importe', descending: true }] }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" growingThreshold="10" sticky="HeaderToolbar,ColumnHeaders">
+    <Table id="idComprobanteTable" mode="MultiSelect" selectionChange="onTableComprobantesChackBoxChange" items="{ path : 'mockdata>/Paso3Data', sorter: [{ path: 'mockdata>Importe', descending: true }] }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" fixedLayout="false" alternateRowColors="true" growingThreshold="100" sticky="HeaderToolbar,ColumnHeaders">
        
         <headerToolbar>
             <OverflowToolbar>

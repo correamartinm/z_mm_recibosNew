@@ -948,6 +948,7 @@ sap.ui.define(
       },
 
       onGuardarButtonComprobantesPress: function () {
+        
         let oEntidad = "/Paso03Comprobantes",
           Tipo = "APLIC",
           EntidadPost = "/ComprobantesSet",
