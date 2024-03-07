@@ -412,7 +412,8 @@ sap.ui.define(
         let Step = this.byId("idPagoaCtaWizardStep");
 
         if (oData.Anticipo === true) {
-          Step.setNextStep(this.getView().byId("idDetalleWizardStep"));
+          Step.setNextStep(this.getView().byId("idRetencionesWizardStep"));
+          this._wizard.validateStep(this.getView().byId("idRetencionesWizardStep"));
         } else {
           Step.setNextStep(this.getView().byId("idComprobanteWizardStep"));
         }
@@ -714,9 +715,7 @@ sap.ui.define(
         if (TipoRecibo.Anticipo === true && parseFloat(ImportePGOCTA) > 0) {
           this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
         } else {
-          this._wizard.invalidateStep(
-            this.getView().byId("idDetalleWizardStep")
-          );
+          this._wizard.invalidateStep( this.getView().byId("idDetalleWizardStep") );
         }
       },
 
@@ -1390,6 +1389,12 @@ sap.ui.define(
         if (parseFloat(ImportePGOCTA) > 0 && parseFloat(ImporteCBTES) > 0) {
           this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
         }
+
+        if (TipoRecibo.Anticipo === true && parseFloat(ImporteRET) > 0) {
+          this._wizard.validateStep(this.getView().byId("idDetalleWizardStep"));
+        }
+
+
       },
 
       // ********************************************
@@ -1502,7 +1507,7 @@ sap.ui.define(
           "attachmentUpl"
         );
 
-        if (oAttachmentUpl === undefined) {
+        if (oAttachmentUpl === undefined && oMP._getSelectedItemText() !== "EFECTIVO") {
           // return;
         }
 
@@ -1582,7 +1587,7 @@ sap.ui.define(
         }
 
         if (Update === "") {
-          if (oCantPagos.length + 1 > ofile) {
+          if (oCantPagos.length + 1 > ofile && oMP._getSelectedItemText() !== "EFECTIVO") {
             MessageToast.show(
               "Adjunte un fichero por medio de pago y vuelva a intentar"
             );
@@ -1803,25 +1808,7 @@ sap.ui.define(
         oModel.refresh(true);
       },
 
-      onCheckValue: function (oValue) {
-        if (oValue === "X") {
-          return true;
-        } else if (oValue === "") {
-          return false;
-        } else {
-          return true;
-        }
-      },
 
-      onCheckValueReq: function (oValue) {
-        if (oValue === "X") {
-          return true;
-        } else if (oValue === "O") {
-          return false;
-        } else {
-          return false;
-        }
-      },
 
       onShowInfoMsg: function (oEvent) {
         let oModel = this.getView().getModel("mockdata"),

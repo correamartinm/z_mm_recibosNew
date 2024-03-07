@@ -35,6 +35,26 @@ sap.ui.define(
         });
       },
 
+      onCheckValue: function (oValue) {
+        if (oValue === "X") {
+          return true;
+        } else if (oValue === "") {
+          return false;
+        } else {
+          return true;
+        }
+      },
+
+      onCheckValueReq: function (oValue) {
+        if (oValue === "X") {
+          return true;
+        } else if (oValue === "O") {
+          return false;
+        } else {
+          return false;
+        }
+      },
+
       onAmountChange: function (oEvent) {
         var oInput = oEvent.getSource();
         var sValue = oInput.getValue();

@@ -87,8 +87,6 @@ sap.ui.define(
 
         oNumero.setValue("");
         oRazonsocial.setValue("");
-    
-
 
         let oFilter = [];
         this._onRefreshTable(oFilter);
@@ -249,18 +247,60 @@ sap.ui.define(
       },
 
       onButtonEditPress: function (oEvent) {
-        this._onEditMode();
+       
+
         let oPath = oEvent.getSource().getBindingContext().getPath(),
-          oItem = oEvent.getSource().getBindingContext().getObject();
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
+          oItem = oEvent.getSource().getBindingContext().getObject(),
+          oCboMp = this.getView().byId("idselectMPEdit");
+
+        let EtvoItem = oCboMp.getItemByText("DEPOSITO BANCARIO EN EFECTIVO");
+
+        Object.NroLinea = EtvoItem.mProperties.key;
+        Object.Descripcion = EtvoItem.mProperties.text;
+        oCboMp.setSelectedKey(EtvoItem.mProperties.key);
+        oCboMp.fireChange();
+
+        oPath = oCboMp.getSelectedItem().getBindingContext().getPath();
+
+        let vObject = oModel.getObject(oPath);
+
+        let oPayload = {
+          key: vObject.Codigo,
+          Desc: vObject.Descripcion,
+          DetCbte: this.onCheckValue(vObject.Detalle),
+          FecCbte: this.onCheckValue(vObject.Fecha),
+          NroCheq: this.onCheckValue(vObject.NroCheque),
+          Adjunto: this.onCheckValue(vObject.Adjuntos),
+          FecEmis: this.onCheckValue(vObject.FechaEmision),
+          FecVto: this.onCheckValue(vObject.FechaVencimiento),
+          Fecha: this.onCheckValue(vObject.Fecha),
+          BcoEmi: this.onCheckValue(vObject.BancoEmisor),
+          BcoDes: this.onCheckValue(vObject.BancoDestino),
+          BcoDesReq: this.onCheckValueReq(vObject.BancoDestino),
+        };
+
+        oMockModel.setProperty("/ActiveMP", oPayload);
+        oMockModel.setProperty("/ActiveDetalle", oItem);
+        this.getView().byId("DLGEditMP").open();
+
       },
 
-      _onEditMode: function () {
-        let oLayoutModel = this.getView().getModel("layout"),
-          oEntidad = "/EdicionRecibo",
-          oValue = oLayoutModel.getProperty(oEntidad);
-        oValue = !oValue;
 
-        oLayoutModel.setProperty(oEntidad, oValue);
+      onSaveMPChange: function () {
+
+        let  oMockModel = this.getOwnerComponent().getModel("mockdata"),
+        oData = oMockModel.getProperty("/ActiveDetalle");
+
+
+
+        this.getView().byId("DLGEditMP").close();
+      },
+
+
+      onCloseMPChange: function () {
+        this.getView().byId("DLGEditMP").close();
       },
 
       // *** Nuevo Recibo

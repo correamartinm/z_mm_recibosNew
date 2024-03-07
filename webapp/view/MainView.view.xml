@@ -1,16 +1,78 @@
 <mvc:View controllerName="morixe.zfirecibos.controller.MainView"
 	xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
 	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m">
+
+	<Dialog id="DLGEditMP" title="{i18n>lblactualizar} {i18n>lblmedios}">
+
+		<form:SimpleForm editable="true" layout="ColumnLayout" >
+			<form:content>
+				<Label text="{i18n>lblmedios}"  labelFor="idRSInput"/>
+
+				<ComboBox   id="idselectMPEdit" items="{/DetallePagoSet}" enabled="false" >
+					<core:Item key="{Codigo}" text="{Descripcion}" />
+				</ComboBox>
+				
+				<Label text="{i18n>lblnumcomprobante}" labelFor="idDetComprobanteEdit"/>
+				<Input id="idDetComprobanteEdit" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" value="{mockdata>/ActiveDetalle/Numero}" editable="false"/>				
+
+				<Label text="{i18n>lblimpor}" labelFor="idImportePagoInputEdit" />
+				<Input showClearIcon="true" id="idImportePagoInputEdit" change="onformatImportes" value="{mockdata>/ActiveDetalle/Total}" editable="false"/>
+
+				<Label text="{i18n>lblfechaemision}" required="true" labelFor="idDetFechaEmisionEdit" visible="{mockdata>/ActiveMP/FecEmis}"/>
+				<DatePicker id="idDetFechaEmisionEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecEmis}" dateValue="{mockdata>/ActiveDetalle/FechaEmision}"/>
+
+				<Label text="{i18n>lblfechadeposito}" required="true" labelFor="idDetFecDepositoEdit" visible="{mockdata>/ActiveMP/Fecha}" />
+				<DatePicker id="idDetFecDepositoEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/Fecha}" dateValue="{mockdata>/ActiveDetalle/FecDepo}"/>
+
+				<Label text="{i18n>lblncheque}" required="true" labelFor="idDetNroChequeEdit" visible="{mockdata>/ActiveMP/NroCheq}"/>
+				<Input id="idDetNroChequeEdit" visible="{mockdata>/ActiveMP/NroCheq}" value="{mockdata>/ActiveDetalle/NroCheq}"/>
+
+				<Label text="{i18n>lblbcodestino}" required="{mockdata>/ActiveMP/BcoDesReq}" labelFor="idDetBcoDestinoEdit" visible="{mockdata>/ActiveMP/BcoDes}"/>
+				<Select id="idDetBcoDestinoEdit" items="{/BancoDestSet}" selectedKey="{mockdata>/ActiveMP/BancoDestino}" visible="{mockdata>/ActiveMP/BcoDes}">
+					<core:Item key="{Codigo}" text="{Descripcion}" />
+				</Select>
+
+
+				<Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
+
+				<Select id="idDetBcoEmisorEdit" items="{/BancoEmiSet}" selectedKey="{mockdata>/ActiveMP/BancoEmisor}" visible="{mockdata>/ActiveMP/BcoEmi}">
+					<core:Item key="{Codigo}" text="{Descripcion}" />
+				</Select>
+
+				<Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
+				<DatePicker id="idDetFecVtoEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
+
+				<!-- <Label text="{i18n>lbldocumentacion}" required="true" /> -->
+				<Button  text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />
+
+			</form:content>
+
+		</form:SimpleForm>
+
+		<beginButton>
+			<Button text="{i18n>btnvolver}" type="Default" iconFirst="true" width="auto" iconDensityAware="false" press="onCloseMPChange" class="sapUiTinyMarginEnd"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveMPChange" />
+
+		</endButton>
+	</Dialog>
+
 	<f:DynamicPage id="idDynamicPage" class="sapUiSizeCompact">
+
+
+
+
+
 		<f:header>
 			<f:DynamicPageHeader pinnable="false" visible="{= ${device>/system/phone} === false }">
 
+
 				<f:content  >
-					<VBox visible="{layout>/EdicionRecibo}">
-						<!-- <Button icon="sap-icon://edit" press="onEditarButtonPress" type="Emphasized" /> -->
-						<!-- <Button icon="sap-icon://log" press="onEnd" text="{layout>/lastname}, {layout>/firstname}" type="Success" iconFirst="false" /> -->
+					<VBox >
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.FilterBar" type="XML"/>
 					</VBox>
 
@@ -19,19 +81,12 @@
 		</f:header>
 		<f:content>
 
-
 			<Panel height="85%">
 				<content>
 
-
-					<VBox
-					>
-
+					<VBox>
 						<core:Fragment fragmentName="morixe.zfirecibos.view.fragments.Table" type="XML"/>
 					</VBox>
-
-
-
 
 				</content>
 			</Panel>
