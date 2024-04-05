@@ -46,7 +46,7 @@
 				<DatePicker id="idDetFecVtoEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
 
 				<!-- <Label text="{i18n>lbldocumentacion}" required="true" /> -->
-				<Button  text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogDETA" />
+				<Button  text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogEdit" />
 
 			</form:content>
 

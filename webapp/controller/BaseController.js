@@ -340,6 +340,26 @@ sap.ui.define(
         this.onFileDialog(oItem, oFilter);
       },
 
+      onCallFileDialogEdit: function (oEvent) {
+        let oSource = oEvent.getSource().getId(),
+          oItem = {},
+          oFilter = [],
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          paso1 = oMockModel.getProperty("/ActiveMP"),
+          paso5 = oMockModel.getProperty("/ActiveDetalle");
+
+        oItem.filename = "";
+        oItem.Cliente = paso5.Cliente;
+        oItem.Tipo = "DETA";
+
+        oMockModel.setProperty("/FileParameters", oItem);
+        oFilter.push(new Filter("Cliente", FilterOperator.EQ, oItem.Cliente));
+        oFilter.push(new Filter("Tipo", FilterOperator.EQ, oItem.Tipo));
+        oFilter.push(new Filter("Recibo", FilterOperator.EQ, paso5.Numero));
+
+        this.onFileDialog(oItem, oFilter);
+      },
+
       onFileDialog: function (oItem, oFilters) {
         if (!this._oDialogUploadSet) {
           this._oDialogUploadSet = sap.ui.xmlfragment(
@@ -387,7 +407,9 @@ sap.ui.define(
             "Cliente: " + oItem.Cliente + " Numero: " + oItem.Recibo
           );
         } else {
-          this._oDialogUploadSet.setTitle( "Cliente: " + oItem.Cliente+" - "+ oTitle);
+          this._oDialogUploadSet.setTitle(
+            "Cliente: " + oItem.Cliente + " - " + oTitle
+          );
         }
 
         let Item = oUploadCollection.getBinding("items");
@@ -498,7 +520,7 @@ sap.ui.define(
         oAttachmentUpl.setBusy(false);
         oEvent.getSource().setEnabled(false);
       },
-      
+
       onStartUpload: function () {
         var oAttachmentUpl = sap.ui.core.Fragment.byId(
           "UploadFile",

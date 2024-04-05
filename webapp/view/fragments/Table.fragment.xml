@@ -123,7 +123,7 @@
                     <HBox >
 
                         <Button icon="sap-icon://print" enabled="{= ${Procesado} !== 'A' }" press="onButtonPrintPress" />
-                        <Button icon="sap-icon://edit" enabled="false" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
+                        <Button icon="sap-icon://edit" enabled="true" press="onButtonEditPress" class="sapUiTinyMarginBegin" />
                         <Button icon="sap-icon://attachment" enabled="{= ${Procesado} !== 'X' }" id="idAttachmentsButton" press="onCallFileDialogRECIB" class="sapUiTinyMarginBegin"/>
                     </HBox>
 

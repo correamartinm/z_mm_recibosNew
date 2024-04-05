@@ -255,6 +255,8 @@ sap.ui.define(
           oItem = oEvent.getSource().getBindingContext().getObject(),
           oCboMp = this.getView().byId("idselectMPEdit");
 
+          
+
         let EtvoItem = oCboMp.getItemByText("DEPOSITO BANCARIO EN EFECTIVO");
 
         Object.NroLinea = EtvoItem.mProperties.key;
