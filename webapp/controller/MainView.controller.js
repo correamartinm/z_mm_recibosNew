@@ -246,16 +246,24 @@ sap.ui.define(
         oTable.getBinding("items").filter([oFilters]);
       },
 
-      onButtonEditPress: function (oEvent) {
+      onButtonEditPress: async function (oEvent) {
        
 
         let oPath = oEvent.getSource().getBindingContext().getPath(),
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oView = this.getView(),
           oModel = this.getOwnerComponent().getModel(),
           oItem = oEvent.getSource().getBindingContext().getObject(),
           oCboMp = this.getView().byId("idselectMPEdit");
 
-          
+
+          let oKey = oModel.createKey("/PagosSet", { Codigo: oItem.Numero });
+          let oMp = await this._onreadModel(oModel, oView, oKey);
+          if (oMp.Rta === "OK"){
+
+          }
+
+          debugger;
 
         let EtvoItem = oCboMp.getItemByText("DEPOSITO BANCARIO EN EFECTIVO");
 
