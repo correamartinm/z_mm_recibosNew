@@ -18,7 +18,7 @@ server:
         backend:
           - path: /sap
             url: http://mxecid.morixe.com.ar:8000/
-            client: '110'
+            client: '100'
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

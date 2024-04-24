@@ -16,7 +16,7 @@
         "node": "^20.5.0"
     },
     "devDependencies": {
-        "@sap/ux-ui5-tooling": "^1.12.1",
+        "@sap/ux-ui5-tooling": "^1.13.2",
         "@ui5/cli": "^3.6.0",
         "rimraf": "^3.0.2",
         "ui5-task-flatten-library": "0.2.5"
