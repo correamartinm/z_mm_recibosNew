@@ -366,12 +366,14 @@ sap.ui.define(
           oTipoCte,
           oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
+          oRecibo= "",
           oData = oMockModel.getProperty("/Paso01Cliente");
         if (oData.RazonSocial === "" || oData.RazonSocial === undefined) return;
 
         if (oData.Anticipo === true) {
           oTipoCte = "A";
         } else if (oData.Recibo === true) {
+          oRecibo = "X";
           oTipoCte = "R";
         }
 
@@ -381,6 +383,7 @@ sap.ui.define(
             Comentarios: oData.Observaciones,
             Accion: oData.Accion,
             TipoComprobante: oTipoCte,
+            Preliminar: oRecibo
           };
 
           let rta = await this._oncreateModel(
