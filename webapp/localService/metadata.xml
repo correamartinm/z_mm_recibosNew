@@ -17,6 +17,7 @@
                 <Property Name="Moneda" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Procesado" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
                 <Property Name="FechaProcesado" Type="Edm.DateTime" Precision="8" sap:unicode="false" sap:label="Cronomarcador" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Editable" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
             </EntityType>
             <EntityType Name="CLIENTES" sap:content-version="1">
                 <Key>
@@ -59,6 +60,7 @@
                 <Property Name="FechaVencimiento" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="BancoEmisor" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="BancoDestino" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Deposito" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
             </EntityType>
             <EntityType Name="Comprobantes" sap:content-version="1">
                 <Key>

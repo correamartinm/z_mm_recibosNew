@@ -11,7 +11,7 @@
 			<form:content>
 				<Label text="{i18n>lblmedios}"  labelFor="idRSInput"/>
 
-				<ComboBox   id="idselectMPEdit" items="{/DetallePagoSet}" enabled="false" >
+				<ComboBox   id="idselectMPEdit"  items="{/DetallePagoSet}" selectionChange="onDetallePagoSetComboBoxSelectionChange"  >
 					<core:Item key="{Codigo}" text="{Descripcion}" />
 				</ComboBox>
 				

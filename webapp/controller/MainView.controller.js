@@ -246,33 +246,11 @@ sap.ui.define(
         oTable.getBinding("items").filter([oFilters]);
       },
 
-      onButtonEditPress: async function (oEvent) {
-       
-
-        let oPath = oEvent.getSource().getBindingContext().getPath(),
-          oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          oView = this.getView(),
+      onDetallePagoSetComboBoxSelectionChange: function (oEvent) {
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oModel = this.getOwnerComponent().getModel(),
-          oItem = oEvent.getSource().getBindingContext().getObject(),
-          oCboMp = this.getView().byId("idselectMPEdit");
-
-
-          let oKey = oModel.createKey("/PagosSet", { Codigo: oItem.Numero });
-          let oMp = await this._onreadModel(oModel, oView, oKey);
-          if (oMp.Rta === "OK"){
-
-          }
-
-          debugger;
-
-        let EtvoItem = oCboMp.getItemByText("DEPOSITO BANCARIO EN EFECTIVO");
-
-        Object.NroLinea = EtvoItem.mProperties.key;
-        Object.Descripcion = EtvoItem.mProperties.text;
-        oCboMp.setSelectedKey(EtvoItem.mProperties.key);
-        oCboMp.fireChange();
-
-        oPath = oCboMp.getSelectedItem().getBindingContext().getPath();
+          oSource = oEvent.getSource(),
+          oPath = oSource.getSelectedItem().getBindingContext().getPath();
 
         let vObject = oModel.getObject(oPath);
 
@@ -292,24 +270,54 @@ sap.ui.define(
         };
 
         oMockModel.setProperty("/ActiveMP", oPayload);
-        oMockModel.setProperty("/ActiveDetalle", oItem);
-        this.getView().byId("DLGEditMP").open();
-
       },
 
+      onButtonEditPress: async function (oEvent) {
+        let oCboMp = this.getView().byId("idselectMPEdit"),
+          oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oBinding = oCboMp.getBinding("items"),
+          oItem = oEvent.getSource().getBindingContext().getObject();
+
+        var oFilter = new sap.ui.model.Filter(
+          "Deposito",
+          sap.ui.model.FilterOperator.Contains,
+          "X"
+        );
+        oBinding.filter([oFilter]);
+
+        oItem.FecDepo = new Date();
+
+        oMockModel.setProperty("/ActiveDetalle", oItem);
+
+        this.getView().byId("DLGEditMP").open();
+      },
 
       onSaveMPChange: function () {
-
-        let  oMockModel = this.getOwnerComponent().getModel("mockdata"),
-        oData = oMockModel.getProperty("/ActiveDetalle");
-
-
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oData = oMockModel.getProperty("/ActiveDetalle");
 
         this.getView().byId("DLGEditMP").close();
       },
 
-
       onCloseMPChange: function () {
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oCboMp = this.getView().byId("idselectMPEdit"),
+          ActiveMP = {
+            key: 1,
+            Desc: "Efectivo",
+            DetCbte: false,
+            FecCbte: false,
+            NroCheq: false,
+            Adjunto: false,
+            FecEmis: false,
+            FecVto: false,
+            BcoEmi: false,
+            BcoDes: false,
+            BcoDesReq: false,
+          };
+        oCboMp.setSelectedKey(null);
+        oMockModel.setProperty("/ActiveMP", ActiveMP);
+
         this.getView().byId("DLGEditMP").close();
       },
 
