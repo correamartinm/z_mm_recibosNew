@@ -7,19 +7,56 @@
 
 	<Dialog id="DLGEditMP" title="{i18n>lblactualizar} {i18n>lblmedios}">
 
-		<form:SimpleForm editable="true" layout="ColumnLayout" >
-			<form:content>
-				<Label text="{i18n>lblmedios}"  labelFor="idRSInput"/>
+		<Panel width="90%">
+			<content>
+				<Table id="idTableMPEfet" items="{ path : 'mockdata>/PreliminarData' }" mode="SingleSelectMaster" selectionChange="onPreliminarSetTableSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="10" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
 
-				<ComboBox   id="idselectMPEdit"  items="{/DetallePagoSet}" selectionChange="onDetallePagoSetComboBoxSelectionChange"  >
+
+
+					<columns>
+
+						<Column  >
+							<header>
+								<Label text="{i18n>lblnumero}"/>
+							</header>
+						</Column>
+
+						<Column width="8rem">
+							<Label text="{i18n>lblimpor}"/>
+						</Column>
+
+					</columns>
+					<items>
+						<ColumnListItem type="Active" highlight="Information">
+							<cells>
+
+
+								<Text text="{ path: 'mockdata>Codigo', type: 'sap.ui.model.type.String'}" textAlign="Center" wrapping="true" />
+								<Text text="{ path: 'mockdata>Importe', type: 'sap.ui.model.type.String'}" textAlign="Center" wrapping="true" />
+
+
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</content>
+		
+
+
+
+		<form:SimpleForm editable="true" layout="ColumnLayout">
+			<form:content>
+				<Label text="{i18n>lblmedios}" labelFor="idRSInput"/>
+
+				<ComboBox id="idselectMPEdit" value="{mockdata>/ActiveDetalle/Detalle}" items="{/DetallePagoSet}" selectedKey="{mockdata>/ActiveDetalle/NroLinea}" selectionChange="onDetallePagoSetComboBoxSelectionChange">
 					<core:Item key="{Codigo}" text="{Descripcion}" />
 				</ComboBox>
-				
+
 				<Label text="{i18n>lblnumcomprobante}" labelFor="idDetComprobanteEdit"/>
-				<Input id="idDetComprobanteEdit" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" value="{mockdata>/ActiveDetalle/Numero}" editable="false"/>				
+				<Input id="idDetComprobanteEdit" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" value="{mockdata>/ActiveDetalle/NroComprobante}" editable="true"/>
 
 				<Label text="{i18n>lblimpor}" labelFor="idImportePagoInputEdit" />
-				<Input showClearIcon="true" id="idImportePagoInputEdit" change="onformatImportes" value="{mockdata>/ActiveDetalle/Total}" editable="false"/>
+				<Input showClearIcon="true" id="idImportePagoInputEdit" change="onformatImportes" value="{mockdata>/ActiveDetalle/Importe}" editable="false"/>
 
 				<Label text="{i18n>lblfechaemision}" required="true" labelFor="idDetFechaEmisionEdit" visible="{mockdata>/ActiveMP/FecEmis}"/>
 				<DatePicker id="idDetFechaEmisionEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecEmis}" dateValue="{mockdata>/ActiveDetalle/FechaEmision}"/>
@@ -46,17 +83,24 @@
 				<DatePicker id="idDetFecVtoEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalle/FechaVencimiento}"/>
 
 				<!-- <Label text="{i18n>lbldocumentacion}" required="true" /> -->
-				<Button  text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogEdit" />
+				<Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogEdit" />
+					
+				</form:content>
+				
+			</form:SimpleForm>
 
-			</form:content>
+			<HBox alignItems="Center" justifyContent="End" class="sapUiSmallMarginEnd" >
+					<Button text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveMPChange" />
+			</HBox>
 
-		</form:SimpleForm>
+
+			
+	</Panel>
 
 		<beginButton>
 			<Button text="{i18n>btnvolver}" type="Default" iconFirst="true" width="auto" iconDensityAware="false" press="onCloseMPChange" class="sapUiTinyMarginEnd"/>
 		</beginButton>
 		<endButton>
-			<Button text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveMPChange" />
 
 		</endButton>
 	</Dialog>

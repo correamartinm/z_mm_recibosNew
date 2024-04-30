@@ -211,6 +211,27 @@ sap.ui.define(
 
       //*********************************** */
 
+      _onCallfuncTion: function (oModel, oView, oFName, oParameters) {
+        return new Promise((resolve, reject) => {
+          oView.setBusy(true);
+          oModel.callFunction(oFName, {
+            method: "GET",
+            urlParameters: oParameters,
+            success: function (oData) {
+              oView.setBusy(false);
+              oModel.refresh(true);
+              resolve(oData);
+            }.bind(this),
+            error: function (oError) {
+              oView.setBusy(false);
+              reject(oError);
+            }.bind(this),
+          });
+        });
+
+      },
+      
+
       _oncreateModelNew: function (oModel, oView, oEntity, oPayload) {
         return new Promise((resolve, reject) => {
           oView.setBusy(true);

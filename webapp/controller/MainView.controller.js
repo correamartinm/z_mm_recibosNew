@@ -272,31 +272,73 @@ sap.ui.define(
         oMockModel.setProperty("/ActiveMP", oPayload);
       },
 
-      onButtonEditPress: async function (oEvent) {
-        let oCboMp = this.getView().byId("idselectMPEdit"),
+      onPreliminarSetTableSelectionChange: function (oEvent) {
+        let oItem = oEvent.getSource().getSelectedItem(),
+          oBject = oItem.getBindingContext("mockdata").getObject(),
           oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          oBinding = oCboMp.getBinding("items"),
+          oCboMp = this.getView().byId("idselectMPEdit"),
+          oFilter = new sap.ui.model.Filter(
+            "Deposito",
+            sap.ui.model.FilterOperator.Contains,
+            "X"
+          );
+
+        let oBinding = oCboMp.getBinding("items");
+        oBinding.filter([oFilter]);
+        oBject.FecDepo = new Date();
+
+        oMockModel.setProperty("/ActiveDetalle", oBject);
+      },
+
+      onButtonEditPress: async function (oEvent) {
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
+          oView = this.getView(),
+          oEntidad = "/PreliminarSet",
+          Tipo = "DETA",
           oItem = oEvent.getSource().getBindingContext().getObject();
 
-        var oFilter = new sap.ui.model.Filter(
-          "Deposito",
-          sap.ui.model.FilterOperator.Contains,
-          "X"
-        );
-        oBinding.filter([oFilter]);
-
-        oItem.FecDepo = new Date();
-
-        oMockModel.setProperty("/ActiveDetalle", oItem);
+        await this._onUpdateTable(oItem.Numero);
 
         this.getView().byId("DLGEditMP").open();
       },
 
-      onSaveMPChange: function () {
+      _onUpdateTable: async function (Codigo) {
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
+          oView = this.getView(),
+          oEntidad = "/PreliminarSet",
+          Tipo = "DETA",
+          oFilters = new Array();
+        oFilters.push(
+          new sap.ui.model.Filter({
+            path: "Codigo",
+            operator: sap.ui.model.FilterOperator.EQ,
+            value1: Codigo,
+          })
+        );
+
+        let oComprobantesControl = await this._onfilterModel(
+          oModel,
+          oView,
+          oEntidad,
+          oFilters
+        );
+
+        oMockModel.setProperty("/PreliminarData", oComprobantesControl.results);
+      },
+
+      onSaveMPChange: async function () {
+        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
+          oModel = this.getOwnerComponent().getModel(),
+          oView = this.getView(),
+          oFn = "/EfectivoADeposito",
           oData = oMockModel.getProperty("/ActiveDetalle");
 
-        this.getView().byId("DLGEditMP").close();
+        let rta = await this._onCallfuncTion(oModel, oView, oFn, oData);
+
+        this._onUpdateTable(oData.Codigo);
+       
       },
 
       onCloseMPChange: function () {

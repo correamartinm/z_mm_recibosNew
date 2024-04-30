@@ -132,6 +132,8 @@ sap.ui.define(
             BcoDes: "",
             Adjunto: "",
           },
+          OldMPData: {},
+          PreliminarData: [],
           NoComprobantes: false,
           FileParameters: {
             Cliente: "",
