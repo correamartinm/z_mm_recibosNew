@@ -228,9 +228,7 @@ sap.ui.define(
             }.bind(this),
           });
         });
-
       },
-      
 
       _oncreateModelNew: function (oModel, oView, oEntity, oPayload) {
         return new Promise((resolve, reject) => {
@@ -838,29 +836,6 @@ sap.ui.define(
       },
 
       // ********************************************
-      // Impresion *****************************
-      // ********************************************
-
-      onPrint: function (oTk, oStd) {
-        var oModel = this.getView().getModel(),
-          oKey = oModel.createKey("/ImpresionSet", {
-            Numero: oTk,
-            Estado: oStd,
-          });
-
-        oModel.read(oKey, {
-          success: function (oData) {
-            if (oData2.Tipo !== "E") {
-              window.open(oData.Url);
-            }
-          }.bind(this),
-          error: function (oError) {
-            MessageBox.information("ERROR EN IMPRESION");
-          },
-        });
-      },
-
-      // ********************************************
       // Mensajes *****************************
       // ********************************************
 
@@ -878,7 +853,6 @@ sap.ui.define(
           });
         });
       },
-
       _onErrorHandle: function (oError) {
         if (oError.Mensaje === undefined) {
           var oErrorMsg = JSON.parse(oError.responseText);
@@ -914,7 +888,6 @@ sap.ui.define(
           });
         });
       },
-
       _onShowMsgBoxError: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
           MessageBox.error(sMessage, {
@@ -929,7 +902,6 @@ sap.ui.define(
           });
         });
       },
-
       _onShowMsgBoxSucces: function (sMessage, sMessageTitle) {
         return new Promise((resolve, reject) => {
           MessageBox.success(sMessage, {
