@@ -70,7 +70,6 @@
 						<core:Item key="{Codigo}" text="{Descripcion}" />
 					</Select>
 
-
 					<Label text="{i18n>lblbcoemisor}" required="true" labelFor="idLocalidadInput" visible="{mockdata>/ActiveMP/BcoEmi}"/>
 
 					<Select id="idDetBcoEmisorEdit" items="{/BancoEmiSet}" selectedKey="{mockdata>/ActiveMP/BancoEmisor}" visible="{mockdata>/ActiveMP/BcoEmi}">
@@ -80,7 +79,6 @@
 					<Label text="{i18n>lblvencimientocheque}" required="true" labelFor="" visible="{mockdata>/ActiveMP/FecVto}"/>
 					<DatePicker id="idDetFecVtoEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecVto}" dateValue="{mockdata>/ActiveDetalleEdit/FechaVencimiento}"/>
 
-					<!-- <Label text="{i18n>lbldocumentacion}" required="true" /> -->
 					<Button text="{i18n>btnadjunto}" icon="sap-icon://attachment" id="idAdjuntarComprobantePagosButton" press="onCallFileDialogEdit" />
 
 				</form:content>
@@ -89,7 +87,6 @@
 
 
 			<HBox alignItems="Center" justifyContent="End" visible="{= ${mockdata>/ActiveDetalleEdit/Codigo} !== undefined }" class="sapUiSmallMarginEnd">
-
 				<Button  visible="{= ${mockdata>/ActiveDetalleEdit/Detalle} !== '' }"   text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveMPChange" />
 			</HBox>
 

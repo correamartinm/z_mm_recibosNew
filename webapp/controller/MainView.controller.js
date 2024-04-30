@@ -300,7 +300,7 @@ sap.ui.define(
 
         let registros = await this._onUpdateTable(oItem.Numero);
 
-        if (registros.length === 1){
+        if (registros.length === 1) {
           let oTablaMP = this.getView().byId("idTableMPEfet");
           oMockModel.setProperty("/ActiveDetalleEdit", registros[0]);
         } else {
@@ -308,7 +308,6 @@ sap.ui.define(
         }
 
         this.getView().byId("DLGEditMP").open();
-
       },
 
       _onUpdateTable: async function (Codigo) {
@@ -344,7 +343,32 @@ sap.ui.define(
           oFn = "/EfectivoADeposito",
           oData = oMockModel.getProperty("/ActiveDetalle");
 
-        let rta = await this._onCallfuncTion(oModel, oView, oFn, oData);
+          let oPayload = {
+            Codigo: oData.Codigo,
+            TipoLinea: oData.TipoLinea,
+            NroLinea: oData.NroLinea,
+            // TipoComprobante: "",
+            // Cliente: oData.Cliente,
+            // Descripcion: "",
+            // Importe: oData.Importe,
+            // Numero: "",
+            // Sociedad: "",
+            // Periodo: "",
+            // Fecha: oData.Fecha,
+            // Documentacion: "",
+            // Mensaje: oData.Mensaje,
+            // Resultado: oData.Resultado,
+            // Detalle: oData.Detalle,
+            // NroCheque:  oData.NroComprobante,
+            // FechaEmision: "",
+            // FechaVencimiento: oData.FecDepo,
+            // BancoEmisor: "",
+            // BancoDestino: "",
+            // EsCheque: "",
+            // TipoNroLinea: oData.TipoNroLinea 
+          };
+
+        let rta = await this._onCallfuncTion(oModel, oView, oFn, oPayload);
 
         let registros = this._onUpdateTable(oData.Codigo);
 
