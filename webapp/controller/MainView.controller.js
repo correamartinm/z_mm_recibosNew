@@ -287,9 +287,7 @@ sap.ui.define(
         oBinding.filter([oFilter]);
         oBject.FecDepo = new Date();
         oBject.Detalle = "";
-
         oMockModel.setProperty("/ActiveDetalleEdit", oBject);
-
       },
 
       onButtonEditPress: async function (oEvent) {
@@ -300,14 +298,20 @@ sap.ui.define(
           Tipo = "DETA",
           oItem = oEvent.getSource().getBindingContext().getObject();
 
-        await this._onUpdateTable(oItem.Numero);
+        let registros = await this._onUpdateTable(oItem.Numero);
 
-        oMockModel.setProperty("/ActiveDetalleEdit", []);
+        if (registros.length === 1){
+          let oTablaMP = this.getView().byId("idTableMPEfet");
+          oMockModel.setProperty("/ActiveDetalleEdit", registros[0]);
+        } else {
+          oMockModel.setProperty("/ActiveDetalleEdit", []);
+        }
+
         this.getView().byId("DLGEditMP").open();
+
       },
 
       _onUpdateTable: async function (Codigo) {
-
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
@@ -330,6 +334,7 @@ sap.ui.define(
         );
 
         oMockModel.setProperty("/PreliminarData", oComprobantesControl.results);
+        return oComprobantesControl.results;
       },
 
       onSaveMPChange: async function () {
@@ -341,13 +346,9 @@ sap.ui.define(
 
         let rta = await this._onCallfuncTion(oModel, oView, oFn, oData);
 
-        this._onUpdateTable(oData.Codigo);
-       
-      },
+        let registros = this._onUpdateTable(oData.Codigo);
 
-      onCloseMPChange: function () {
-        let oMockModel = this.getOwnerComponent().getModel("mockdata"),
-          oCboMp = this.getView().byId("idselectMPEdit"),
+        let oCboMp = this.getView().byId("idselectMPEdit"),
           ActiveMP = {
             key: 1,
             Desc: "Efectivo",
@@ -363,7 +364,9 @@ sap.ui.define(
           };
         oCboMp.setSelectedKey(null);
         oMockModel.setProperty("/ActiveMP", ActiveMP);
+      },
 
+      onCloseMPChange: function () {
         this.getView().byId("DLGEditMP").close();
       },
 

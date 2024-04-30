@@ -8,7 +8,7 @@
     </Toolbar>
 
     <Table id="idTable" items="{ path : '/RECIBOSSet', sorter: [{ path: 'Fecha', descending: true }, { path: 'Procesado', descending: true }],
-        filters : [ { path : 'Procesado', operator : 'NE', value1 : '' }  ] }" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="10" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        filters : [ { path : 'Procesado', operator : 'NE', value1 : '' }  ] }" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="15" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
 
       
         <headerToolbar>

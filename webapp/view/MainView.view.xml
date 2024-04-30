@@ -9,14 +9,14 @@
 
 		<Panel width="90%" class="sapUiSmallMarginBegin">
 			<content>
-				<Table id="idTableMPEfet" items="{ path : 'mockdata>/PreliminarData' }" mode="SingleSelectMaster" selectionChange="onPreliminarSetTableSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="10" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+				<Table id="idTableMPEfet"  visible="{= ${mockdata>/PreliminarData}.length > 1 }" items="{ path : 'mockdata>/PreliminarData' }" mode="SingleSelectMaster" selectionChange="onPreliminarSetTableSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="10" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
 
 
 
 					<columns>
 
-						<Column width="auto">						
-								<Label text="{i18n>lblnumero}"/>						
+						<Column width="auto">
+							<Label text="{i18n>lblnumero}"/>
 						</Column>
 
 						<Column width="auto">
@@ -32,7 +32,7 @@
 						<ColumnListItem type="Active" highlight="Information">
 							<cells>
 
-								<Text text="{ path: 'mockdata>Codigo', type: 'sap.ui.model.type.String'}" textAlign="Center"  />
+								<Text text="{ path: 'mockdata>Codigo', type: 'sap.ui.model.type.String'}" textAlign="Center" />
 								<Text text="{ path: 'mockdata>Detalle', type: 'sap.ui.model.type.String'}" textAlign="Center" />
 								<Text text="{ path: 'mockdata>Importe', type: 'sap.ui.model.type.String'}" textAlign="Center" />
 
@@ -90,7 +90,7 @@
 
 			<HBox alignItems="Center" justifyContent="End" visible="{= ${mockdata>/ActiveDetalleEdit/Codigo} !== undefined }" class="sapUiSmallMarginEnd">
 
-				<Button text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveMPChange" />
+				<Button  visible="{= ${mockdata>/ActiveDetalleEdit/Detalle} !== '' }"   text="{i18n>lblactualizar}" type="Emphasized" icon="sap-icon://save" iconFirst="true" width="auto" iconDensityAware="false" press="onSaveMPChange" />
 			</HBox>
 
 
