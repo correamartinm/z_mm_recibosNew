@@ -32,6 +32,7 @@ sap.ui.define(
         this.setModel(models.createDeviceModel(), "device");
 
         var oMockDataModel = new sap.ui.model.json.JSONModel({
+          ActiveDetalleEdit: {},
           Usuario: [
             {
               User: "",

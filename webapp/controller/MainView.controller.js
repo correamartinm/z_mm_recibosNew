@@ -286,8 +286,10 @@ sap.ui.define(
         let oBinding = oCboMp.getBinding("items");
         oBinding.filter([oFilter]);
         oBject.FecDepo = new Date();
+        oBject.Detalle = "";
 
-        oMockModel.setProperty("/ActiveDetalle", oBject);
+        oMockModel.setProperty("/ActiveDetalleEdit", oBject);
+
       },
 
       onButtonEditPress: async function (oEvent) {
@@ -300,10 +302,12 @@ sap.ui.define(
 
         await this._onUpdateTable(oItem.Numero);
 
+        oMockModel.setProperty("/ActiveDetalleEdit", []);
         this.getView().byId("DLGEditMP").open();
       },
 
       _onUpdateTable: async function (Codigo) {
+
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
