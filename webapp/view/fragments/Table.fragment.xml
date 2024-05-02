@@ -8,9 +8,9 @@
     </Toolbar>
 
     <Table id="idTable" items="{ path : '/RECIBOSSet', sorter: [{ path: 'Fecha', descending: true }, { path: 'Procesado', descending: true }],
-        filters : [ { path : 'Procesado', operator : 'NE', value1 : '' }  ] }" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="15" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
+        filters : [ { path : 'Procesado', operator : 'NE', value1 : '' }  ] }" noDataText="{i18n>msgnodata}" growing="true" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
 
-      
+
         <headerToolbar>
             <OverflowToolbar>
                 <SearchField width="95%" placeholder="{i18n>lblrazonsocial}" search="onSearchRS" visible="{= ${device>/system/desktop} === false }" />
@@ -67,13 +67,11 @@
                 </header>
             </Column>
 
-
             <Column width="90px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
                     <Label text="{i18n>lblprocesado}"/>
                 </header>
             </Column>
-
 
             <Column width="110px" visible="{= ${device>/system/phone} === false }" popinDisplay="Inline" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
                 <header>
@@ -83,9 +81,6 @@
             <Column width="8rem">
                 <header/>
             </Column>
-
-
-
 
         </columns>
         <items>
@@ -131,6 +126,5 @@
             </ColumnListItem>
         </items>
     </Table>
-
 
 </core:FragmentDefinition>

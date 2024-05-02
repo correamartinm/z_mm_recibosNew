@@ -285,7 +285,7 @@ sap.ui.define(
 
         let oBinding = oCboMp.getBinding("items");
         oBinding.filter([oFilter]);
-        oBject.FecDepo = new Date();
+        oBject.Fecha = new Date();
         oBject.Detalle = "";
         oMockModel.setProperty("/ActiveDetalleEdit", oBject);
       },
@@ -313,6 +313,7 @@ sap.ui.define(
       _onUpdateTable: async function (Codigo) {
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oModel = this.getOwnerComponent().getModel(),
+          oTable = this.getView().byId("idTableMPEfet"),
           oView = this.getView(),
           oEntidad = "/PreliminarSet",
           Tipo = "DETA",
@@ -333,6 +334,8 @@ sap.ui.define(
         );
 
         oMockModel.setProperty("/PreliminarData", oComprobantesControl.results);
+
+        oTable.removeSelections();
         return oComprobantesControl.results;
       },
 
@@ -340,54 +343,29 @@ sap.ui.define(
         let oMockModel = this.getOwnerComponent().getModel("mockdata"),
           oModel = this.getOwnerComponent().getModel(),
           oView = this.getView(),
-          oFn = "/EfectivoADeposito",
-          oData = oMockModel.getProperty("/ActiveDetalle");
+          oPath,
+          oEntidad = "/PreliminarSet",
+          oCboMp = this.getView().byId("idselectMPEdit"),
+          oData = oMockModel.getProperty("/ActiveDetalleEdit");
 
-          let oPayload = {
-            Codigo: oData.Codigo,
-            TipoLinea: oData.TipoLinea,
-            NroLinea: oData.NroLinea,
-            // TipoComprobante: "",
-            // Cliente: oData.Cliente,
-            // Descripcion: "",
-            // Importe: oData.Importe,
-            // Numero: "",
-            // Sociedad: "",
-            // Periodo: "",
-            // Fecha: oData.Fecha,
-            // Documentacion: "",
-            // Mensaje: oData.Mensaje,
-            // Resultado: oData.Resultado,
-            // Detalle: oData.Detalle,
-            // NroCheque:  oData.NroComprobante,
-            // FechaEmision: "",
-            // FechaVencimiento: oData.FecDepo,
-            // BancoEmisor: "",
-            // BancoDestino: "",
-            // EsCheque: "",
-            // TipoNroLinea: oData.TipoNroLinea 
-          };
+        oPath = oModel.createKey("/PreliminarSet", {
+          Codigo: oData.Codigo,
+          TipoLinea: oData.TipoLinea,
+          NroLinea: oData.NroLinea,
+          TipoNroLinea: oData.TipoNroLinea,
+        });
 
-        let rta = await this._onCallfuncTion(oModel, oView, oFn, oPayload);
+        // oData.Fecha = this.formatFecha(oData.FecDepo);
+
+        // let rta = await this.onupdateModel(oModel, oView, oPath, oData);
+
+        let rta = await this._oncreateModel(oModel, oView, oEntidad, oData);
 
         let registros = this._onUpdateTable(oData.Codigo);
 
-        let oCboMp = this.getView().byId("idselectMPEdit"),
-          ActiveMP = {
-            key: 1,
-            Desc: "Efectivo",
-            DetCbte: false,
-            FecCbte: false,
-            NroCheq: false,
-            Adjunto: false,
-            FecEmis: false,
-            FecVto: false,
-            BcoEmi: false,
-            BcoDes: false,
-            BcoDesReq: false,
-          };
         oCboMp.setSelectedKey(null);
-        oMockModel.setProperty("/ActiveMP", ActiveMP);
+        oMockModel.setProperty("/ActiveDetalleEdit", {Detalle: ''});
+     
       },
 
       onCloseMPChange: function () {

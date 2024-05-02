@@ -55,6 +55,16 @@ sap.ui.define(
         }
       },
 
+      formatFecha: function(sFec) {
+
+        var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+          pattern: 'dd/MM/YYYY',
+          strictParsing: true
+        }),
+          oFecha = oDateFormat.format(sFec);
+        return oFecha;
+      },
+
       onAmountChange: function (oEvent) {
         var oInput = oEvent.getSource();
         var sValue = oInput.getValue();
@@ -225,6 +235,7 @@ sap.ui.define(
             error: function (oError) {
               oView.setBusy(false);
               reject(oError);
+              
             }.bind(this),
           });
         });
