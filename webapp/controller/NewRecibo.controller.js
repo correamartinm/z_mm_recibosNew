@@ -1757,7 +1757,7 @@ sap.ui.define(
           this._onErrorHandle(rta.Datos);
         }
 
-        //oModel.refresh(true);
+        oModel.refresh(true);
       },
 
       onButtonDeletePagoPressMsg: function (oEvent) {
@@ -1808,7 +1808,7 @@ sap.ui.define(
         //   this.onCheckDetalles();
         // }
 
-        // oModel.refresh(true);
+         oModel.refresh(true);
       },
 
 
@@ -1857,7 +1857,7 @@ sap.ui.define(
         this._oNavContainer.to(this.byId("idwizardReviewPage"));
 
         let oModel = this.getOwnerComponent().getModel();
-        // oModel.refresh(true);
+         oModel.refresh(true);
       },
 
       // ********************************************

@@ -28,6 +28,27 @@ sap.ui.define(
         this.getOwnerComponent().getModel().setSizeLimit("20000");
       },
 
+      /**
+       * @override
+       */
+      onAfterRendering: function () {
+        let oModel = this.getOwnerComponent().getModel();
+
+        //var oJson = { Numero: gTicket, Estado: gEstado };
+        //urlParameters: oJson,
+
+        oModel.callFunction("/Iniciar", {
+          method: "GET",
+          success: jQuery.proxy(function (oData, response) {
+            console.log("Parametros iniciales OK");
+          }),
+          error: jQuery.proxy(function (oError) {
+            //  MessageBox.error("Error");
+          }),
+        });
+
+      },
+
       onButtonPrintPress: function (oEvent) {
         let oPath = oEvent.getSource().getBindingContext().getPath(),
           oModel = this.getOwnerComponent().getModel(),
@@ -302,7 +323,7 @@ sap.ui.define(
         let registros = await this._onUpdateTable(oItem.Numero);
 
         // if (registros.length === 1) {
-          
+
         //   oMockModel.setProperty("/ActiveDetalleEdit", registros[0]);
         // } else {
         //   oMockModel.setProperty("/ActiveDetalleEdit", []);
@@ -352,26 +373,23 @@ sap.ui.define(
         oPath = oModel.createKey("/PreliminarSet", {
           Codigo: oData.Codigo,
           TipoLinea: oData.TipoLinea,
-          NroLinea: oData.NroLinea, 
+          NroLinea: oData.NroLinea,
           TipoNroLinea: oData.TipoNroLinea,
         });
-
 
         let rta = await this._oncreateModel(oModel, oView, oEntidad, oData);
 
         if (rta.Mensaje) {
-          MessageToast.show(rta.Mensaje); 
-        } 
-
-        let registros =await  this._onUpdateTable(oData.Codigo);
-        oCboMp.setSelectedKey(null);
-        oMockModel.setProperty("/ActiveDetalleEdit", {Detalle: ''});
-
-        if (registros.length === 0){
-          this.onCloseMPChange();
+          MessageToast.show(rta.Mensaje);
         }
 
-     
+        let registros = await this._onUpdateTable(oData.Codigo);
+        oCboMp.setSelectedKey(null);
+        oMockModel.setProperty("/ActiveDetalleEdit", { Detalle: "" });
+
+        if (registros.length === 0) {
+          this.onCloseMPChange();
+        }
       },
 
       onCloseMPChange: function () {
