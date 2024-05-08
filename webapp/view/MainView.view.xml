@@ -7,7 +7,7 @@
 
 	<Dialog id="DLGEditMP" title="{i18n>lblactualizar} {i18n>lblmedios}" contentWidth="50%">
 
-		<Panel width="95%" class="sapUiSmallMarginBegin" visible="{= ${mockdata>/PreliminarData}.length > 1 }">
+		<Panel width="95%" class="sapUiSmallMarginBegin" visible="{= ${mockdata>/PreliminarData}.length > 0 }">
 			<content>
 				<Table id="idTableMPEfet" items="{ path : 'mockdata>/PreliminarData' }" mode="SingleSelectMaster" selectionChange="onPreliminarSetTableSelectionChange" noDataText="{i18n>msgnodata}" growing="true" growingThreshold="10" growingTriggerText="{i18n>lblvermas}" alternateRowColors="true" sticky="HeaderToolbar,ColumnHeaders">
 
@@ -51,7 +51,7 @@
 				<form:content>
 					<Label text="{i18n>lblmedios}" labelFor="idRSInput"/>
 
-					<ComboBox id="idselectMPEdit" value="{mockdata>/ActiveDetalleEdit/Detalle}" items="{/DetallePagoSet}" selectedKey="{mockdata>/ActiveDetalleEdit/NroLinea}" selectionChange="onDetallePagoSetComboBoxSelectionChange">
+					<ComboBox required="true" id="idselectMPEdit" value="{mockdata>/ActiveDetalleEdit/Detalle}" items="{/DetallePagoSet}" selectedKey="{mockdata>/ActiveDetalleEdit/TipoNroLinea}" selectionChange="onDetallePagoSetComboBoxSelectionChange">
 						<core:Item key="{Codigo}" text="{Descripcion}" />
 					</ComboBox>
 
@@ -59,7 +59,7 @@
 					<Input id="idDetComprobanteEdit" type="Number" visible="{mockdata>/ActiveMP/DetCbte}" value="{mockdata>/ActiveDetalleEdit/NroComprobante}" editable="true"/>
 
 					<Label text="{i18n>lblimpor}" labelFor="idImportePagoInputEdit" />
-					<Input showClearIcon="true" id="idImportePagoInputEdit" change="onformatImportes" value="{mockdata>/ActiveDetalleEdit/Importe}" editable="false"/>
+					<Input showClearIcon="true" id="idImportePagoInputEdit" change="onformatImportes" description="{mockdata>/ActiveDetalleEdit/Moneda}" value="{mockdata>/ActiveDetalleEdit/Importe}" editable="false"/>
 
 					<Label text="{i18n>lblfechaemision}" required="true" labelFor="idDetFechaEmisionEdit" visible="{mockdata>/ActiveMP/FecEmis}"/>
 					<DatePicker id="idDetFechaEmisionEdit" displayFormat="dd/MM/YYYY" visible="{mockdata>/ActiveMP/FecEmis}" dateValue="{mockdata>/ActiveDetalleEdit/FechaEmision}"/>
